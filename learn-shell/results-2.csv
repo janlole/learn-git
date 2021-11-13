@@ -1,0 +1,27 @@
+[ct1pt-tnode008:16487] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:16487] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+       #bytes #repetitions      t[usec]   Mbytes/sec
+            0         1000         0.41         0.00
+            1         1000         0.40         2.47
+            2         1000         0.40         5.01
+            4         1000         0.41         9.73
+            8         1000         0.40        20.16
+           16         1000         0.40        40.08
+           32         1000         0.55        57.86
+           64         1000         0.55       115.68
+          128         1000         0.90       142.22
+          256         1000         0.92       277.88
+          512         1000         1.10       466.57
+         1024         1000         1.28       801.81
+         2048         1000         2.09       982.23
+         4096         1000         2.96      1382.52
+         8192         1000         4.77      1716.27
+        16384         1000         7.19      2277.71
+        32768         1000        12.93      2533.64
+        65536          640        24.24      2703.23
+       131072          320        45.81      2861.17
+       262144          160        13.23     19809.75
+       524288           80        22.94     22850.35
+      1048576           40        51.62     20312.59
+      2097152           20       136.95     15313.45
+      4194304           10       289.87     14469.48
