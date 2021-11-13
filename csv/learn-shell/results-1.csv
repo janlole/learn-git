@@ -1,0 +1,27 @@
+[ct1pt-tnode007:27822] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode007:27822] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+#bytes,#repetitions,t[usec],Mbytes/sec
+0,1000,0.42,0.00
+1,1000,0.42,2.40
+2,1000,0.42,4.78
+4,1000,0.41,9.83
+8,1000,0.41,19.71
+16,1000,0.41,39.32
+32,1000,0.57,56.01
+64,1000,0.56,113.98
+128,1000,0.92,138.59
+256,1000,0.96,267.25
+512,1000,1.13,454.48
+1024,1000,1.29,791.36
+2048,1000,2.12,966.72
+4096,1000,3.07,1336.30
+8192,1000,4.95,1656.46
+16384,1000,7.84,2090.98
+32768,1000,13.79,2376.90
+65536,640,25.63,2557.46
+131072,320,47.55,2756.32
+262144,160,13.90,18855.63
+524288,80,24.46,21436.21
+1048576,40,52.96,19799.88
+2097152,20,139.28,15057.35
+4194304,10,292.50,14339.55
