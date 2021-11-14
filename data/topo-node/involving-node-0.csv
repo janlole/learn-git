@@ -1,0 +1,4 @@
+#header_line 1: mpirun --report-bindings --map-by node -np 2 ./IMB-MPI1 PingPong
+#header_line 2:
+[ct1pt-tnode007:10586] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:10619] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
