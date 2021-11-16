@@ -1,0 +1,2 @@
+#header_line 1: mpirun --report-bindings --mca pml cm --mca btl tcp,self --map-by socket -np 2 ./IMB-MPI1 PingPong
+#header_line 2:
