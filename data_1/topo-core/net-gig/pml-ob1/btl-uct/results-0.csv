@@ -1,0 +1,9 @@
+------------------------------------------------------------
+Aprocess,or,daemon,was,unable,to,complete,a,TCP,connection
+toanother,process:
+Local,host:,ct1pt-tnode008
+Remote,host:,ct1pt-tnode009
+Thisis,usually,caused,by,a,firewall,on,the,remote,host.,Please
+checkthat,any,firewall,(e.g.,iptables),has,been,disabled,and
+tryagain.
+------------------------------------------------------------
