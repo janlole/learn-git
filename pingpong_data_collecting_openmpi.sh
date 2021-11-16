@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#cd /u/dssc/lorenzo/try/learn-shell
+cd /u/dssc/lorenzo/try/learn-shell
 
-working_folder=data_2
+working_folder=data_col_mpi
 
 rm hello.sh.*
 rm -r ${working_folder}
@@ -20,7 +20,7 @@ list_net=('gig' 'infin')
 infin_check=infin
 
 
-# how many iteration for measure
+# how many iteration for measurement
 howmany=1
 # saving folder
 sav_fol=./${working_folder}
@@ -46,19 +46,7 @@ running()
 	fi
 	
 	echo \#header_line 2: >> $folder/involving-$num.csv
-
-	# cat error-tmp | grep rank >> $folder/involving-$topo-$num.csv
-	# following lines to understand which combinations work
-	echo "---------------------" >> summary.csv
-	echo "---------------------" >> summary.csv
-	echo "combination: " >> summary.csv
-	echo "top:		${topo}" >> summary.csv
-	echo "pml:		${pml_l}" >> summary.csv
-	echo "btl:		${btl_l}" >> summary.csv
-	echo "net:		${net_l}" >> summary.csv
-	cat error-tmp >> summary.csv
-	echo "---------------------" >> summary.csv
-	echo "---------------------" >> summary.csv
+	cat error-tmp | grep rank >> $folder/involving-$num.csv
 
 	cat results-tmp | grep -v '^#' | grep -v '^$' | tr -s '\t ' ',' | sed 's/,//' > $folder/results-$num.csv
 }
@@ -90,7 +78,7 @@ do
 					for (( j = 0 ; j < $howmany ; j++ ));
 					do
 						foo=${foo_btl}
-						#running $i $foo $j ${pml_i} ${btl_i} ${net_i}
+						running $i $foo $j ${pml_i} ${btl_i} ${net_i}
 					done
 				fi
 			done
