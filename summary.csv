@@ -1,0 +1,2016 @@
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		ob1
+btl:		vader
+net:		gig
+[ct1pt-tnode008:11666] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:11666] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		ob1
+btl:		tcp
+net:		gig
+[ct1pt-tnode008:11779] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:11779] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		ob1
+btl:		uct
+net:		gig
+[ct1pt-tnode008:11838] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:11838] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode008
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode008:11843] *** An error occurred in MPI_Init
+[ct1pt-tnode008:11843] *** reported by process [2560032769,1]
+[ct1pt-tnode008:11843] *** on a NULL communicator
+[ct1pt-tnode008:11843] *** Unknown error
+[ct1pt-tnode008:11843] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:11843] ***    and potentially your MPI job)
+[ct1pt-tnode008:11838] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:11838] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:11838] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:internal-failure
+[ct1pt-tnode008:11838] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		ob1
+btl:		openib
+net:		gig
+[ct1pt-tnode008:11897] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:11897] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode008
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+At least one pair of MPI processes are unable to reach each other for
+MPI communications.  This means that no Open MPI device has indicated
+that it can be used to communicate between these processes.  This is
+an error; Open MPI requires that all MPI processes be able to reach
+each other.  This error can sometimes be the result of forgetting to
+specify the "self" BTL.
+
+  Process 1 ([[39120,1],1]) is on host: ct1pt-tnode008
+  Process 2 ([[39120,1],0]) is on host: ct1pt-tnode008
+  BTLs attempted: self
+
+Your MPI job is now going to abort; sorry.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+MPI_INIT has failed because at least one MPI process is unreachable
+from another.  This *usually* means that an underlying communication
+plugin -- such as a BTL or an MTL -- has either not loaded or not
+allowed itself to be used.  Your MPI job will now abort.
+
+You may wish to try to narrow down the problem;
+
+ * Check the output of ompi_info to see which BTL/MTL plugins are
+   available.
+ * Run your application with MPI_THREAD_SINGLE.
+ * Set the MCA parameter btl_base_verbose to 100 (or mtl_base_verbose,
+   if using MTL-based communications) to see exactly which
+   communication plugins were considered and/or discarded.
+--------------------------------------------------------------------------
+[ct1pt-tnode008:11902] *** An error occurred in MPI_Init
+[ct1pt-tnode008:11902] *** reported by process [2563768321,1]
+[ct1pt-tnode008:11902] *** on a NULL communicator
+[ct1pt-tnode008:11902] *** Unknown error
+[ct1pt-tnode008:11902] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:11902] ***    and potentially your MPI job)
+[ct1pt-tnode008:11897] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:11897] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:11897] 1 more process has sent help message help-mca-bml-r2.txt / unreachable proc
+[ct1pt-tnode008:11897] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:pml-add-procs-fail
+[ct1pt-tnode008:11897] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		cm
+btl:		vader
+net:		gig
+[ct1pt-tnode008:11961] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:11961] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode008
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode008:11965] PML cm cannot be selected
+[ct1pt-tnode008:11966] PML cm cannot be selected
+[ct1pt-tnode008:11961] 1 more process has sent help message help-mca-base.txt / find-available:none found
+[ct1pt-tnode008:11961] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		cm
+btl:		tcp
+net:		gig
+[ct1pt-tnode008:12027] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:12027] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode008
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode008:12033] PML cm cannot be selected
+[ct1pt-tnode008:12035] PML cm cannot be selected
+[ct1pt-tnode008:12027] 1 more process has sent help message help-mca-base.txt / find-available:none found
+[ct1pt-tnode008:12027] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		cm
+btl:		uct
+net:		gig
+[ct1pt-tnode008:12129] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:12129] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode008
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode008:12134] *** An error occurred in MPI_Init
+[ct1pt-tnode008:12134] *** reported by process [2580021249,0]
+[ct1pt-tnode008:12134] *** on a NULL communicator
+[ct1pt-tnode008:12134] *** Unknown error
+[ct1pt-tnode008:12134] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:12134] ***    and potentially your MPI job)
+[ct1pt-tnode008:12129] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:12129] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:12129] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:internal-failure
+[ct1pt-tnode008:12129] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		cm
+btl:		openib
+net:		gig
+[ct1pt-tnode008:12190] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:12190] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode008
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode008
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode008:12194] PML cm cannot be selected
+[ct1pt-tnode008:12195] PML cm cannot be selected
+[ct1pt-tnode008:12190] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:12190] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:12190] 1 more process has sent help message help-mca-base.txt / find-available:none found
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		ucx
+btl:		vader
+net:		gig
+[ct1pt-tnode008:12249] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:12249] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		ucx
+btl:		tcp
+net:		gig
+[ct1pt-tnode008:12316] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:12316] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		ucx
+btl:		uct
+net:		gig
+[ct1pt-tnode008:12345] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:12345] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode008
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode008:12350] *** An error occurred in MPI_Init
+[ct1pt-tnode008:12350] *** reported by process [2257584129,1]
+[ct1pt-tnode008:12350] *** on a NULL communicator
+[ct1pt-tnode008:12350] *** Unknown error
+[ct1pt-tnode008:12350] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:12350] ***    and potentially your MPI job)
+[ct1pt-tnode008:12345] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:12345] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:12345] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:internal-failure
+[ct1pt-tnode008:12345] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		ucx
+btl:		openib
+net:		gig
+[ct1pt-tnode008:12493] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:12493] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode008
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode008:12493] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:12493] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		ob1
+btl:		vader
+net:		infin
+[ct1pt-tnode008:12552] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:12552] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		ob1
+btl:		tcp
+net:		infin
+[ct1pt-tnode008:12586] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:12586] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		ob1
+btl:		uct
+net:		infin
+[ct1pt-tnode008:12644] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:12644] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode008
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode008:12650] *** An error occurred in MPI_Init
+[ct1pt-tnode008:12650] *** reported by process [2278359041,1]
+[ct1pt-tnode008:12650] *** on a NULL communicator
+[ct1pt-tnode008:12650] *** Unknown error
+[ct1pt-tnode008:12650] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:12650] ***    and potentially your MPI job)
+[ct1pt-tnode008:12644] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:12644] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:12644] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:internal-failure
+[ct1pt-tnode008:12644] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		ob1
+btl:		openib
+net:		infin
+[ct1pt-tnode008:12706] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:12706] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode008
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+At least one pair of MPI processes are unable to reach each other for
+MPI communications.  This means that no Open MPI device has indicated
+that it can be used to communicate between these processes.  This is
+an error; Open MPI requires that all MPI processes be able to reach
+each other.  This error can sometimes be the result of forgetting to
+specify the "self" BTL.
+
+  Process 1 ([[34571,1],0]) is on host: ct1pt-tnode008
+  Process 2 ([[34571,1],1]) is on host: ct1pt-tnode008
+  BTLs attempted: self
+
+Your MPI job is now going to abort; sorry.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+MPI_INIT has failed because at least one MPI process is unreachable
+from another.  This *usually* means that an underlying communication
+plugin -- such as a BTL or an MTL -- has either not loaded or not
+allowed itself to be used.  Your MPI job will now abort.
+
+You may wish to try to narrow down the problem;
+
+ * Check the output of ompi_info to see which BTL/MTL plugins are
+   available.
+ * Run your application with MPI_THREAD_SINGLE.
+ * Set the MCA parameter btl_base_verbose to 100 (or mtl_base_verbose,
+   if using MTL-based communications) to see exactly which
+   communication plugins were considered and/or discarded.
+--------------------------------------------------------------------------
+[ct1pt-tnode008:12710] *** An error occurred in MPI_Init
+[ct1pt-tnode008:12710] *** reported by process [2265645057,0]
+[ct1pt-tnode008:12710] *** on a NULL communicator
+[ct1pt-tnode008:12710] *** Unknown error
+[ct1pt-tnode008:12710] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:12710] ***    and potentially your MPI job)
+[ct1pt-tnode008:12706] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:12706] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:12706] 1 more process has sent help message help-mca-bml-r2.txt / unreachable proc
+[ct1pt-tnode008:12706] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:pml-add-procs-fail
+[ct1pt-tnode008:12706] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		cm
+btl:		vader
+net:		infin
+[ct1pt-tnode008:12753] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:12753] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode008
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode008:12758] PML cm cannot be selected
+[ct1pt-tnode008:12753] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:12753] 1 more process has sent help message help-mca-base.txt / find-available:none found
+[ct1pt-tnode008:12753] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		cm
+btl:		tcp
+net:		infin
+[ct1pt-tnode008:12771] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:12771] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode008
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode008:12776] PML cm cannot be selected
+[ct1pt-tnode008:12771] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:12771] 1 more process has sent help message help-mca-base.txt / find-available:none found
+[ct1pt-tnode008:12771] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		cm
+btl:		uct
+net:		infin
+[ct1pt-tnode008:12821] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:12821] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode008
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode008:12826] *** An error occurred in MPI_Init
+[ct1pt-tnode008:12826] *** reported by process [2226913281,1]
+[ct1pt-tnode008:12826] *** on a NULL communicator
+[ct1pt-tnode008:12826] *** Unknown error
+[ct1pt-tnode008:12826] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:12826] ***    and potentially your MPI job)
+[ct1pt-tnode008:12821] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:12821] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:12821] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		cm
+btl:		openib
+net:		infin
+[ct1pt-tnode008:12871] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:12871] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode008
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode008
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode008:12876] PML cm cannot be selected
+[ct1pt-tnode008:12871] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:12871] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:12871] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		ucx
+btl:		vader
+net:		infin
+[ct1pt-tnode008:12891] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:12891] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		ucx
+btl:		tcp
+net:		infin
+[ct1pt-tnode008:12953] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:12953] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		ucx
+btl:		uct
+net:		infin
+[ct1pt-tnode008:13009] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:13009] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode008
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode008:13015] *** An error occurred in MPI_Init
+[ct1pt-tnode008:13015] *** reported by process [2222456833,1]
+[ct1pt-tnode008:13015] *** on a NULL communicator
+[ct1pt-tnode008:13015] *** Unknown error
+[ct1pt-tnode008:13015] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:13015] ***    and potentially your MPI job)
+[ct1pt-tnode008:13009] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:13009] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:13009] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		core
+pml:		ucx
+btl:		openib
+net:		infin
+[ct1pt-tnode008:13029] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode008:13029] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode008
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode008:13029] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:13029] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		ob1
+btl:		vader
+net:		gig
+[ct1pt-tnode008:13063] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13063] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		ob1
+btl:		tcp
+net:		gig
+[ct1pt-tnode008:13111] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13111] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		ob1
+btl:		uct
+net:		gig
+[ct1pt-tnode008:13163] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13163] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode008
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode008:13167] *** An error occurred in MPI_Init
+[ct1pt-tnode008:13167] *** reported by process [2244083713,0]
+[ct1pt-tnode008:13167] *** on a NULL communicator
+[ct1pt-tnode008:13167] *** Unknown error
+[ct1pt-tnode008:13167] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:13167] ***    and potentially your MPI job)
+[ct1pt-tnode008:13163] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:13163] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:13163] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:13163] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:internal-failure
+[ct1pt-tnode008:13163] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		ob1
+btl:		openib
+net:		gig
+[ct1pt-tnode008:13215] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13215] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode008
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+At least one pair of MPI processes are unable to reach each other for
+MPI communications.  This means that no Open MPI device has indicated
+that it can be used to communicate between these processes.  This is
+an error; Open MPI requires that all MPI processes be able to reach
+each other.  This error can sometimes be the result of forgetting to
+specify the "self" BTL.
+
+  Process 1 ([[34102,1],1]) is on host: ct1pt-tnode008
+  Process 2 ([[34102,1],0]) is on host: ct1pt-tnode008
+  BTLs attempted: self
+
+Your MPI job is now going to abort; sorry.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+MPI_INIT has failed because at least one MPI process is unreachable
+from another.  This *usually* means that an underlying communication
+plugin -- such as a BTL or an MTL -- has either not loaded or not
+allowed itself to be used.  Your MPI job will now abort.
+
+You may wish to try to narrow down the problem;
+
+ * Check the output of ompi_info to see which BTL/MTL plugins are
+   available.
+ * Run your application with MPI_THREAD_SINGLE.
+ * Set the MCA parameter btl_base_verbose to 100 (or mtl_base_verbose,
+   if using MTL-based communications) to see exactly which
+   communication plugins were considered and/or discarded.
+--------------------------------------------------------------------------
+[ct1pt-tnode008:13219] *** An error occurred in MPI_Init
+[ct1pt-tnode008:13219] *** reported by process [2234908673,0]
+[ct1pt-tnode008:13219] *** on a NULL communicator
+[ct1pt-tnode008:13219] *** Unknown error
+[ct1pt-tnode008:13219] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:13219] ***    and potentially your MPI job)
+[ct1pt-tnode008:13215] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:13215] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:13215] 1 more process has sent help message help-mca-bml-r2.txt / unreachable proc
+[ct1pt-tnode008:13215] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:pml-add-procs-fail
+[ct1pt-tnode008:13215] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		cm
+btl:		vader
+net:		gig
+[ct1pt-tnode008:13261] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13261] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode008
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode008:13266] PML cm cannot be selected
+[ct1pt-tnode008:13265] PML cm cannot be selected
+[ct1pt-tnode008:13261] 1 more process has sent help message help-mca-base.txt / find-available:none found
+[ct1pt-tnode008:13261] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		cm
+btl:		tcp
+net:		gig
+[ct1pt-tnode008:13280] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13280] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode008
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode008:13285] PML cm cannot be selected
+[ct1pt-tnode008:13280] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:13284] PML cm cannot be selected
+[ct1pt-tnode008:13280] 1 more process has sent help message help-mca-base.txt / find-available:none found
+[ct1pt-tnode008:13280] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		cm
+btl:		uct
+net:		gig
+[ct1pt-tnode008:13329] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13329] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode008
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode008:13333] *** An error occurred in MPI_Init
+[ct1pt-tnode008:13333] *** reported by process [2193096705,0]
+[ct1pt-tnode008:13333] *** on a NULL communicator
+[ct1pt-tnode008:13333] *** Unknown error
+[ct1pt-tnode008:13333] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:13333] ***    and potentially your MPI job)
+[ct1pt-tnode008:13329] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:13329] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:13329] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:internal-failure
+[ct1pt-tnode008:13329] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		cm
+btl:		openib
+net:		gig
+[ct1pt-tnode008:13378] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13378] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode008
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode008
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode008:13384] PML cm cannot be selected
+[ct1pt-tnode008:13378] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:13383] PML cm cannot be selected
+[ct1pt-tnode008:13378] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:13378] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:13378] 1 more process has sent help message help-mca-base.txt / find-available:none found
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		ucx
+btl:		vader
+net:		gig
+[ct1pt-tnode008:13400] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13400] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		ucx
+btl:		tcp
+net:		gig
+[ct1pt-tnode008:13460] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13460] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		ucx
+btl:		uct
+net:		gig
+[ct1pt-tnode008:13518] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13518] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode008
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode008:13525] *** An error occurred in MPI_Init
+[ct1pt-tnode008:13525] *** reported by process [2187788289,1]
+[ct1pt-tnode008:13525] *** on a NULL communicator
+[ct1pt-tnode008:13525] *** Unknown error
+[ct1pt-tnode008:13525] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:13525] ***    and potentially your MPI job)
+[ct1pt-tnode008:13518] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:13518] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:13518] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:13518] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:internal-failure
+[ct1pt-tnode008:13518] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		ucx
+btl:		openib
+net:		gig
+[ct1pt-tnode008:13568] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13568] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode008
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode008:13568] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:13568] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		ob1
+btl:		vader
+net:		infin
+[ct1pt-tnode008:13639] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13639] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		ob1
+btl:		tcp
+net:		infin
+[ct1pt-tnode008:13697] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13697] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		ob1
+btl:		uct
+net:		infin
+[ct1pt-tnode008:13757] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13757] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode008
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode008:13762] *** An error occurred in MPI_Init
+[ct1pt-tnode008:13762] *** reported by process [2199126017,1]
+[ct1pt-tnode008:13762] *** on a NULL communicator
+[ct1pt-tnode008:13762] *** Unknown error
+[ct1pt-tnode008:13762] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:13762] ***    and potentially your MPI job)
+[ct1pt-tnode008:13757] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:13757] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:13757] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:13757] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:internal-failure
+[ct1pt-tnode008:13757] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		ob1
+btl:		openib
+net:		infin
+[ct1pt-tnode008:13817] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13817] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode008
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+At least one pair of MPI processes are unable to reach each other for
+MPI communications.  This means that no Open MPI device has indicated
+that it can be used to communicate between these processes.  This is
+an error; Open MPI requires that all MPI processes be able to reach
+each other.  This error can sometimes be the result of forgetting to
+specify the "self" BTL.
+
+  Process 1 ([[33616,1],1]) is on host: ct1pt-tnode008
+  Process 2 ([[33616,1],0]) is on host: ct1pt-tnode008
+  BTLs attempted: self
+
+Your MPI job is now going to abort; sorry.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+MPI_INIT has failed because at least one MPI process is unreachable
+from another.  This *usually* means that an underlying communication
+plugin -- such as a BTL or an MTL -- has either not loaded or not
+allowed itself to be used.  Your MPI job will now abort.
+
+You may wish to try to narrow down the problem;
+
+ * Check the output of ompi_info to see which BTL/MTL plugins are
+   available.
+ * Run your application with MPI_THREAD_SINGLE.
+ * Set the MCA parameter btl_base_verbose to 100 (or mtl_base_verbose,
+   if using MTL-based communications) to see exactly which
+   communication plugins were considered and/or discarded.
+--------------------------------------------------------------------------
+[ct1pt-tnode008:13822] *** An error occurred in MPI_Init
+[ct1pt-tnode008:13822] *** reported by process [2203058177,1]
+[ct1pt-tnode008:13822] *** on a NULL communicator
+[ct1pt-tnode008:13822] *** Unknown error
+[ct1pt-tnode008:13822] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:13822] ***    and potentially your MPI job)
+[ct1pt-tnode008:13817] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:13817] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:13817] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:13817] 1 more process has sent help message help-mca-bml-r2.txt / unreachable proc
+[ct1pt-tnode008:13817] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:pml-add-procs-fail
+[ct1pt-tnode008:13817] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		cm
+btl:		vader
+net:		infin
+[ct1pt-tnode008:13866] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13866] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode008
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode008:13871] PML cm cannot be selected
+[ct1pt-tnode008:13866] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:13870] PML cm cannot be selected
+[ct1pt-tnode008:13866] 1 more process has sent help message help-mca-base.txt / find-available:none found
+[ct1pt-tnode008:13866] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		cm
+btl:		tcp
+net:		infin
+[ct1pt-tnode008:13915] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13915] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode008
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode008:13921] PML cm cannot be selected
+[ct1pt-tnode008:13915] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:13920] PML cm cannot be selected
+[ct1pt-tnode008:13915] 1 more process has sent help message help-mca-base.txt / find-available:none found
+[ct1pt-tnode008:13915] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		cm
+btl:		uct
+net:		infin
+[ct1pt-tnode008:13975] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:13975] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode008
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode008:13980] *** An error occurred in MPI_Init
+[ct1pt-tnode008:13980] *** reported by process [2151546881,1]
+[ct1pt-tnode008:13980] *** on a NULL communicator
+[ct1pt-tnode008:13980] *** Unknown error
+[ct1pt-tnode008:13980] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:13980] ***    and potentially your MPI job)
+[ct1pt-tnode008:13975] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:13975] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:13975] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:13975] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:internal-failure
+[ct1pt-tnode008:13975] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		cm
+btl:		openib
+net:		infin
+[ct1pt-tnode008:14033] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:14033] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode008
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode008
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode008:14038] PML cm cannot be selected
+[ct1pt-tnode008:14033] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:14033] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:14033] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:14033] 1 more process has sent help message help-mca-base.txt / find-available:none found
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		ucx
+btl:		vader
+net:		infin
+[ct1pt-tnode008:14092] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:14092] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		ucx
+btl:		tcp
+net:		infin
+[ct1pt-tnode008:14159] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:14159] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		ucx
+btl:		uct
+net:		infin
+[ct1pt-tnode008:14218] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:14218] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode008
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode008:14223] *** An error occurred in MPI_Init
+[ct1pt-tnode008:14223] *** reported by process [2166554625,1]
+[ct1pt-tnode008:14223] *** on a NULL communicator
+[ct1pt-tnode008:14223] *** Unknown error
+[ct1pt-tnode008:14223] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:14223] ***    and potentially your MPI job)
+[ct1pt-tnode008:14218] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:14218] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:14218] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:14218] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:internal-failure
+[ct1pt-tnode008:14218] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		socket
+pml:		ucx
+btl:		openib
+net:		infin
+[ct1pt-tnode008:14266] MCW rank 0 bound to socket 0[core 0[hwt 0]], socket 0[core 1[hwt 0]], socket 0[core 2[hwt 0]], socket 0[core 3[hwt 0]], socket 0[core 4[hwt 0]], socket 0[core 5[hwt 0]], socket 0[core 6[hwt 0]], socket 0[core 7[hwt 0]], socket 0[core 8[hwt 0]], socket 0[core 9[hwt 0]], socket 0[core 10[hwt 0]], socket 0[core 11[hwt 0]]: [B/B/B/B/B/B/B/B/B/B/B/B][./././././././././././.]
+[ct1pt-tnode008:14266] MCW rank 1 bound to socket 1[core 12[hwt 0]], socket 1[core 13[hwt 0]], socket 1[core 14[hwt 0]], socket 1[core 15[hwt 0]], socket 1[core 16[hwt 0]], socket 1[core 17[hwt 0]], socket 1[core 18[hwt 0]], socket 1[core 19[hwt 0]], socket 1[core 20[hwt 0]], socket 1[core 21[hwt 0]], socket 1[core 22[hwt 0]], socket 1[core 23[hwt 0]]: [./././././././././././.][B/B/B/B/B/B/B/B/B/B/B/B]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode008
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode008:14266] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:14266] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		ob1
+btl:		vader
+net:		gig
+[ct1pt-tnode008:14337] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:14991] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+At least one pair of MPI processes are unable to reach each other for
+MPI communications.  This means that no Open MPI device has indicated
+that it can be used to communicate between these processes.  This is
+an error; Open MPI requires that all MPI processes be able to reach
+each other.  This error can sometimes be the result of forgetting to
+specify the "self" BTL.
+
+  Process 1 ([[36520,1],0]) is on host: ct1pt-tnode008
+  Process 2 ([[36520,1],1]) is on host: ct1pt-tnode009
+  BTLs attempted: self
+
+Your MPI job is now going to abort; sorry.
+--------------------------------------------------------------------------
+[ct1pt-tnode008:14341] *** An error occurred in MPI_Bcast
+[ct1pt-tnode008:14341] *** reported by process [2393374721,0]
+[ct1pt-tnode008:14341] *** on communicator MPI_COMM_WORLD
+[ct1pt-tnode008:14341] *** MPI_ERR_INTERN: internal error
+[ct1pt-tnode008:14341] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:14341] ***    and potentially your MPI job)
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		ob1
+btl:		tcp
+net:		gig
+[ct1pt-tnode008:14433] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15007] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		ob1
+btl:		uct
+net:		gig
+[ct1pt-tnode008:14522] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15025] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode008
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode008:14526] *** An error occurred in MPI_Init
+[ct1pt-tnode008:14526] *** reported by process [2383609857,0]
+[ct1pt-tnode008:14526] *** on a NULL communicator
+[ct1pt-tnode008:14526] *** Unknown error
+[ct1pt-tnode008:14526] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:14526] ***    and potentially your MPI job)
+[ct1pt-tnode008:14522] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:14522] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:14522] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:internal-failure
+[ct1pt-tnode008:14522] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		ob1
+btl:		openib
+net:		gig
+[ct1pt-tnode008:14571] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15037] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode009
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+At least one pair of MPI processes are unable to reach each other for
+MPI communications.  This means that no Open MPI device has indicated
+that it can be used to communicate between these processes.  This is
+an error; Open MPI requires that all MPI processes be able to reach
+each other.  This error can sometimes be the result of forgetting to
+specify the "self" BTL.
+
+  Process 1 ([[36418,1],0]) is on host: ct1pt-tnode008
+  Process 2 ([[36418,1],1]) is on host: ct1pt-tnode009
+  BTLs attempted: self
+
+Your MPI job is now going to abort; sorry.
+--------------------------------------------------------------------------
+[ct1pt-tnode008:14575] *** An error occurred in MPI_Bcast
+[ct1pt-tnode008:14575] *** reported by process [2386690049,0]
+[ct1pt-tnode008:14575] *** on communicator MPI_COMM_WORLD
+[ct1pt-tnode008:14575] *** MPI_ERR_INTERN: internal error
+[ct1pt-tnode008:14575] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:14575] ***    and potentially your MPI job)
+[ct1pt-tnode008:14571] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:14571] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		cm
+btl:		vader
+net:		gig
+[ct1pt-tnode008:14667] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15053] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode009
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode009:15056] PML cm cannot be selected
+[ct1pt-tnode008:14667] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:14667] 1 more process has sent help message help-mca-base.txt / find-available:none found
+[ct1pt-tnode008:14667] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		cm
+btl:		tcp
+net:		gig
+[ct1pt-tnode008:14763] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15068] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode009
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode009:15071] PML cm cannot be selected
+[ct1pt-tnode008:14763] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:14763] 1 more process has sent help message help-mca-base.txt / find-available:none found
+[ct1pt-tnode008:14763] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		cm
+btl:		uct
+net:		gig
+[ct1pt-tnode008:14809] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15081] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode009
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode009:15084] *** An error occurred in MPI_Init
+[ct1pt-tnode009:15084] *** reported by process [2406481921,1]
+[ct1pt-tnode009:15084] *** on a NULL communicator
+[ct1pt-tnode009:15084] *** Unknown error
+[ct1pt-tnode009:15084] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode009:15084] ***    and potentially your MPI job)
+[ct1pt-tnode008:14809] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:14809] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:14809] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:14809] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:internal-failure
+[ct1pt-tnode008:14809] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		cm
+btl:		openib
+net:		gig
+[ct1pt-tnode008:14894] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15097] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode009
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode009
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode009:15100] PML cm cannot be selected
+[ct1pt-tnode008:14894] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:14894] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:14894] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:14894] 1 more process has sent help message help-mca-base.txt / find-available:none found
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		ucx
+btl:		vader
+net:		gig
+[ct1pt-tnode008:14991] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15112] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		ucx
+btl:		tcp
+net:		gig
+[ct1pt-tnode008:15050] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15128] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		ucx
+btl:		uct
+net:		gig
+[ct1pt-tnode008:15100] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15144] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode008
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode008:15104] *** An error occurred in MPI_Init
+[ct1pt-tnode008:15104] *** reported by process [2354380801,0]
+[ct1pt-tnode008:15104] *** on a NULL communicator
+[ct1pt-tnode008:15104] *** Unknown error
+[ct1pt-tnode008:15104] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:15104] ***    and potentially your MPI job)
+[ct1pt-tnode008:15100] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:15100] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:15100] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:internal-failure
+[ct1pt-tnode008:15100] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		ucx
+btl:		openib
+net:		gig
+[ct1pt-tnode008:15148] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15156] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode009
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode008:15148] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:15148] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		ob1
+btl:		vader
+net:		infin
+[ct1pt-tnode008:15209] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15173] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+At least one pair of MPI processes are unable to reach each other for
+MPI communications.  This means that no Open MPI device has indicated
+that it can be used to communicate between these processes.  This is
+an error; Open MPI requires that all MPI processes be able to reach
+each other.  This error can sometimes be the result of forgetting to
+specify the "self" BTL.
+
+  Process 1 ([[36288,1],0]) is on host: ct1pt-tnode008
+  Process 2 ([[36288,1],1]) is on host: ct1pt-tnode009
+  BTLs attempted: self
+
+Your MPI job is now going to abort; sorry.
+--------------------------------------------------------------------------
+[ct1pt-tnode008:15213] *** An error occurred in MPI_Bcast
+[ct1pt-tnode008:15213] *** reported by process [2378170369,0]
+[ct1pt-tnode008:15213] *** on communicator MPI_COMM_WORLD
+[ct1pt-tnode008:15213] *** MPI_ERR_INTERN: internal error
+[ct1pt-tnode008:15213] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:15213] ***    and potentially your MPI job)
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		ob1
+btl:		tcp
+net:		infin
+[ct1pt-tnode008:15305] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15188] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		ob1
+btl:		uct
+net:		infin
+[ct1pt-tnode008:15447] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15201] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode009
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode009:15205] *** An error occurred in MPI_Init
+[ct1pt-tnode009:15205] *** reported by process [2331901953,1]
+[ct1pt-tnode009:15205] *** on a NULL communicator
+[ct1pt-tnode009:15205] *** Unknown error
+[ct1pt-tnode009:15205] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode009:15205] ***    and potentially your MPI job)
+[ct1pt-tnode008:15447] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:15447] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:15447] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		ob1
+btl:		openib
+net:		infin
+[ct1pt-tnode008:15629] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15211] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode009
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+At least one pair of MPI processes are unable to reach each other for
+MPI communications.  This means that no Open MPI device has indicated
+that it can be used to communicate between these processes.  This is
+an error; Open MPI requires that all MPI processes be able to reach
+each other.  This error can sometimes be the result of forgetting to
+specify the "self" BTL.
+
+  Process 1 ([[35748,1],0]) is on host: ct1pt-tnode008
+  Process 2 ([[35748,1],1]) is on host: ct1pt-tnode009
+  BTLs attempted: self
+
+Your MPI job is now going to abort; sorry.
+--------------------------------------------------------------------------
+[ct1pt-tnode008:15681] *** An error occurred in MPI_Bcast
+[ct1pt-tnode008:15681] *** reported by process [2342780929,0]
+[ct1pt-tnode008:15681] *** on communicator MPI_COMM_WORLD
+[ct1pt-tnode008:15681] *** MPI_ERR_INTERN: internal error
+[ct1pt-tnode008:15681] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:15681] ***    and potentially your MPI job)
+[ct1pt-tnode008:15629] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:15629] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		cm
+btl:		vader
+net:		infin
+[ct1pt-tnode008:16387] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15749] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode009
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode009:15752] PML cm cannot be selected
+[ct1pt-tnode008:16387] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:16387] 1 more process has sent help message help-mca-base.txt / find-available:none found
+[ct1pt-tnode008:16387] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		cm
+btl:		tcp
+net:		infin
+[ct1pt-tnode008:16570] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15758] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode009
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode009:15761] PML cm cannot be selected
+[ct1pt-tnode008:16570] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:16570] 1 more process has sent help message help-mca-base.txt / find-available:none found
+[ct1pt-tnode008:16570] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		cm
+btl:		uct
+net:		infin
+[ct1pt-tnode008:16865] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15769] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode009
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode009:15772] *** An error occurred in MPI_Init
+[ct1pt-tnode009:15772] *** reported by process [4148690945,1]
+[ct1pt-tnode009:15772] *** on a NULL communicator
+[ct1pt-tnode009:15772] *** Unknown error
+[ct1pt-tnode009:15772] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode009:15772] ***    and potentially your MPI job)
+[ct1pt-tnode008:16865] PMIX ERROR: UNREACHABLE in file server/pmix_server.c at line 2198
+[ct1pt-tnode008:16865] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:16865] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:16865] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:internal-failure
+[ct1pt-tnode008:16865] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		cm
+btl:		openib
+net:		infin
+[ct1pt-tnode008:16882] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15779] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode008
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+No components were able to be opened in the pml framework.
+
+This typically means that either no components of this type were
+installed, or none of the installed components can be loaded.
+Sometimes this means that shared libraries required by these
+components are unable to be found/loaded.
+
+  Host:      ct1pt-tnode008
+  Framework: pml
+--------------------------------------------------------------------------
+[ct1pt-tnode008:16886] PML cm cannot be selected
+[ct1pt-tnode009:15782] PML cm cannot be selected
+[ct1pt-tnode008:16882] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:16882] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:16882] 1 more process has sent help message help-mca-base.txt / find-available:none found
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		ucx
+btl:		vader
+net:		infin
+[ct1pt-tnode008:16900] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15788] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		ucx
+btl:		tcp
+net:		infin
+[ct1pt-tnode008:16921] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15801] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		ucx
+btl:		uct
+net:		infin
+[ct1pt-tnode008:16942] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15814] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+A requested component was not found, or was unable to be opened.  This
+means that this component is either not installed or is unable to be
+used on your system (e.g., sometimes this means that shared libraries
+that the component requires are unable to be found/loaded).  Note that
+Open MPI stopped checking at the first component that it did not find.
+
+Host:      ct1pt-tnode008
+Framework: btl
+Component: uct
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+It looks like MPI_INIT failed for some reason; your parallel process is
+likely to abort.  There are many reasons that a parallel process can
+fail during MPI_INIT; some of which are due to configuration or environment
+problems.  This failure appears to be an internal failure; here's some
+additional information (which may only be relevant to an Open MPI
+developer):
+
+  mca_bml_base_open() failed
+  --> Returned "Not found" (-13) instead of "Success" (0)
+--------------------------------------------------------------------------
+[ct1pt-tnode008:16946] *** An error occurred in MPI_Init
+[ct1pt-tnode008:16946] *** reported by process [4102488065,0]
+[ct1pt-tnode008:16946] *** on a NULL communicator
+[ct1pt-tnode008:16946] *** Unknown error
+[ct1pt-tnode008:16946] *** MPI_ERRORS_ARE_FATAL (processes in this communicator will now abort,
+[ct1pt-tnode008:16946] ***    and potentially your MPI job)
+[ct1pt-tnode008:16942] 1 more process has sent help message help-mca-base.txt / find-available:not-valid
+[ct1pt-tnode008:16942] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+[ct1pt-tnode008:16942] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:startup:internal-failure
+[ct1pt-tnode008:16942] 1 more process has sent help message help-mpi-errors.txt / mpi_errors_are_fatal unknown handle
+---------------------
+---------------------
+---------------------
+---------------------
+combination: 
+top:		node
+pml:		ucx
+btl:		openib
+net:		infin
+[ct1pt-tnode008:16959] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode009:15823] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode008
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode008:16959] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode008:16959] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+---------------------
+---------------------
