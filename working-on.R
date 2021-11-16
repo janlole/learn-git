@@ -1,6 +1,8 @@
+library(plotrix)
 topol <- c('core', 'socket', 'node')
 howmany <- 100 
 iter <- howmany -1
+#par(mfrow=c(1,3)) 
 for  ( x in topol ){
   setwd(paste("~/Pubblici/learn-git/data/topo-",x,sep=''))
   mat <- array(data = 0, dim = c(howmany,30,2))
@@ -19,7 +21,36 @@ for  ( x in topol ){
   }
   tab[,3] <- mat.mean[,1]
   tab[,4] <- mat.mean[,2]
-  write.csv2(tab,'results-',x,'-summary.csv',
+  write.csv2(round(tab,2), file = paste('results-',x,'-summary.csv'),
             quote = FALSE ,row.names = FALSE)
+
+  par(mar=c(5, 4, 4, 6) + 0.1)
+  plot(tab[,c(1,3)],type='b',log='x',col='red',main='plot',ylim=c(0.1,1.5),
+       xlab='',ylab='',axes=F,pch=16)
+  axis(2, ylim=c(0.1,1.5),col='black',las=1)
+  mtext('t.usec',side=2,line=2.5)
+  
+  box()
+  par(new = T)
+  
+  plot(tab[,c(1,4)],log='x', axes=F, xlab='',ylab='',col = 'blue',
+       ylim=c(0,25000),pch=15)
+  mtext('Mbytes.sec',side=4,line=4)
+  axis(4, ylim=c(0,25000), col='black',col.axis='black',las=1)
+  mtext('X.Bytes',side=1,line=2.5)
+  axis(1,xlim=c(0,268435456))
+  
+  abline(h=seq(0,25000,length.out=15),col='grey')
+
+  #legend("topleft",legend=c("t.usec","Mbytes.sec"),
+   #      text.col=c("red","blue"),pch=c(16,15),col=c("red","blue"))  
+  
+  
+
+  
 }
+
+
+
+
 

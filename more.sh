@@ -15,7 +15,10 @@ list_pml=('ob1' 'cm' 'ucx')
 # array of btl protocol
 list_btl=('vader' 'tcp' 'uct' 'openib')
 # array of network
-list_net=('' '--mca btl_tcp_if_include br0')
+list_net=('gig' 'infin')
+# --mca btl_tcp_if_include br0
+infin_check=infin
+
 
 # how many iteration for measure
 howmany=1
@@ -32,13 +35,19 @@ running()
 	local btl_l=$5
 	local net_l=$6
 
-	mpirun --report-bindings --mca pml ${pml_l} --mca btl ${btl_l},self ${net_l} --map-by $topo -np 2 ./IMB-MPI1 PingPong -msglog 28 2> error-tmp > results-tmp
-
-	echo \#header_line 1: mpirun --report-bindings --mca pml ${pml_l} --mca btl ${btl_l},self ${net_l} --map-by $topo -np 2 ./IMB-MPI1 PingPong > $folder/involving-$topo-$num.csv
-	echo \#header_line 2: >> $folder/involving-$topo-$num.csv
+	if [ ${net_l} == ${infin_check} ]
+	then
+		mpirun --report-bindings --mca pml ${pml_l} --mca btl ${btl_l},self --mca btl_tcp_if_include br0 --map-by $topo -np 2 ./IMB-MPI1 PingPong -msglog 28 2> error-tmp > results-tmp
+		echo \#header_line 1: mpirun --report-bindings --mca pml ${pml_l} --mca btl ${btl_l},self --mca btl_tcp_if_include br0 --map-by $topo -np 2 ./IMB-MPI1 PingPong > $folder/involving-$num.csv
+	else
+		mpirun --report-bindings --mca pml ${pml_l} --mca btl ${btl_l},self --map-by $topo -np 2 ./IMB-MPI1 PingPong -msglog 28 2> error-tmp > results-tmp
+		echo \#header_line 1: mpirun --report-bindings --mca pml ${pml_l} --mca btl ${btl_l},self --map-by $topo -np 2 ./IMB-MPI1 PingPong > $folder/involving-$num.csv
+	fi
+	
+	echo \#header_line 2: >> $folder/involving-$num.csv
 
 	# cat error-tmp | grep rank >> $folder/involving-$topo-$num.csv
-	# following lines to understand which combinations works
+	# following lines to understand which combinations work
 	echo "---------------------" >> summary.csv
 	echo "---------------------" >> summary.csv
 	echo "combination: " >> summary.csv
@@ -50,31 +59,32 @@ running()
 	echo "---------------------" >> summary.csv
 	echo "---------------------" >> summary.csv
 
-	cat results-tmp | grep -v '^#' | grep -v '^$' | tr -s '\t ' ',' | sed 's/,//' > $folder/results-$topo-$num.csv
+	cat results-tmp | grep -v '^#' | grep -v '^$' | tr -s '\t ' ',' | sed 's/,//' > $folder/results-$num.csv
 }
 
 
 
-module load openmpi-4.1.1+gnu-9.3.0
+#module load openmpi-4.1.1+gnu-9.3.0
 
 for i in "${topol[@]}"
 do
-	foo=${sav_fol}/topo-$i
-	mkdir $foo
+	foo_top=${sav_fol}/topo-$i
+	mkdir ${foo_top}
 	for net_i in "${list_net[@]}"
 	do
-		foo=${sav_fol}/net-${net_i}
-		mkdir $foo
+		foo_net=${foo_top}/net-${net_i}
+		mkdir ${foo_net}
 		for pml_i in "${list_pml[@]}"
 		do
-			foo=${foo}/pml-${pml_i}
-			mkdir $foo
+			foo_pml=${foo_net}/pml-${pml_i}
+			mkdir ${foo_pml}
 			for btl_i in "${list_btl[@]}"
 			do
-				foo=${foo}/btl-${btl_i}
-				mkdir foo
+				foo_btl=${foo_pml}/btl-${btl_i}
+				mkdir ${foo_btl}
 				for (( j = 0 ; j < $howmany ; j++ ));
 				do
+					foo=${foo_btl}
 					running $i $foo $j ${pml_i} ${btl_i} ${net_i}
 				done
 			done
