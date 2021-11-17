@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /u/dssc/lorenzo/try/learn-shell
+cd $PBS_O_WORKDIR
 
 working_folder=data_col_mpi
 

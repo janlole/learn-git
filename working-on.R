@@ -24,6 +24,8 @@ for  ( x in topol ){
   write.csv2(round(tab,2), file = paste('results-',x,'-summary.csv'),
             quote = FALSE ,row.names = FALSE)
 
+  pdf('plot.pdf')
+  print(tab)
   par(mar=c(5, 4, 4, 6) + 0.1)
   plot(tab[,c(1,3)],type='b',log='x',col='red',main='plot',ylim=c(0.1,1.5),
        xlab='',ylab='',axes=F,pch=16)
@@ -44,7 +46,7 @@ for  ( x in topol ){
 
   #legend("topleft",legend=c("t.usec","Mbytes.sec"),
    #      text.col=c("red","blue"),pch=c(16,15),col=c("red","blue"))  
-  
+  dev.off()
   
 
   
