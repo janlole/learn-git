@@ -1,0 +1,4 @@
+#header_line 1: mpirun --report-bindings --mca pml ucx --mca btl tcp,self --map-by core -np 2 ./IMB-MPI1 PingPong
+#header_line 2:
+[ct1pt-tnode007:04076] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode007:04076] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
