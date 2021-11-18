@@ -1,5 +1,5 @@
 /*
-	This is an implementation of a ring double message passing.
+	This is an implementation of a double message passing ring.
 
 	" Implement in c or C++ an MPI program using P processors on a ring (i.e. a simple 1D topology where each 
     processor has a left and right neighbour). The program should implement a stream of messages in both directions:
@@ -29,6 +29,9 @@ int main(int argc, char *argv[])
 	int check{1};
 	int counter{0};
 	MPI_Status status;
+	
+	const int iteration{1000};
+	double start_time, initial_time, end_time;
 
 	MPI_Init(&argc,&argv);
 	MPI_Comm_size(MPI_COMM_WORLD, &numproc);
@@ -37,7 +40,9 @@ int main(int argc, char *argv[])
 	const int first{0};
 	const int last{numproc-1};
 	
-	// inizializing destinations of messages
+	start_time = MPI_Wtime();
+
+	// inizializing message destinations
 	Ldest = (rank != first) ? (rank-1) : last ;
 	Rdest = (rank != last) ? (rank+1) : first ;
 
@@ -54,35 +59,43 @@ int main(int argc, char *argv[])
 	MPI_Send(&Rmes, 1, MPI_INT, 
 		Rdest, Rtag, MPI_COMM_WORLD);
 
-	while(check){
-		// tags have to be adjust for receiving and sending
-		Rtag = (Rtag > 0) ? (Rtag-10) : (numproc-1)*10 ;
-		Ltag = (Ltag < (numproc-1)*10) ? (Ltag+10) : 0 ;
+	initial_time = MPI_Wtime();
 
-		// from left to right (--->)
-		MPI_Recv(&Rvalue, 1, MPI_INT, Ldest, Rtag,
-			MPI_COMM_WORLD, &status);
-		Rmes = Rvalue + rank ;
-		MPI_Send(&Rmes, 1, MPI_INT, Rdest, Rtag,
-			MPI_COMM_WORLD);
+	for ( auto i{0}; i < iteration; ++i ){
+		while(check){
+			// tags have to be adjust for receiving and sending
+			Rtag = (Rtag > 0) ? (Rtag-10) : (numproc-1)*10 ;
+			Ltag = (Ltag < (numproc-1)*10) ? (Ltag+10) : 0 ;
 
-		// frmo right to left (<---)
-		MPI_Recv(&Lvalue, 1, MPI_INT, Rdest, Ltag,
-			MPI_COMM_WORLD, &status);
-		Lmes = Lvalue - rank;
-		MPI_Send(&Lmes, 1, MPI_INT, Ldest, Ltag,
-			MPI_COMM_WORLD);
+			// from left to right (--->)
+			MPI_Recv(&Rvalue, 1, MPI_INT, Ldest, Rtag,
+				MPI_COMM_WORLD, &status);
+			Rmes = Rvalue + rank ;
+			MPI_Send(&Rmes, 1, MPI_INT, Rdest, Rtag,
+				MPI_COMM_WORLD);
 
-		// to quit the loop each processor has to receive both from left 
-		// and rigth its first sent message, with the tag proportional to
-		// its id
-		check = (Rtag - rank*10) || (Ltag - rank*10);
-		++counter;
-	} 
+			// from right to left (<---)
+			MPI_Recv(&Lvalue, 1, MPI_INT, Rdest, Ltag,
+				MPI_COMM_WORLD, &status);
+			Lmes = Lvalue - rank;
+			MPI_Send(&Lmes, 1, MPI_INT, Ldest, Ltag,
+				MPI_COMM_WORLD);
+
+			// to quit the loop each processor has to receive both from left 
+			// and rigth its first sent message, with the tag proportional to
+			// its id
+			check = (Rtag - rank*10) || (Ltag - rank*10);
+			++counter;
+		} 
+	}
+
+	end_time = MPI_Wtime();
 
 	printf("I am process %d and i have received %d messages. "
 		"My final messages have tag %d and left-value %d ,right-value %d\n",
 		rank, counter, Rtag, Lvalue, Rvalue);
+	printf("I am process %d: initial_time %1.8e total_time %1.8e\n",
+		rank, initial_time - start_time,  initial_time - start_time + (end_time - initial_time)/iteration );
 
 	MPI_Finalize();
 	return 0;
