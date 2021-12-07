@@ -4,7 +4,7 @@ cd $PBS_O_WORKDIR
 
 working_folder=data_col_mpi
 
-rm hello.sh.*
+
 rm -r ${working_folder}
 mkdir ${working_folder}
 
