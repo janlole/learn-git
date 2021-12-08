@@ -1,6 +1,4 @@
 I am process 0 and i have received 23 messages.My final messages have tag 0 and left-value -253 ,right-value 253
-I am process 1 and i have received 23 messages.My final messages have tag 10 and left-value -253 ,right-value 253
-I am process 2 and i have received 23 messages.My final messages have tag 20 and left-value -253 ,right-value 253
 I am process 3 and i have received 23 messages.My final messages have tag 30 and left-value -253 ,right-value 253
 I am process 4 and i have received 23 messages.My final messages have tag 40 and left-value -253 ,right-value 253
 I am process 5 and i have received 23 messages.My final messages have tag 50 and left-value -253 ,right-value 253
@@ -14,13 +12,15 @@ I am process 12 and i have received 23 messages.My final messages have tag 120 a
 I am process 13 and i have received 23 messages.My final messages have tag 130 and left-value -253 ,right-value 253
 I am process 14 and i have received 23 messages.My final messages have tag 140 and left-value -253 ,right-value 253
 I am process 15 and i have received 23 messages.My final messages have tag 150 and left-value -253 ,right-value 253
-I am process 16 and i have received 23 messages.My final messages have tag 160 and left-value -253 ,right-value 253
 I am process 17 and i have received 23 messages.My final messages have tag 170 and left-value -253 ,right-value 253
 I am process 18 and i have received 23 messages.My final messages have tag 180 and left-value -253 ,right-value 253
 I am process 19 and i have received 23 messages.My final messages have tag 190 and left-value -253 ,right-value 253
 I am process 20 and i have received 23 messages.My final messages have tag 200 and left-value -253 ,right-value 253
 I am process 21 and i have received 23 messages.My final messages have tag 210 and left-value -253 ,right-value 253
 I am process 22 and i have received 23 messages.My final messages have tag 220 and left-value -253 ,right-value 253
+I am process 1 and i have received 23 messages.My final messages have tag 10 and left-value -253 ,right-value 253
+I am process 2 and i have received 23 messages.My final messages have tag 20 and left-value -253 ,right-value 253
+I am process 16 and i have received 23 messages.My final messages have tag 160 and left-value -253 ,right-value 253
 ---TIME---
 numproc	exec-time	init-time
-23	2.14033e-05	2.3e-07
+23	2.12129e-05	7.5e-08

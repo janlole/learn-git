@@ -11,4 +11,4 @@ I am process 10 and i have received 11 messages.My final messages have tag 100 a
 I am process 0 and i have received 11 messages.My final messages have tag 0 and left-value -55 ,right-value 55
 ---TIME---
 numproc	exec-time	init-time
-11	2.51557e-05	1.47e-07
+11	9.86041e-06	1.41e-07
