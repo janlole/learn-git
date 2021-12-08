@@ -15,4 +15,4 @@ I am process 13 and i have received 15 messages.My final messages have tag 130 a
 I am process 14 and i have received 15 messages.My final messages have tag 140 and left-value -105 ,right-value 105
 ---TIME---
 numproc	exec-time	init-time
-15	0.000168254	1.57e-07
+15	1.33371e-05	1.46e-07

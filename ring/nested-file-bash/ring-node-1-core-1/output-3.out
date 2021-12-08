@@ -1,4 +1,4 @@
 I am process 0 and i have received 1 messages.My final messages have tag 0 and left-value 0 ,right-value 0
 ---TIME---
 numproc	exec-time	init-time
-1	2.8127e-07	1.34e-07
+1	1.42796e-07	1.29e-07
