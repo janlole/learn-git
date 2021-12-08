@@ -1,0 +1,50 @@
+---
+title: "Ring analysis"
+author: "Lorenzo Trubian"
+date: "8/12/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+setwd("~/Pubblici/learn-git/ring/nested-file-bash")
+mat <- array(data = 0, dim = c(96,4))
+colnames(mat) <- c('node','numproc','exec-time','init-time')
+row <- 1
+for (i in 1:4){
+  for (j in 1:24){
+    num <- i*j
+    tab <- read.csv(paste("ring-node-",i,"-core-",num,"/summary.csv", sep = ''))
+    mat[row, 1] <- i
+    mat[row, 2] <- num
+    mat[row, 3] <- mean(tab[,2])
+    mat[row, 4] <- mean(tab[,3])
+    row <- row + 1
+  }
+}
+mat <- data.frame(mat)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(mat)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r echo=FALSE}
+library(ggplot2)
+block_start <- 1 + 24 * 3
+block_end <- 24 * 4
+ggplot(data = mat[block_start:block_end,]) +
+  geom_point(mapping = aes(x = numproc, y = exec.time, color = node))
+  
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

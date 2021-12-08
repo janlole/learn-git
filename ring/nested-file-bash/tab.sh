@@ -5,10 +5,10 @@ do
 	for (( j = 1 ; j <= $2 ; j++ ));
 	do
 		num=$(($i*$j))
-		echo "numproc,exec-time,init-time" > ring-node-$i-core-$num/summary.txt
+		echo "numproc,exec-time,init-time" > ring-node-$i-core-$num/summary.csv
 		for (( k = 0 ; k < 10 ; k++));
 		do
-			cat ring-node-$i-core-$num/output-${k}.out | tail -1 | tr -s '\t ' ',' >> ring-node-$i-core-$num/summary.txt
+			sort ring-node-$i-core-$num/output-${k}.out | head -1 | tr -s '\t ' ',' >> ring-node-$i-core-$num/summary.csv
 		done
 	done
 done
