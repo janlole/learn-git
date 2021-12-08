@@ -1,0 +1,13 @@
+I am process 1 and i have received 10 messages.My final messages have tag 10 and left-value -45 ,right-value 45
+I am process 3 and i have received 10 messages.My final messages have tag 30 and left-value -45 ,right-value 45
+I am process 4 and i have received 10 messages.My final messages have tag 40 and left-value -45 ,right-value 45
+I am process 0 and i have received 10 messages.My final messages have tag 0 and left-value -45 ,right-value 45
+I am process 2 and i have received 10 messages.My final messages have tag 20 and left-value -45 ,right-value 45
+I am process 5 and i have received 10 messages.My final messages have tag 50 and left-value -45 ,right-value 45
+I am process 6 and i have received 10 messages.My final messages have tag 60 and left-value -45 ,right-value 45
+I am process 7 and i have received 10 messages.My final messages have tag 70 and left-value -45 ,right-value 45
+I am process 8 and i have received 10 messages.My final messages have tag 80 and left-value -45 ,right-value 45
+I am process 9 and i have received 10 messages.My final messages have tag 90 and left-value -45 ,right-value 45
+---TIME---
+numproc	exec-time	init-time
+10	1.18188e-05	3.13e-07
