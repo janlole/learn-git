@@ -236,6 +236,7 @@ void round_robin_distribution(int remainder, int cut, int square, int skip, int 
 	MPI_Status status;
 	MPI_Comm_rank(communicator, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &how_many_proc);
+	--how_many_proc;
 
 	int elems {remainder*square};
 	std::vector<double> subA(elems);
@@ -250,6 +251,7 @@ void round_robin_distribution(int remainder, int cut, int square, int skip, int 
 		for (auto j{0}; j < check ; ++j){
 			int trasl{start_index + j * skip * how_many_proc};
 			end = ( j < check - 1) ? max_row : rem_row ;
+			start = 1;
 			for (auto i{0}; i < end; ++i){
 				MPI_Send(&matA[ trasl + i*skip], 1, block_remainder, 
 					start+i, 0, communicator );
