@@ -2,4 +2,4 @@ I am process 0 and i have received 2 messages.My final messages have tag 0 and l
 I am process 1 and i have received 2 messages.My final messages have tag 10 and left-value -1 ,right-value 1
 ---TIME---
 numproc	exec-time	init-time
-2	4.46726e-06	1.29e-07
+2	2.19773e-06	1.39e-07

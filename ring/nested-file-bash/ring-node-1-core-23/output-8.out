@@ -1,6 +1,5 @@
 I am process 0 and i have received 23 messages.My final messages have tag 0 and left-value -253 ,right-value 253
 I am process 1 and i have received 23 messages.My final messages have tag 10 and left-value -253 ,right-value 253
-I am process 2 and i have received 23 messages.My final messages have tag 20 and left-value -253 ,right-value 253
 I am process 3 and i have received 23 messages.My final messages have tag 30 and left-value -253 ,right-value 253
 I am process 4 and i have received 23 messages.My final messages have tag 40 and left-value -253 ,right-value 253
 I am process 5 and i have received 23 messages.My final messages have tag 50 and left-value -253 ,right-value 253
@@ -21,6 +20,7 @@ I am process 19 and i have received 23 messages.My final messages have tag 190 a
 I am process 20 and i have received 23 messages.My final messages have tag 200 and left-value -253 ,right-value 253
 I am process 21 and i have received 23 messages.My final messages have tag 210 and left-value -253 ,right-value 253
 I am process 22 and i have received 23 messages.My final messages have tag 220 and left-value -253 ,right-value 253
+I am process 2 and i have received 23 messages.My final messages have tag 20 and left-value -253 ,right-value 253
 ---TIME---
 numproc	exec-time	init-time
-23	2.16276e-05	1.44e-07
+23	2.1459e-05	1.07e-07

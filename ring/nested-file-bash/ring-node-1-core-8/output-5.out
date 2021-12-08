@@ -8,4 +8,4 @@ I am process 6 and i have received 8 messages.My final messages have tag 60 and 
 I am process 7 and i have received 8 messages.My final messages have tag 70 and left-value -28 ,right-value 28
 ---TIME---
 numproc	exec-time	init-time
-8	6.9118e-06	1.67e-07
+8	6.72054e-06	9.6e-08

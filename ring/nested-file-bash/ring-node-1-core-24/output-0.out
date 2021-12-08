@@ -24,4 +24,4 @@ I am process 22 and i have received 24 messages.My final messages have tag 220 a
 I am process 23 and i have received 24 messages.My final messages have tag 230 and left-value -276 ,right-value 276
 ---TIME---
 numproc	exec-time	init-time
-24	2.16289e-05	1.99e-07
+24	2.16487e-05	5.4e-08

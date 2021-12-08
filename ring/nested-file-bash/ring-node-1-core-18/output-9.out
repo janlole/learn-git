@@ -18,4 +18,4 @@ I am process 16 and i have received 18 messages.My final messages have tag 160 a
 I am process 17 and i have received 18 messages.My final messages have tag 170 and left-value -153 ,right-value 153
 ---TIME---
 numproc	exec-time	init-time
-18	1.55826e-05	1.05e-07
+18	1.55959e-05	1e-07
