@@ -1,0 +1,5 @@
+I am process 0 and the computation went fine
+
+--- TIME ---
+pre_send	main_matrix	remain_matrix	total.comput	total
+0.00750945	0.179301	0.0118343	0.191135	0.198645

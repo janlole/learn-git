@@ -32,9 +32,9 @@ for ((i = 0; i < 3; i++));
 do
 	# saving folder
 	sav_fol=./${working_folder}/matrix-${i}
-	mkdir sav_fol
+	mkdir ${sav_fol}
 	for (( j = 0 ; j < $howmany ; j++ ));
 	do
-		mpirun -np 24 ./matrix.o $DUNO $DDUE $DTRE ${matrix[i,0]} ${matrix[i,1]} ${matrix[i,2]} > sav_fol/output-${j}.out
+		mpirun -np 24 ./matrix.o $DUNO $DDUE $DTRE ${matrix[$i,0]} ${matrix[$i,1]} ${matrix[$i,2]} 2>>/dev/null >${sav_fol}/output-${j}.out
 	done
 done
