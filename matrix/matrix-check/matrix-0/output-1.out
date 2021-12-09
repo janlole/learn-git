@@ -1,0 +1,5 @@
+I am process 0 and the computation went fine
+
+--- TIME ---
+pre_send	main_matrix	total
+0.0076454	0.0872032	0.0948486
