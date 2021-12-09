@@ -6,7 +6,7 @@ summarize()
 	DUE=$2
 	TRE=$3
 	folder=./matrix-$UNO-$DUE-$TRE
-	for(( j = 0; j < 3; j++));
+	for(( j = 0; j < 10; j++));
 	do
 		subfolder=${folder}/matrix-$j
 		echo "pre.send,main.matrix,remain.matrix,total.comput,total" > ${subfolder}/summary.csv
