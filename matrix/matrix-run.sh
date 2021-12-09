@@ -11,6 +11,29 @@ matrix[2,0]=800
 matrix[2,1]=300
 matrix[2,2]=100
 
+matrix[3,0]=100
+matrix[3,1]=100
+matrix[3,2]=2400
+matrix[4,0]=100
+matrix[4,1]=200
+matrix[4,2]=1200
+matrix[5,0]=100
+matrix[5,1]=300
+matrix[5,2]=800
+
+matrix[6,0]=3000
+matrix[6,1]=4000
+matrix[6,2]=2000
+matrix[7,0]=12000
+matrix[7,1]=2000
+matrix[7,2]=1000
+matrix[8,0]=1000
+matrix[8,1]=2000
+matrix[8,2]=12000
+matrix[9,0]=1000
+matrix[9,1]=12000
+matrix[9,2]=2000
+
 cd $PBS_O_WORKDIR
 
 # loading openmpi module
@@ -21,14 +44,14 @@ mpic++ matrix.cc -o matrix.o
 
 working_folder=matrix-$DUNO-$DDUE-$DTRE
 
-rm -r ${working_folder}
-mkdir ${working_folder}
+#rm -r ${working_folder}
+#mkdir ${working_folder}
 
 
 # how many iteration for measurement
 howmany=10
 
-for ((i = 0; i < 3; i++));
+for ((i = 3; i < 10; i++));
 do
 	# saving folder
 	sav_fol=./${working_folder}/matrix-${i}

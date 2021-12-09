@@ -9,10 +9,10 @@ summarize()
 	for(( j = 0; j < 3; j++));
 	do
 		subfolder=${folder}/matrix-$j
-		echo "pre.send,main.matrix,remain.matrix,total.comput,total" > ${subfolder}/summary.txt
+		echo "pre.send,main.matrix,remain.matrix,total.comput,total" > ${subfolder}/summary.csv
 		for (( k = 0 ; k < 10 ; k++));
 		do
-			cat ${subfolder}/output-${k}.out | tail -1 | tr -s '\t ' ',' >>  ${subfolder}/summary.txt
+			cat ${subfolder}/output-${k}.out | tail -1 | tr -s '\t ' ',' >>  ${subfolder}/summary.csv
 		done
 
 	done
