@@ -1,0 +1,24 @@
+I am process 1 and i have received 21 messages.My final messages have tag 10 and left-value -210 ,right-value 210
+I am process 3 and i have received 21 messages.My final messages have tag 30 and left-value -210 ,right-value 210
+I am process 5 and i have received 21 messages.My final messages have tag 50 and left-value -210 ,right-value 210
+I am process 6 and i have received 21 messages.My final messages have tag 60 and left-value -210 ,right-value 210
+I am process 7 and i have received 21 messages.My final messages have tag 70 and left-value -210 ,right-value 210
+I am process 9 and i have received 21 messages.My final messages have tag 90 and left-value -210 ,right-value 210
+I am process 10 and i have received 21 messages.My final messages have tag 100 and left-value -210 ,right-value 210
+I am process 11 and i have received 21 messages.My final messages have tag 110 and left-value -210 ,right-value 210
+I am process 12 and i have received 21 messages.My final messages have tag 120 and left-value -210 ,right-value 210
+I am process 13 and i have received 21 messages.My final messages have tag 130 and left-value -210 ,right-value 210
+I am process 14 and i have received 21 messages.My final messages have tag 140 and left-value -210 ,right-value 210
+I am process 15 and i have received 21 messages.My final messages have tag 150 and left-value -210 ,right-value 210
+I am process 16 and i have received 21 messages.My final messages have tag 160 and left-value -210 ,right-value 210
+I am process 17 and i have received 21 messages.My final messages have tag 170 and left-value -210 ,right-value 210
+I am process 18 and i have received 21 messages.My final messages have tag 180 and left-value -210 ,right-value 210
+I am process 19 and i have received 21 messages.My final messages have tag 190 and left-value -210 ,right-value 210
+I am process 20 and i have received 21 messages.My final messages have tag 200 and left-value -210 ,right-value 210
+I am process 2 and i have received 21 messages.My final messages have tag 20 and left-value -210 ,right-value 210
+I am process 4 and i have received 21 messages.My final messages have tag 40 and left-value -210 ,right-value 210
+I am process 8 and i have received 21 messages.My final messages have tag 80 and left-value -210 ,right-value 210
+I am process 0 and i have received 21 messages.My final messages have tag 0 and left-value -210 ,right-value 210
+---TIME---
+numproc	exec-time	init-time
+21	2.72803e-05	1.39e-07

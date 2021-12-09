@@ -1,0 +1,11 @@
+numproc,exec-time,init-time
+I,am,process,23,and,i,have,received,38,messages.My,final,messages,have,tag,230,and,left-value,-703,right-value,703
+I,am,process,37,and,i,have,received,38,messages.My,final,messages,have,tag,370,and,left-value,-703,right-value,703
+I,am,process,5,and,i,have,received,38,messages.My,final,messages,have,tag,50,and,left-value,-703,right-value,703
+I,am,process,9,and,i,have,received,38,messages.My,final,messages,have,tag,90,and,left-value,-703,right-value,703
+I,am,process,37,and,i,have,received,38,messages.My,final,messages,have,tag,370,and,left-value,-703,right-value,703
+I,am,process,37,and,i,have,received,38,messages.My,final,messages,have,tag,370,and,left-value,-703,right-value,703
+38,6.5369e-05,1.03e-07
+I,am,process,15,and,i,have,received,38,messages.My,final,messages,have,tag,150,and,left-value,-703,right-value,703
+I,am,process,7,and,i,have,received,38,messages.My,final,messages,have,tag,70,and,left-value,-703,right-value,703
+I,am,process,37,and,i,have,received,38,messages.My,final,messages,have,tag,370,and,left-value,-703,right-value,703
