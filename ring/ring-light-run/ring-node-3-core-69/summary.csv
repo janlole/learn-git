@@ -1,0 +1,11 @@
+numproc,exec-time,init-time
+69,0.000166497,1.01e-07
+69,0.000181101,1.57e-07
+69,0.000163329,1.37e-07
+69,0.000155974,1.36e-07
+I,am,process,22,and,i,have,received,69,messages.My,final,messages,have,tag,220,and,left-value,-2346,right-value,2346
+69,0.000163922,1.3e-07
+69,0.000141378,1.51e-07
+69,0.000169373,1.43e-07
+I,am,process,68,and,i,have,received,69,messages.My,final,messages,have,tag,680,and,left-value,-2346,right-value,2346
+69,0.000155616,1.51e-07

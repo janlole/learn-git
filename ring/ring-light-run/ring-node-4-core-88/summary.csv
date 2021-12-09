@@ -1,0 +1,11 @@
+numproc,exec-time,init-time
+I,am,process,10,and,i,have,received,88,messages.My,final,messages,have,tag,100,and,left-value,-3828,right-value,3828
+I,am,process,85,and,i,have,received,88,messages.My,final,messages,have,tag,850,and,left-value,-3828,right-value,3828
+I,am,process,86,and,i,have,received,88,messages.My,final,messages,have,tag,860,and,left-value,-3828,right-value,3828
+I,am,process,86,and,i,have,received,88,messages.My,final,messages,have,tag,860,and,left-value,-3828,right-value,3828
+I,am,process,86,and,i,have,received,88,messages.My,final,messages,have,tag,860,and,left-value,-3828,right-value,3828
+I,am,process,10,and,i,have,received,88,messages.My,final,messages,have,tag,100,and,left-value,-3828,right-value,3828
+I,am,process,43,and,i,have,received,88,messages.My,final,messages,have,tag,430,and,left-value,-3828,right-value,3828
+88,0.000191505,1.48e-07
+I,am,process,87,and,i,have,received,88,messages.My,final,messages,have,tag,870,and,left-value,-3828,right-value,3828
+I,am,process,85,and,i,have,received,88,messages.My,final,messages,have,tag,850,and,left-value,-3828,right-value,3828

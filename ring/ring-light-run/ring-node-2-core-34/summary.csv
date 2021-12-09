@@ -1,0 +1,11 @@
+numproc,exec-time,init-time
+I,am,process,33,and,i,have,received,34,messages.My,final,messages,have,tag,330,and,left-value,-561,right-value,561
+I,am,process,33,and,i,have,received,34,messages.My,final,messages,have,tag,330,and,left-value,-561,right-value,561
+I,am,process,1,and,i,have,received,34,messages.My,final,messages,have,tag,10,and,left-value,-561,right-value,561
+I,am,process,3,and,i,have,received,34,messages.My,final,messages,have,tag,30,and,left-value,-561,right-value,561
+I,am,process,33,and,i,have,received,34,messages.My,final,messages,have,tag,330,and,left-value,-561,right-value,561
+I,am,process,33,and,i,have,received,34,messages.My,final,messages,have,tag,330,and,left-value,-561,right-value,561
+I,am,process,21,and,i,have,received,34,messages.My,final,messages,have,tag,210,and,left-value,-561,right-value,561
+I,am,process,33,and,i,have,received,34,messages.My,final,messages,have,tag,330,and,left-value,-561,right-value,561
+I,am,process,33,and,i,have,received,34,messages.My,final,messages,have,tag,330,and,left-value,-561,right-value,561
+34,5.6002e-05,1.43e-07
