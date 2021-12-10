@@ -6,13 +6,13 @@ summarize()
 	DUE=$2
 	TRE=$3
 	folder=./matrix-$UNO-$DUE-$TRE
-	for(( j = 0; j < 10; j++));
+	for(( j = 0; j < 3; j++));
 	do
 		subfolder=${folder}/matrix-$j
-		echo "pre.send,main.matrix,remain.matrix,total.comput,total" > ${subfolder}/summary.csv
+		echo "pre.send,main.matrix,remain.matrix,total.comput,total" > ${subfolder}/summary.txt
 		for (( k = 0 ; k < 10 ; k++));
 		do
-			cat ${subfolder}/output-${k}.out | tail -1 | tr -s '\t ' ',' >>  ${subfolder}/summary.csv
+			cat ${subfolder}/output-${k}.out | tail -1 | tr -s '\t ' ',' >>  ${subfolder}/summary.txt
 		done
 
 	done
