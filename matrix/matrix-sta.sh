@@ -2,7 +2,7 @@
 
 D1_vec=24
 
-qsub -Roe -l nodes=1:ppn=24 -l walltime=0:30:00 -q dssc -v DUNO=${D1_vec},DDUE=1,DTRE=1 ./matrix-run.sh
+qsub -Roe -l nodes=1:ppn=24 -l walltime=0:10:00 -q dssc -v DUNO=${D1_vec},DDUE=1,DTRE=1 ./matrix-run.sh
 
 declare -A D2_vec
 
@@ -21,7 +21,7 @@ D2_vec[5,1]=3
 
 for ((i = 0; i < 6; i++));
 do
-	qsub -Roe -l nodes=1:ppn=24 -l walltime=0:30:00 -q dssc -v DUNO=${D2_vec[$i,0]},DDUE=${D2_vec[$i,1]},DTRE=1 ./matrix-run.sh
+	qsub -Roe -l nodes=1:ppn=24 -l walltime=0:10:00 -q dssc -v DUNO=${D2_vec[$i,0]},DDUE=${D2_vec[$i,1]},DTRE=1 ./matrix-run.sh
 done
 
 declare -A D3_vec
@@ -57,5 +57,5 @@ D3_vec[8,2]=4
 
 for ((i = 0; i < 9; i++));
 do
-	qsub -Roe -l nodes=1:ppn=24 -l walltime=0:30:00 -q dssc -v DUNO=${D3_vec[$i,0]},DDUE=${D3_vec[$i,1]},DTRE=${D3_vec[$i,2]} ./matrix-run.sh
+	qsub -Roe -l nodes=1:ppn=24 -l walltime=0:10:00 -q dssc -v DUNO=${D3_vec[$i,0]},DDUE=${D3_vec[$i,1]},DTRE=${D3_vec[$i,2]} ./matrix-run.sh
 done
