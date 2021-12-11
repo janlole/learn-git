@@ -1,0 +1,11 @@
+numproc,exec-time,init-time
+I,am,process,19,and,i,have,received,40,messages.My,final,messages,have,tag,190,and,left-value,-780,right-value,780
+I,am,process,39,and,i,have,received,40,messages.My,final,messages,have,tag,390,and,left-value,-780,right-value,780
+I,am,process,3,and,i,have,received,40,messages.My,final,messages,have,tag,30,and,left-value,-780,right-value,780
+I,am,process,21,and,i,have,received,40,messages.My,final,messages,have,tag,210,and,left-value,-780,right-value,780
+I,am,process,39,and,i,have,received,40,messages.My,final,messages,have,tag,390,and,left-value,-780,right-value,780
+I,am,process,13,and,i,have,received,40,messages.My,final,messages,have,tag,130,and,left-value,-780,right-value,780
+I,am,process,39,and,i,have,received,40,messages.My,final,messages,have,tag,390,and,left-value,-780,right-value,780
+I,am,process,39,and,i,have,received,40,messages.My,final,messages,have,tag,390,and,left-value,-780,right-value,780
+40,5.74702e-05,1.4e-07
+I,am,process,39,and,i,have,received,40,messages.My,final,messages,have,tag,390,and,left-value,-780,right-value,780
