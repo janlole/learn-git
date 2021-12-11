@@ -1,0 +1,9 @@
+I am process 0 and i have received 6 messages.My final messages have tag 0 and left-value -15 ,right-value 15
+I am process 2 and i have received 6 messages.My final messages have tag 20 and left-value -15 ,right-value 15
+I am process 4 and i have received 6 messages.My final messages have tag 40 and left-value -15 ,right-value 15
+I am process 1 and i have received 6 messages.My final messages have tag 10 and left-value -15 ,right-value 15
+I am process 3 and i have received 6 messages.My final messages have tag 30 and left-value -15 ,right-value 15
+I am process 5 and i have received 6 messages.My final messages have tag 50 and left-value -15 ,right-value 15
+---TIME---
+numproc	exec-time	init-time
+6	7.96287e-06	1.55e-07

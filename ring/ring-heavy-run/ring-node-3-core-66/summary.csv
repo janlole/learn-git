@@ -1,0 +1,11 @@
+numproc,exec-time,init-time
+I,am,process,64,and,i,have,received,66,messages.My,final,messages,have,tag,640,and,left-value,-2145,right-value,2145
+I,am,process,65,and,i,have,received,66,messages.My,final,messages,have,tag,650,and,left-value,-2145,right-value,2145
+I,am,process,65,and,i,have,received,66,messages.My,final,messages,have,tag,650,and,left-value,-2145,right-value,2145
+I,am,process,64,and,i,have,received,66,messages.My,final,messages,have,tag,640,and,left-value,-2145,right-value,2145
+I,am,process,64,and,i,have,received,66,messages.My,final,messages,have,tag,640,and,left-value,-2145,right-value,2145
+I,am,process,65,and,i,have,received,66,messages.My,final,messages,have,tag,650,and,left-value,-2145,right-value,2145
+I,am,process,64,and,i,have,received,66,messages.My,final,messages,have,tag,640,and,left-value,-2145,right-value,2145
+I,am,process,65,and,i,have,received,66,messages.My,final,messages,have,tag,650,and,left-value,-2145,right-value,2145
+66,0.00011085,1.57e-07
+I,am,process,64,and,i,have,received,66,messages.My,final,messages,have,tag,640,and,left-value,-2145,right-value,2145
