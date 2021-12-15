@@ -12,8 +12,7 @@ I am process 20 and i have received 22 messages.My final messages have tag 200 a
 I am process 1 and i have received 22 messages.My final messages have tag 10 and left-value -231 ,right-value 231
 ---TIME---
 numproc	exec-time	init-time
-22I am process 3 and i have received 22 messages.My final messages have tag 30 and left-value -231 ,right-value 231
-	3.0485e-05	1.19e-07
+22	3.0485e-05	1.19e-07
 I am process 5 and i have received 22 messages.My final messages have tag 50 and left-value -231 ,right-value 231
 I am process 7 and i have received 22 messages.My final messages have tag 70 and left-value -231 ,right-value 231
 I am process 9 and i have received 22 messages.My final messages have tag 90 and left-value -231 ,right-value 231
@@ -23,3 +22,4 @@ I am process 15 and i have received 22 messages.My final messages have tag 150 a
 I am process 17 and i have received 22 messages.My final messages have tag 170 and left-value -231 ,right-value 231
 I am process 19 and i have received 22 messages.My final messages have tag 190 and left-value -231 ,right-value 231
 I am process 21 and i have received 22 messages.My final messages have tag 210 and left-value -231 ,right-value 231
+I am process 3 and i have received 22 messages.My final messages have tag 30 and left-value -231 ,right-value 231

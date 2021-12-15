@@ -9,7 +9,7 @@ working_folder=jacobi-${CORE}-${TOPO}
 mkdir ${working_folder}
 
 # how many iteration for measurement
-howmany=2
+howmany=10
 
 # saving folder
 sav_fol=${working_folder}/deco-${DECO}

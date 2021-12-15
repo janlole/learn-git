@@ -1,11 +1,11 @@
 numproc,exec-time,init-time
-I,am,process,31,and,i,have,received,46,messages.My,final,messages,have,tag,310,and,left-value,-1035,right-value,1035
+46,8.69374e-05,1.41e-07
 46,0.000109286,1.09e-07
 46,0.000113222,2.17e-07
 46,0.000112293,1.4e-07
 46,0.000108055,1.1e-07
 46,0.000122381,2.1e-07
 46,8.80206e-05,1.84e-07
-I,am,process,37,and,i,have,received,46,messages.My,final,messages,have,tag,370,and,left-value,-1035,right-value,1035
+46,0.000116163,1.49e-07
 46,9.4611e-05,1.59e-07
 46,8.72527e-05,1.1e-07

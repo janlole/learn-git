@@ -50,36 +50,8 @@ for  ( to in topol ){
                                   "--pml-",pm,
                                   "--btl-",bt,'.csv',sep=''),
                      quote = FALSE ,row.names = FALSE)
-          pdf('plot.pdf')
-          plot(x.dat,z.dat,log='x',col='red')
-          par(new = T)
-          y<- x.dat/(latency + x.dat/bandwidth)
-          plot(x.dat,y,log='x',add=T,pch=16,type = 'b')
-          dev.off()
-          # par(mar=c(5, 4, 4, 6) + 0.1)
-          # plot(tab[,c(1,3)],type='b',log='x',col='red',main='plot',ylim=c(0.1,1.5),
-          #      xlab='',ylab='',axes=F,pch=16)
-          # axis(2, ylim=c(0.1,1.5),col='black',las=1)
-          # mtext('t.usec',side=2,line=2.5)
-          # 
-          # box()
-          # par(new = T)
-          # 
-          # plot(tab[,c(1,4)],log='x', axes=F, xlab='',ylab='',col = 'blue',
-          #      ylim=c(0,25000),pch=15)
-          # mtext('Mbytes.sec',side=4,line=4)
-          # axis(4, ylim=c(0,25000), col='black',col.axis='black',las=1)
-          # mtext('X.Bytes',side=1,line=2.5)
-          # axis(1,xlim=c(0,268435456))
-          # 
-          # abline(h=seq(0,25000,length.out=15),col='grey')
-          # 
-          # #legend("topleft",legend=c("t.usec","Mbytes.sec"),
-          # #      text.col=c("red","blue"),pch=c(16,15),col=c("red","blue"))  
-          # dev.off()
-          # 
-          # 
-        } 
+
+        }
       }
     }
   }

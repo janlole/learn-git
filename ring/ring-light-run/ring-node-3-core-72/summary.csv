@@ -1,6 +1,6 @@
 numproc,exec-time,init-time
 72,0.000211379,1.33e-07
-I,am,process,31,and,i,have,received,72,messages.My,final,messages,have,tag,310,and,left-value,-2556,right-value,2556
+72,0.000168503,1.43e-07
 72,0.000157473,1.44e-07
 72,0.000171364,1.48e-07
 72,0.000162549,4.43e-07

@@ -1,5 +1,5 @@
 numproc,exec-time,init-time
-I,am,process,13,and,i,have,received,48,messages.My,final,messages,have,tag,130,and,left-value,-1128,right-value,1128
+48,7.11779e-05,1.4e-07
 48,7.15018e-05,1.03e-07
 48,7.11846e-05,1.2e-07
 48,7.11135e-05,1.05e-07

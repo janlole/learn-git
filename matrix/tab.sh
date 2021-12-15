@@ -6,13 +6,13 @@ summarize()
 	DUE=$2
 	TRE=$3
 	folder=./matrix-$UNO-$DUE-$TRE
-	for(( j = 0; j < 3; j++));
+	for(( j = 0; j < 10; j++));
 	do
 		subfolder=${folder}/matrix-$j
-		echo "pre.send,main.matrix,remain.matrix,total.comput,total" > ${subfolder}/summary.txt
+		echo "pre.send,main.matrix,remain.matrix,total.comput,total" > ${subfolder}/summary.csv
 		for (( k = 0 ; k < 10 ; k++));
 		do
-			cat ${subfolder}/output-${k}.out | tail -1 | tr -s '\t ' ',' >>  ${subfolder}/summary.txt
+			cat ${subfolder}/output-${k}.out | tail -1 | tr -s '\t ' ',' >>  ${subfolder}/summary.csv
 		done
 
 	done
@@ -24,7 +24,16 @@ D1_vec=24
 DUNO=$D1_vec
 DDUE=1
 DTRE=1
+summarize $DUNO $DDUE $DTRE
 
+DUNO=1
+DDUE=$D1_vec
+DTRE=1
+summarize $DUNO $DDUE $DTRE
+
+DUNO=1
+DDUE=1
+DTRE=$D1_vec
 summarize $DUNO $DDUE $DTRE
 
 declare -A D2_vec
@@ -48,6 +57,15 @@ do
 	DDUE=${D2_vec[$i,1]}
 	DTRE=1 
 	summarize $DUNO $DDUE $DTRE
+	DUNO=${D2_vec[$i,0]}
+	DDUE=1
+	DTRE=${D2_vec[$i,1]} 
+	summarize $DUNO $DDUE $DTRE
+	DUNO=1
+	DDUE=${D2_vec[$i,1]}
+	DTRE=${D2_vec[$i,0]} 
+	summarize $DUNO $DDUE $DTRE
+
 done
 
 declare -A D3_vec

@@ -1,10 +1,10 @@
 numproc,exec-time,init-time
 88,0.000151959,1.37e-07
 88,0.000151408,1.54e-07
-I,am,process,85,and,i,have,received,88,messages.My,final,messages,have,tag,850,and,left-value,-3828,right-value,3828
-I,am,process,86,and,i,have,received,88,messages.My,final,messages,have,tag,860,and,left-value,-3828,right-value,3828
+88,0.000151375,1.48e-07
+88,0.000151127,9.4e-08
 88,0.000151094,1.55e-07
-I,am,process,85,and,i,have,received,88,messages.My,final,messages,have,tag,850,and,left-value,-3828,right-value,3828
+88,0.000151155,1.44e-07
 88,0.000150873,1.54e-07
 88,0.000151805,1.46e-07
 88,0.000151059,1.42e-07
