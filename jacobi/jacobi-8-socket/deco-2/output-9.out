@@ -1,0 +1,26 @@
+# Threadlevel provided:        3 out of        0        1        2        3
+  spat_dim , proc_dim, PBC ? 
+           1 -Dim Input         2400           4 T
+           2 -Dim Input          600           1 T
+           3 -Dim Input         1200           2 T
+#   0 Process grid   4   1   2
+           0           3           2
+           1           3           2
+           2           3           2
+           3           3           2
+           4           3           2
+           5           3           2
+           6           3           2
+           7           3           2
+#   0  Allocated 2 arrays with a total of  3490.68      Mbytes 
+# StartResidual    0.00000000000    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    1.93764814900        1.93542053900        1.88216939200        1.88529105300       Residual    14023333.3223      MLUPs    891.802776934    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    1.93342366200        1.93341940900        1.88205265000        1.88551568800       Residual    2333333.33332      MLUPs    893.751345844    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    1.93307437900        1.93307229900        1.88183925900        1.88516274700       Residual    496913.580088      MLUPs    893.912835829    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    1.93361211600        1.93360819000        1.88198948700        1.88570957200       Residual    147633.744822      MLUPs    893.664238914    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    1.93335254100        1.93335064700        1.88181900300        1.88540632300       Residual    60463.8203020      MLUPs    893.784223702    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    1.93325183000        1.93324932100        1.88188630700        1.88538854500       Residual    31152.4909488      MLUPs    893.830784580    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    1.93345957000        1.93345709300        1.88190833800        1.88551724200       Residual    18542.9986987      MLUPs    893.734747192    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    1.93362899900        1.93362728800        1.88206263000        1.88567367300       Residual    12107.9501552      MLUPs    893.656436107    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    1.93337960400        1.93337751700        1.88186801000        1.88543656300       Residual    8425.97385391      MLUPs    893.771712717    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    1.93349067500        1.93348851200        1.88193110200        1.88555009600       Residual    6143.88818196      MLUPs    893.720369249    
