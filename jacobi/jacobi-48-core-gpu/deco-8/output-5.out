@@ -1,0 +1,66 @@
+# Threadlevel provided:        3 out of        0        1        2        3
+  spat_dim , proc_dim, PBC ? 
+           1 -Dim Input         4800           8 T
+           2 -Dim Input         1800           3 T
+           3 -Dim Input         1200           2 T
+#   0 Process grid   8   3   2
+          12           3           2
+          13           3           2
+          14           3           2
+          15           3           2
+          16           3           2
+          17           3           2
+          18           3           2
+          19           3           2
+          20           3           2
+          21           3           2
+          22           3           2
+          23           3           2
+          24           3           2
+          25           3           2
+          26           3           2
+          28           3           2
+          31           3           2
+          32           3           2
+          33           3           2
+          34           3           2
+          36           3           2
+          37           3           2
+          38           3           2
+          39           3           2
+          40           3           2
+          42           3           2
+          43           3           2
+          44           3           2
+          46           3           2
+          47           3           2
+           0           3           2
+#   0  Allocated 2 arrays with a total of  3490.68      Mbytes 
+           1           3           2
+           2           3           2
+           3           3           2
+           5           3           2
+           6           3           2
+           7           3           2
+           8           3           2
+           9           3           2
+          10           3           2
+          11           3           2
+          29           3           2
+          30           3           2
+          41           3           2
+          45           3           2
+           4           3           2
+          27           3           2
+          35           3           2
+# StartResidual    0.00000000000    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    4.08953769800        4.08931758400        3.80422814200        3.95965520400       Residual    46043333.2968      MLUPs    2535.24989024    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    4.08702613200        4.08700731800        3.80541357500        3.96778807000       Residual    7666666.66662      MLUPs    2536.80785616    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    4.08725255200        4.08723239100        3.80389983400        3.96726347800       Residual    1632716.04888      MLUPs    2536.66732557    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    4.09190233000        4.09189340500        3.80404976000        3.97344221800       Residual    485082.304407      MLUPs    2533.78481788    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    4.08846097200        4.08816603500        3.80245197800        3.96911851100       Residual    198666.838132      MLUPs    2535.91756678    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    4.09324358900        4.09323642600        3.80337513800        3.97450156700       Residual    102358.184544      MLUPs    2532.95455659    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    4.09273747500        4.09271843800        3.80408493900        3.97378427400       Residual    60926.9957236      MLUPs    2533.26778552    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    4.09073544700        4.09071963600        3.80422455100        3.97147841000       Residual    39783.2647958      MLUPs    2534.50758044    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    4.09433959400        4.09433018300        3.80489470100        3.97546680500       Residual    27685.3426636      MLUPs    2532.27651541    
+  4  Maxtime , Mintime + JacobiMi , JacobiMa    4.09072828800        4.09071038400        3.80505976500        3.97069822700       Residual    20187.0611687      MLUPs    2534.51201597    
