@@ -18,6 +18,7 @@ do
 		for (( j = 0 ; j < ${deco} ; j++ ));
 		do
 			fold=${working_folder}/jacobi-${proc}-${top}/deco-${j}
+			cat ${fold}/output-0.out | head -6 | tail -1 | tail -c -12 | tr -s ' ' ',' | sed 's/,//' >${fold}/grid.csv
 			for (( k =  0; k < ${howmany} ; k++));
 			do
 				echo '1,2,3,4,5,6,7,8,9,10,11,12,13,14' > ${fold}/output-time-${k}.csv
@@ -28,7 +29,7 @@ do
 done
 }
 
-working_folder=test-data
+working_folder=.
 howmany=10
 
 topol=( 'core' 'socket' )
@@ -43,24 +44,24 @@ deco_num=( 18 30 45 )
 
 scan_sumarize
 
-topol=( 'gpu' )
-proc_num=( 12 24 )
-deco_num=( 18 30 )
+topol=( 'socket-gpu' 'core-gpu' )
+proc_num=( 12 24 48)
+deco_num=( 18 30 45)
 
 scan_sumarize
 
-topol=( 'gpu' )
-proc_num=( 48 )
-deco_num=( 45 )
-# Due to errors in the computation of the expected execution time
-# the case "gpu with 48 cores" was NOT able to complete all the 10 runs.
-# Despite the incompleted submit, I will not collect new data because 
-# I consider 7 runs enough
-howmany=7
+# topol=( 'gpu' )
+# proc_num=( 48 )
+# deco_num=( 45 )
+# # Due to errors in the computation of the expected execution time
+# # the case "gpu with 48 cores" was NOT able to complete all the 10 runs.
+# # Despite the incompleted submit, I will not collect new data because 
+# # I consider 7 runs enough
+# howmany=7
 
-scan_sumarize
+# scan_sumarize
 
 
 # NOTE: ALL the runs are executed in a safe "communication-space"
-# 		in the sense that for every test the nodes requested were 
+# 		in the sense that for every test the requested nodes were 
 # 		busy with just Jacoby program to execute
