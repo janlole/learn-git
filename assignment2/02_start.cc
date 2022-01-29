@@ -125,7 +125,7 @@ int main(int argc, char const *argv[])
 	std::cout << "\n\n############\n";
 	
 	for ( auto &x : Grid )
-		std::cout << x << "\t" << &x - &Grid[0] <<"\n";
+		std::cout << x << "\t" << &x <<"\n";
 
 	return 0;
 }
@@ -142,8 +142,6 @@ ksplit axis_median(const std::vector<kpoint>& Grid){
 				tmp[ax*NDIM+1] = x.coord[ax];
 		}
 	}
-	for ( auto x : tmp )
-		std::cout << x << "\n";
 	int axis{0};
 	for ( int ax{0}; ax < NDIM; ++ax){
 			if ( (tmp[ax*NDIM + 1] - tmp[ax*NDIM]) > (tmp[axis*NDIM + 1] - tmp[axis*NDIM]))
@@ -170,9 +168,6 @@ std::size_t closest_to_median(const std::vector<kpoint>& Grid, const float_t med
 void partition( const float_t median, const int axis, kpoint* low, kpoint* high){
 	kpoint* mid{low};
 	while ( mid <= high ){
-		std::cout << low << "\t" << mid << "\t" << high << "\n";
-		std::cout << *low << "\t" << *mid << "\t" << *high << "\n";
-
 		if ( mid -> coord[axis] < median ){
 			mid -> swap(*low);
 			++low;
