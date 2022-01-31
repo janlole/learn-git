@@ -3,6 +3,7 @@
 #include <random>
 #include <memory>
 #include <cmath>
+#include <bitset>
 
 #define SEED 1234
 #define NDIM 2
@@ -50,6 +51,16 @@ struct kpoint {
 	}
 	//_____________________________________________
 
+	bool operator==(const kpoint& l){
+		for ( auto i{0} ; i < NDIM ; ++i ){
+			if ( l.coord[i] != this -> coord[i] ){
+				return false;}
+		}
+		return true;
+	}
+	bool operator!=(const kpoint& l){
+		return !( *this == l);
+	}
 	// swap method
 	void swap(kpoint& p){
 		auto tmp = p;
@@ -67,6 +78,25 @@ struct knode
 	struct knode *left, *right;		// left and right subtrees
 
 	knode(): axis{}, split{}, left{nullptr}, right{nullptr} {}
+
+	bool operator==( knode& l){
+		if ((l.axis != this -> axis) | (l.split != this->split))
+			return false;
+		if ( (l.left == nullptr) ^ (this -> left == nullptr) )
+			return false;
+		if ( (l.right == nullptr) ^ (this -> right == nullptr) )
+			return false;
+		if ( (l.left != nullptr) && (this -> left != nullptr) && (*(l.left) != *(this->left)) )
+			return false;
+		if ( (l.right != nullptr) && (this -> right != nullptr) && (*(l.right) != *(this->right)) )
+			return false;
+		return true;
+
+	}
+
+	bool operator!=(knode& l){
+		return !(*this == l);
+	}
 };
 
 struct ksplit
@@ -100,6 +130,9 @@ kpoint* closest_to_median(kpoint* low, const kpoint* high, const float_t median,
 
 kpoint* partition( const float_t median, const int axis, kpoint* low, kpoint* high);
 
+knode* build_kdtree(kpoint* low, kpoint* high, knode* node);
+
+
 int main(int argc, char const *argv[])
 {
 	
@@ -112,7 +145,9 @@ int main(int argc, char const *argv[])
 
 
 	std::vector<kpoint> Grid(NUMPOINTS);
+	std::vector<kpoint> Grid_copy(NUMPOINTS);
 	std::vector<knode> Nodes(NUMPOINTS);
+	std::vector<knode> Nodes_copy(NUMPOINTS);
 
 	// Random assignment
 	std::uniform_real_distribution<float_t> unif(-LIMIT,LIMIT);
@@ -124,6 +159,31 @@ int main(int argc, char const *argv[])
 		}
 	}
 	//_____________________________________________
+	// grid copy
+	for ( auto i{0}; i < NUMPOINTS; ++i){
+		Grid_copy[i] = Grid[i];
+	}
+	//_____________________________________________
+	// grid copy
+	for ( auto i{0}; i < NUMPOINTS; ++i){
+		Nodes[i].axis = 0;
+		Nodes_copy[i].axis = 0;
+		Nodes[i].split = Grid[i];
+		Nodes_copy[i].split = Grid[i];
+		if ( i < NUMPOINTS - 1){
+			Nodes[i].left = &(Nodes[0]);
+			Nodes_copy[i].left = &(Nodes_copy[i+1]);
+		}
+	}
+	//_____________________________________________
+	// grid copy
+	bool cos;
+	for ( auto i{0}; i < NUMPOINTS; ++i){
+		cos = (Nodes_copy[i] == Nodes[i]);
+		std::cout << cos << std::endl;
+	}
+	//_____________________________________________
+
 	
 	for ( auto& x : Grid ){
 		std::cout << x << "\t" << &x << "\n";
@@ -132,15 +192,14 @@ int main(int argc, char const *argv[])
 	Nodes[0].axis = NDIM + 1;
 	Nodes[0].split.coord[0] = 0;
 	Nodes[0].split.coord[1] = NUMPOINTS - 1 ;
-	int check{50};
 	int woorking_node{0};
 	int last_node{0};
-	while ( woorking_node >= 0 && check){
+	while ( woorking_node >= 0 ){
 		if ( Nodes[woorking_node].axis == (NDIM + 1) ){
 			kpoint* start{&( Grid[static_cast<int>(Nodes[woorking_node].split.coord[0])] )};
 			kpoint* end{&( Grid[static_cast<int>(Nodes[woorking_node].split.coord[1])] )};
 
-
+	
 			ksplit newsplit{axis_median(start, end)};
 			kpoint* newclosest{closest_to_median(start, end, newsplit.median, newsplit.axis)};
 			newsplit.median = newclosest -> coord[newsplit.axis];
@@ -167,23 +226,55 @@ int main(int argc, char const *argv[])
 
 			Nodes[woorking_node].split = *mide;
 			Nodes[woorking_node].axis = newsplit.axis;
-			std::cout << Nodes[woorking_node]<< "\n" << std::endl;
+			// std::cout << Nodes[woorking_node]<< "\n" << std::endl;
 			woorking_node = last_node;
+			
 		}
 		else{
 			--woorking_node;
 			// std::cout << "\nworking_node:\t" << woorking_node << "\n";
 		}
-		--check;
 	}
 
 	std::cout << "\n\n############\n";
 	
 	for ( auto &x : Grid )
 		std::cout << x << "\t" << &x <<"\n";
+	// std::cout << "\n\n############\n";
+	// for ( auto &x : Nodes_copy )
+	// 	std::cout << x << "\t" << &x <<"\n";
+	// std::cout << "\n\n############\n";
+	// std::cout << Nodes[0] << std::endl;
+
+	knode* root{build_kdtree(&Grid_copy[0],&Grid_copy[NUMPOINTS]-1, &Nodes_copy[0])};
 	std::cout << "\n\n############\n";
-	std::cout << Nodes[0] << std::endl;
+	for ( auto &x : Grid_copy )
+		std::cout << x << "\t" << &x <<"\n";
+	// 
+	bool mammamia(Nodes[0]  == Nodes_copy[0]);
+	std::cout << "COMPARISON\t" << mammamia << std::endl;
 	return 0;
+}
+
+knode* build_kdtree(kpoint* low, kpoint* high, knode* node){
+	// if ( low == high ){
+	// 	// if one point is available, return a leaf without computation
+	// 	node -> split = *low;
+	// 	return node;		
+	// }
+	ksplit newsplit{axis_median(low,high)};
+	kpoint* newclosest{closest_to_median(low, high, newsplit.median, newsplit.axis)};
+	newsplit.median = newclosest -> coord[newsplit.axis];
+	kpoint* mide{partition(newsplit.median, newsplit.axis, low, high)};	
+
+	node -> split = *mide;
+	node -> axis = newsplit.axis;
+	
+	if ( low != (mide) )
+		node -> left = build_kdtree(low, mide-1, ++node);
+	if ( high != (mide) )
+		node -> right = build_kdtree(mide+1, high, ++node);
+	return node;
 }
 
 
