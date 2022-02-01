@@ -8,8 +8,14 @@
 
 
 #define NDIM 2
-#define LIMIT 1
+#define LIMIT 10
 #define MIN_DIST 1
+
+#if defined (SORTING)
+#define CORE_ALGORITHM core_algorithm_sorting
+#else
+#define CORE_ALGORITHM core_algorithm
+#endif
 
 #if !defined(RANDOM)
 #define SEED 1234
@@ -111,7 +117,7 @@ struct knode
 struct ksplit
 {
 	int axis;
-	float_t median;
+	kpoint* median_kpoint;
 };
 
 std::ostream& operator<<(std::ostream& os, const kpoint& p) {
@@ -134,13 +140,21 @@ std::ostream& operator<<(std::ostream& os, const knode& n) {
 	return os;
 }
 
-ksplit axis_median(kpoint* low, const kpoint* high);
-
-kpoint* closest_to_median(kpoint* low, const kpoint* high, const float_t median, const int axis);
+ksplit choosing_split(kpoint* low, kpoint* high);
 
 kpoint* partition( const float_t median, const int axis, kpoint* low, kpoint* high);
 
-knode* build_kdtree(kpoint* low, kpoint* high, knode* node);
+knode* build_kdtree_recursive(kpoint* low, kpoint* high, knode* node);
+
+kpoint* core_algorithm(kpoint* low, kpoint* high, knode* node);
+
+kpoint* core_algorithm_sorting(kpoint* low, kpoint* high, knode* node);
+
+void sorting(const int axis, kpoint* low, kpoint* high);
+
+bool check_sorting( const int axis, kpoint* low, kpoint* high);
+
+kpoint* select(kpoint* start, kpoint* end, const int position, const int axis);
 
 int height(knode* node){
 	if ( (node -> left == nullptr ) && ( node -> right == nullptr ) )
@@ -186,9 +200,10 @@ int main(int argc, char const *argv[])
 
 
 	std::vector<kpoint> Grid(NUMPOINTS);
-	std::vector<kpoint> Grid_copy(NUMPOINTS);
+	// std::vector<kpoint> Grid_copy(NUMPOINTS);
 	std::vector<knode> Nodes(NUMPOINTS);
-	std::vector<knode> Nodes_copy(NUMPOINTS);
+	// std::vector<knode> Nodes_copy(NUMPOINTS);
+
 
 	// Random assignment
 	std::uniform_real_distribution<float_t> unif(-LIMIT,LIMIT);
@@ -202,80 +217,16 @@ int main(int argc, char const *argv[])
 		}
 	}
 	//_____________________________________________
+	
 	// grid copy
-	for ( auto i{0}; i < NUMPOINTS; ++i){
-		Grid_copy[i] = Grid[i];
-	}
+	// for ( auto i{0}; i < NUMPOINTS; ++i){
+	// 	Grid_copy[i] = Grid[i];
+	// }
 	auto t1 = std::chrono::high_resolution_clock::now();
 	auto t2 = std::chrono::high_resolution_clock::now();
 
-	
-	// for ( auto& x : Grid ){
-	// 	std::cout << x << "\t" << &x << "\n";
-	// }
 	t1 = std::chrono::high_resolution_clock::now();
-
-	Nodes[0].axis = NDIM + 1;
-	Nodes[0].split.coord[0] = 0;
-	Nodes[0].split.coord[1] = NUMPOINTS - 1 ;
-	int woorking_node{0};
-	int last_node{0};
-	while ( woorking_node >= 0 ){
-		if ( Nodes[woorking_node].axis == (NDIM + 1) ){
-			kpoint* start{&( Grid[static_cast<int>(Nodes[woorking_node].split.coord[0])] )};
-			kpoint* end{&( Grid[static_cast<int>(Nodes[woorking_node].split.coord[1])] )};
-			if ( start == end){
-				Nodes[woorking_node].split = *start;			
-				Nodes[woorking_node].axis = 0;
-			}
-			else{
-				ksplit newsplit{axis_median(start, end)};
-				kpoint* newclosest{closest_to_median(start, end, newsplit.median, newsplit.axis)};
-				newsplit.median = newclosest -> coord[newsplit.axis];
-				// std::cout << "\n closest \n" << newclosest << "\t" << *newclosest << "\t" << "\n-----\n";
-				kpoint* mide{partition(newsplit.median, newsplit.axis, start, end)};	
-				// std::cout << "\n mide \n" << mide << "\n-----\n";
-
-				if ( start != mide ){
-					++last_node;
-					Nodes[last_node].axis = NDIM + 1;
-					Nodes[last_node].split.coord[0] = Nodes[woorking_node].split.coord[0];
-					Nodes[last_node].split.coord[1] = mide - start - 1 + Nodes[woorking_node].split.coord[0];
-					Nodes[woorking_node].left = &Nodes[last_node];
-					// std::cout << "\nHHHH\n" << Nodes[last_node].split.coord[1] << "\nHHHH\n" << std::endl;
-				}
-				if ( end != mide ){
-					++last_node;
-					Nodes[last_node].axis = NDIM + 1;
-					Nodes[last_node].split.coord[0] = mide - start + 1 + Nodes[woorking_node].split.coord[0];
-					Nodes[last_node].split.coord[1] = Nodes[woorking_node].split.coord[1];
-					Nodes[woorking_node].right = &Nodes[last_node];
-					// std::cout << "\nHHHH\n" << Nodes[last_node].split.coord[0] << "\nHHHH\n" << std::endl;
-				}
-
-				Nodes[woorking_node].split = *mide;
-				Nodes[woorking_node].axis = newsplit.axis;
-				// std::cout << Nodes[woorking_node]<< "\n" << std::endl;
-				woorking_node = last_node;
-			}
-			
-		}
-		else{
-			// std::cout << "\nworking_node:\t" << woorking_node << "\n";
-			--woorking_node;
-		}
-	}
-	t2 = std::chrono::high_resolution_clock::now();
-	std::cout << "\n\n############\n";
-	std::cout << "TIME ITERATIVE ALGORITHM\t"
-			  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
-			  << "\t milliseconds" << std::endl;
-	
-	// for ( auto &x : Grid )
-	// 	std::cout << x << "\t" << &x <<"\n";
-
-	t1 = std::chrono::high_resolution_clock::now();
-	knode* root{build_kdtree(&Grid_copy[0],(&Grid_copy[NUMPOINTS])-1, &Nodes_copy[0])};
+	knode* root{build_kdtree_recursive(&Grid[0],(&Grid[NUMPOINTS])-1, &Nodes[0])};
 	t2 = std::chrono::high_resolution_clock::now();
 	std::cout << "TIME RECURSIVE ALGORITHM\t"
 			  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
@@ -293,10 +244,10 @@ int main(int argc, char const *argv[])
 	std::cout << "\n\n############\n";
 
 	t1 = std::chrono::high_resolution_clock::now();
-	bool mammamia(Nodes[0]  == Nodes_copy[0]);
+	// bool mammamia(Nodes[0]  == Nodes_copy[0]);
 	bool equili(check_kdtree(&Nodes[0]));
 	t2 = std::chrono::high_resolution_clock::now();
-	std::cout << "COMPARISON\t" << mammamia << std::endl;
+	// std::cout << "COMPARISON\t" << mammamia << std::endl;
 	std::cout << "EQUILIBRIUM\t" << equili << std::endl;
 	std::cout << "TIME COMPARISON ALGORITHM\t"
 			  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
@@ -310,16 +261,16 @@ int main(int argc, char const *argv[])
 			  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
 			  << "\t milliseconds" << std::endl;
 
-	t1 = std::chrono::high_resolution_clock::now();
-	int h_copy{height(&Nodes_copy[0])};
-	t2 = std::chrono::high_resolution_clock::now();
-	std::cout << "TIME HEIGHT ALGORITHM\t"
-			  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
-			  << "\t milliseconds" << std::endl;
+	// t1 = std::chrono::high_resolution_clock::now();
+	// int h_copy{height(&Nodes_copy[0])};
+	// t2 = std::chrono::high_resolution_clock::now();
+	// std::cout << "TIME HEIGHT ALGORITHM\t"
+	// 		  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
+	// 		  << "\t milliseconds" << std::endl;
 
-	double teoretic_height{log2(NUMPOINTS+1)};
+	double teoretic_height{log2(NUMPOINTS+1)-1};
 
-	std::cout << "height:\t" << h << "\t" << h_copy << std::endl;
+	std::cout << "height:\t" << h << std::endl;
 	std::cout << "teoretic height:\t" << teoretic_height << std::endl;
 	
 
@@ -330,69 +281,152 @@ int main(int argc, char const *argv[])
 	return 0;
 }
 
-knode* build_kdtree(kpoint* low, kpoint* high, knode* node){
+knode* build_kdtree_recursive(kpoint* low, kpoint* high, knode* node){
 	if ( low == high ){
 		// if one point is available, return a leaf without any computation
 		node -> split = *low;
 		return node;		
 	}
 	static knode* node_working{node};
-	ksplit newsplit{axis_median(low,high)};
-	kpoint* newclosest{closest_to_median(low, high, newsplit.median, newsplit.axis)};
-	newsplit.median = newclosest -> coord[newsplit.axis];
-	kpoint* mide{partition(newsplit.median, newsplit.axis, low, high)};	
 
-	node -> split = *mide;
-	node -> axis = newsplit.axis;
-	
+	kpoint* mide{CORE_ALGORITHM(low,high,node)};
+
 	if ( low != mide ){
 		++node_working;
-		node -> left = build_kdtree(low, mide-1, node_working);
+		node -> left = build_kdtree_recursive(low, mide-1, node_working);
 	}
 	if ( high != mide ){
 		++node_working;
-		node -> right = build_kdtree(mide+1, high, node_working);
+		node -> right = build_kdtree_recursive(mide+1, high, node_working);
 	}
 	return node;
 }
 
 
-ksplit axis_median(kpoint* low, const kpoint* high){
-	// return a structure containing the most extense axis and its median
+kpoint* core_algorithm(kpoint* low, kpoint* high, knode* node){
+	ksplit newsplit{choosing_split(low,high)};
+
+	node -> split = *(newsplit.median_kpoint);
+	node -> axis = newsplit.axis;
+	return newsplit.median_kpoint;
+}
+
+kpoint* core_algorithm_sorting(kpoint* low, kpoint* high, knode* node){
 	std::vector<float_t> tmp(NDIM*2);
-	ksplit result;
 	int axis{0};
-	while ( low <= high ){
+	kpoint* low_func{low};
+	while ( low_func <= high ){
 		for ( int ax{0}; ax < NDIM; ++ax){
-			if ( low -> coord[ax] < tmp[ax*NDIM] )
-				tmp[ax*NDIM] = low ->coord[ax];
-			if ( low ->coord[ax] > tmp[ax*NDIM+1] )
-				tmp[ax*NDIM+1] = low ->coord[ax];
+			if ( low_func -> coord[ax] < tmp[ax*NDIM] )
+				tmp[ax*NDIM] = low_func ->coord[ax];
+			if ( low_func ->coord[ax] > tmp[ax*NDIM+1] )
+				tmp[ax*NDIM+1] = low_func ->coord[ax];
 		}
-		++low;
+		++low_func;
 	}
 	for ( int ax{0}; ax < NDIM; ++ax){
 			if ( (tmp[ax*NDIM + 1] - tmp[ax*NDIM]) > (tmp[axis*NDIM + 1] - tmp[axis*NDIM]))
 				axis = ax;
 	}
-	result.median =  (tmp[axis*NDIM + 1] + tmp[axis*NDIM])/2;
+
+	sorting(axis, low, high);
+	kpoint* mide{(int(high - low))/2 + low};
+
+	node -> split = *mide;
+	node -> axis = axis;
+	return mide;
+
+}
+
+ksplit choosing_split(kpoint* low, kpoint* high){
+	// return a structure containing the most extense axis and its median
+	std::vector<float_t> tmp(NDIM*2);
+	ksplit result;
+	int axis{0};
+	kpoint* low_func{low};
+	while ( low_func <= high ){
+		for ( int ax{0}; ax < NDIM; ++ax){
+			if ( low_func -> coord[ax] < tmp[ax*NDIM] )
+				tmp[ax*NDIM] = low_func ->coord[ax];
+			if ( low_func ->coord[ax] > tmp[ax*NDIM+1] )
+				tmp[ax*NDIM+1] = low_func ->coord[ax];
+		}
+		++low_func;
+	}
+	for ( int ax{0}; ax < NDIM; ++ax){
+			if ( (tmp[ax*NDIM + 1] - tmp[ax*NDIM]) > (tmp[axis*NDIM + 1] - tmp[axis*NDIM]))
+				axis = ax;
+	}
+
+
+	kpoint* closest{select(low, high, int((high-low)/2), axis ) };
+
 	result.axis = axis;
+	result.median_kpoint = closest;
 	return result;
 }
 
-
-kpoint* closest_to_median(kpoint* low, const kpoint* high, const float_t median, const int axis){	
-	// return the pointer to the closest kpoint to the median, given a dimension axis
-	kpoint* closest{low};
-	float_t dist{std::abs( low -> coord[axis] - median)};
-	while ( low <= high ){
-		if ( std::abs( low -> coord[axis] - median) < dist ){
-			dist = std::abs( low -> coord[axis] - median);
-			closest = low;
-		}
-		++low;
+kpoint* select(kpoint* start, kpoint* end, const int position, const int axis){
+	if ( start == end )
+		return start;
+	if ( end - start < 5){
+		sorting(axis, start, end);
+		return (int(end - start))/2 + start;
 	}
-	return closest;
+
+	kpoint* start_tmp{start};
+	int size{int((end-start)/5) + ((end-start)%5>0)};
+	std::vector<kpoint> tmp;
+	int start_index{0};
+	
+	while ( start_tmp + 4 <= end ){
+		sorting(axis, start_tmp, start_tmp + 4);
+		tmp[start_index] = *(start_tmp+2);
+		++start_index;
+		start_tmp += 5;
+	}
+	if ( (start_tmp < end) && (start_tmp + 4 > end) ){
+		sorting(axis, start_tmp, end);
+		tmp[start_index] = *((int(end - start_tmp))/2 + start_tmp);
+	}
+
+	kpoint* mide{select(&tmp[0], &tmp[tmp.size()-1], int(size/2), axis)};
+
+	mide = partition( mide->coord[axis], axis, start, end );
+
+	if ( (mide - start) == position )
+		return mide;
+	else if ( (mide - start) > position )
+		return select(start, --mide, position, axis);
+	else if ( (mide - start) < position )
+		return select(++mide, end, position - (mide - start), axis);
+}
+
+
+bool check_sorting( const int axis, kpoint* low, kpoint* high){
+	if ( low == high )
+		return true;
+	kpoint* tmp{low};
+	++low;
+	while ( low <= high - 1){
+		if ( tmp -> coord[axis] > low -> coord[axis])
+			return false;
+		++low;
+		++tmp;
+	}
+	return true;
+}
+
+void sorting(const int axis, kpoint* low, kpoint* high){
+	if ( low == high )
+		return ;
+	kpoint* median{(int(high - low))/2 + low};
+	median = partition(median->coord[axis], axis, low, high);
+	if ( low != median )
+		sorting( axis , low , median - 1);
+	if ( high != median )
+		sorting( axis , median + 1, high);
+	return;
 }
 
 kpoint* partition( const float_t median, const int axis, kpoint* low, kpoint* high){
@@ -415,46 +449,108 @@ kpoint* partition( const float_t median, const int axis, kpoint* low, kpoint* hi
 	}
 	return --mid;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
-
-	ksplit newsplit{axis_median(&Grid[0], &Grid[NUMPOINTS]-1)};
-
-	kpoint* newclosest{closest_to_median(&Grid[0], &Grid[NUMPOINTS] -1 , newsplit.median, newsplit.axis)};
-
-	newsplit.median = newclosest -> coord[newsplit.axis];
-
-	kpoint* mide{partition(newsplit.median, newsplit.axis, &Grid[0], &Grid[NUMPOINTS] - 1)};	
-*/
-/*
+	t1 = std::chrono::high_resolution_clock::now();
+	knode* base{build_kdtree_iterative(&Grid[0],(&Grid[NUMPOINTS])-1, Nodes)};
+	t2 = std::chrono::high_resolution_clock::now();
 	std::cout << "\n\n############\n";
-	
-	for ( auto &x : Grid )
-		std::cout << x << "\t" << &x <<"\n";
+	std::cout << "TIME ITERATIVE ALGORITHM\t"
+			  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
+			  << "\t milliseconds" << std::endl;
 */
-	//_____________________________________________
-	// // grid copy
-	// for ( auto i{0}; i < NUMPOINTS; ++i){
-	// 	Nodes[i].axis = 0;
-	// 	Nodes_copy[i].axis = 0;
-	// 	Nodes[i].split = Grid[i];
-	// 	Nodes_copy[i].split = Grid[i];
-	// 	if ( i < NUMPOINTS - 1){
-	// 		Nodes[i].left = &(Nodes[0]);
-	// 		Nodes_copy[i].left = &(Nodes_copy[i+1]);
-	// 	}
-	// }
-	// //_____________________________________________
-	// // grid copy
-	// bool cos;
-	// for ( auto i{0}; i < NUMPOINTS; ++i){
-	// 	cos = (Nodes_copy[i] == Nodes[i]);
-	// 	std::cout << cos << std::endl;
-	// }
-	// //_____________________________________________
 /*
-	std::cout << "sizeof(kpoint):\t" << sizeof(kpoint) << std::endl;
-	std::cout << "sizeof(knode):\t" << sizeof(knode) << std::endl;
-	std::cout << "sizeof(ksplit):\t" << sizeof(ksplit) << std::endl;
-	std::cout << "typeid(float_t).name():\t" << typeid(float_t).name() << std::endl;
-	std::cout << "typeid(double).name():\t" << typeid(double).name() << std::endl;
+knode* build_kdtree_iterative(kpoint* low, kpoint* high, std::vector<knode>& Nodes){
+	Nodes[0].axis = NDIM + 1;
+	Nodes[0].split.coord[0] = 0;
+	Nodes[0].split.coord[1] = NUMPOINTS - 1 ;
+	int woorking_node{0};
+	int last_node{0};
+	while ( woorking_node >= 0 ){
+		if ( Nodes[woorking_node].axis == (NDIM + 1) ){
+			kpoint* start{&( Grid[static_cast<int>(Nodes[woorking_node].split.coord[0])] )};
+			kpoint* end{&( Grid[static_cast<int>(Nodes[woorking_node].split.coord[1])] )};
+			if ( start == end){
+				Nodes[woorking_node].split = *start;			
+				Nodes[woorking_node].axis = 0;
+			}
+			else{
+				kpoint* mide{core_algorithm(low,high,node)};	
+
+				if ( start != mide ){
+					++last_node;
+					Nodes[last_node].axis = NDIM + 1;
+					Nodes[last_node].split.coord[0] = Nodes[woorking_node].split.coord[0];
+					Nodes[last_node].split.coord[1] = mide - start - 1 + Nodes[woorking_node].split.coord[0];
+					Nodes[woorking_node].left = &Nodes[last_node];
+				}
+				if ( end != mide ){
+					++last_node;
+					Nodes[last_node].axis = NDIM + 1;
+					Nodes[last_node].split.coord[0] = mide - start + 1 + Nodes[woorking_node].split.coord[0];
+					Nodes[last_node].split.coord[1] = Nodes[woorking_node].split.coord[1];
+					Nodes[woorking_node].right = &Nodes[last_node];
+				}
+				woorking_node = last_node;
+			}
+			
+		}
+		else{
+			--woorking_node;
+		}
+	}
+}
 */
