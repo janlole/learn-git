@@ -152,6 +152,7 @@ typedef kpoint* (COMP)(kpoint*,kpoint*, knode*, int);
 template<COMP choosen_algorithm>
 knode* build_kdtree_recursive(kpoint* low, kpoint* high, knode* node, int depth);
 
+template<COMP choosen_algorithm>
 void build_kdtree_iterative(kpoint* first_kpoint, knode* node);
 
 void sorting(const int axis, kpoint* low, kpoint* high);
@@ -293,7 +294,7 @@ int main(int argc, char const *argv[])
 	auto t2 = std::chrono::high_resolution_clock::now();
 
 	t1 = std::chrono::high_resolution_clock::now();
-	knode* root{build_kdtree_recursive<core_algorithm>(&Grid[0],(&Grid[NUMPOINTS])-1, &Nodes[0], 0)};
+	knode* root{build_kdtree_recursive<core_algorithm_sorting>(&Grid[0],(&Grid[NUMPOINTS])-1, &Nodes[0], 0)};
 	t2 = std::chrono::high_resolution_clock::now();
 	std::cout << "TIME RECURSIVE ALGORITHM-core_algorithm\t"
 			  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
@@ -313,7 +314,7 @@ int main(int argc, char const *argv[])
 	Nodes_copy[0].axis = NDIM ;
 	Nodes_copy[0].split.coord[0] = 0;
 	Nodes_copy[0].split.coord[1] = NUMPOINTS - 1 ;
-	build_kdtree_iterative(&Grid_copy[0], &Nodes_copy[0]);
+	build_kdtree_iterative<core_algorithm_sorting>(&Grid_copy[0], &Nodes_copy[0]);
 	t2 = std::chrono::high_resolution_clock::now();
 	std::cout << "\n\n############\n\n";
 	std::cout << "TIME ITERATIVE ALGORITHM\t"
@@ -412,6 +413,7 @@ int main(int argc, char const *argv[])
 
 	return 0;
 }
+template<COMP choosen_algorithm>
 void build_kdtree_iterative(kpoint* first_kpoint, knode* node){
 	knode* working_node{node};	knode* last_node{node};
 	int axis{0}; kpoint* mide; 
@@ -426,17 +428,30 @@ void build_kdtree_iterative(kpoint* first_kpoint, knode* node){
 			}
 			else{
 				axis = working_node->axis - NDIM ;
-				std::cout << "before core\t" << end - start << std::endl;
-				mide = core_algorithm(start,end,working_node,axis);
-				std::cout << "after core\n";
+				#if defined(DEBUG)
+					std::cout << "before core\t" << end - start  << "\n"
+							  << "start\t" << start << "\t" << start - first_kpoint << "\n"
+							  << "end\t" << end << "\t" << end - first_kpoint << "\n"
+							  << std::endl;
+				#endif
+				mide = choosen_algorithm(start,end,working_node,axis);
+				#if defined(DEBUG)
+					std::cout << "after core\t" << end - start  << "\n"
+							  << "start\t" << start << "\t" << start - first_kpoint << "\n"
+							  << "mide\t" << mide << "\t" << mide - first_kpoint << "\n"
+							  << "end\t" << end << "\t" << end - first_kpoint << "\n"
+							  << "mide - start - 1\t" << mide - first_kpoint - 1 << "\n"
+							  << "mide - start + 1\t" << mide - first_kpoint + 1 << "\n"
+							  << std::endl;
+				#endif
 				axis = (axis + 1)%NDIM + NDIM; 
 
 				if ( start != mide ){
 					++last_node;
 					// std::cout << "segmantation fault here\n";
 					last_node -> axis = axis ;
-					last_node -> split[0] = (first_kpoint - start);
-					last_node -> split[1] = mide - start - 1  + (first_kpoint - start);
+					last_node -> split[0] = (start - first_kpoint);
+					last_node -> split[1] = mide - first_kpoint - 1 ;
 					
 					working_node -> left = last_node;
 				}
@@ -444,7 +459,7 @@ void build_kdtree_iterative(kpoint* first_kpoint, knode* node){
 					++last_node;
 					// std::cout << "segmantation fault NOT here\n";
 					last_node -> axis = axis ;
-					last_node -> split[0] = mide - start + 1  + (first_kpoint - start);
+					last_node -> split[0] = mide - first_kpoint + 1;
 					last_node -> split[1] = (end - first_kpoint);
 					
 					working_node -> right = last_node;
@@ -456,7 +471,7 @@ void build_kdtree_iterative(kpoint* first_kpoint, knode* node){
 		else{
 			--working_node;
 		}
-		std::cout << working_node << std::endl;
+		// std::cout << working_node << std::endl;
 
 	}
 }
