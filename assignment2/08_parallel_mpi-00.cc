@@ -4,6 +4,7 @@
 #include <memory>
 #include <cmath>
 #include <chrono>
+#include "mpi.h"
 
 
 #if !defined(NDIM)
@@ -28,10 +29,12 @@
 #define NUMPOINTS 32767
 #endif
 
-#if !defined(DOUBLE_PRECISION)
+#if !defined(DOUBLE_PRECISION_KPOINT)
 #define float_t float
+#define MPI_float_t MPI_FLOAT
 #else
 #define float_t double
+#define MPI_float_t MPI_DOUBLE
 #endif
 
 
@@ -115,11 +118,6 @@ struct knode
 	}
 };
 
-struct ksplit
-{
-	int axis;
-	kpoint* median_kpoint;
-};
 
 std::ostream& operator<<(std::ostream& os, const kpoint& p) {
 	for (const auto& x : p)
@@ -154,6 +152,9 @@ knode* build_kdtree_recursive(kpoint* low, kpoint* high, knode* node, int depth)
 
 template<COMP choosen_algorithm>
 void build_kdtree_iterative(kpoint* first_kpoint, knode* node);
+
+template<COMP choosen_algorithm>
+kpoint* build_one_knode(kpoint* first_kpoint, kpoint* last_kpoint, knode* node, int axis);
 
 void sorting(const int axis, kpoint* low, kpoint* high);
 
@@ -197,61 +198,16 @@ bool check_kdtree(knode* node){
 	check_kdtree(node->right) && check_kdtree(node->left);
 }
 
-knode* wrong_node( knode* node ){
-	if ( (node -> left != nullptr ) && ( node -> right == nullptr ) ){
-		if ( (node->split.coord[node->axis] >= node->left->split.coord[node->axis]) )
-			return wrong_node(node->left);
-		else
-			return node;
-	}
-	if ( (node -> left == nullptr ) && ( node -> right != nullptr ) ){
-		if ( (node->split.coord[node->axis] <= node->right->split.coord[node->axis]) )
-			return wrong_node(node->right);
-		else
-			return node;
-	}
-	if ( ((node -> left) != nullptr ) && ( (node -> right) != nullptr ) ){
-		if ( (node->split.coord[node->axis] <= node->right->split.coord[node->axis])  && 
-			(node->split.coord[node->axis] >= node->left->split.coord[node->axis]) ){
-			if ( ! check_kdtree(node->left))
-				return wrong_node(node-> left);
-			else if ( ! check_kdtree(node->right))
-				return wrong_node(node-> right);
-			else nullptr;
-		}
-		else{
-			return node;
-		}
-	}
-	return nullptr;
-
-}
-
-knode* find_kpoint(knode* node, kpoint target){
-	if ( node->split == target )
-		return node;
-	if ( node->left != nullptr ){
-		knode* tmp {find_kpoint( node->left, target)};
-		if ( tmp != nullptr)
-			return tmp;
-	}
-	if ( node->right != nullptr ){
-		knode* tmp {find_kpoint( node->right, target)};
-		if ( tmp != nullptr)
-			return tmp;
-	}
-	return nullptr;
-}
 knode* find_kpoint_fast(knode* node, kpoint target){
 	if ( node->split == target )
 		return node;
 	if ( node->left != nullptr && (target[node->axis] <= node->split[node->axis]) ){
-		knode* tmp {find_kpoint( node->left, target)};
+		knode* tmp {find_kpoint_fast( node->left, target)};
 		if ( tmp != nullptr)
 			return tmp;
 	}
 	if ( node->right != nullptr && (target[node->axis] >= node->split[node->axis])){
-		knode* tmp {find_kpoint( node->right, target)};
+		knode* tmp {find_kpoint_fast( node->right, target)};
 		if ( tmp != nullptr)
 			return tmp;
 	}
@@ -261,47 +217,192 @@ knode* find_kpoint_fast(knode* node, kpoint target){
 
 
 
-int main(int argc, char const *argv[])
+int main(int argc, char *argv[])
 {
-	std::cout << "sizeof(float_t):\t" << sizeof(float_t) << std::endl;
-	std::cout << "NUMPOINTS:\t" << NUMPOINTS << std::endl;
+	const int root{0};
+	int numproc,rank;
+	MPI_Init(&argc,&argv);
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	MPI_Comm_size(MPI_COMM_WORLD, &numproc);
+	
+	// MPI_KPOINT AND MPI_KNODE DATATYPE
+	struct kpoint dummy_kpoint;
+	MPI_Datatype MPI_KPOINT;
+	int blocklens[1] = {1};
+	MPI_Aint indices[1];
+	MPI_Datatype old_type[1];
+	old_type[0] = MPI_float_t;
+	MPI_Get_address( &dummy_kpoint.coord, &indices[0]);
+	indices[0] = 0;
+	MPI_Type_create_struct(1, blocklens, indices, old_type, &MPI_KPOINT );
+	MPI_Type_commit(&MPI_KPOINT);
 
-	std::vector<kpoint> Grid(NUMPOINTS);
-	std::vector<kpoint> Grid_copy(NUMPOINTS);
-	std::vector<knode> Nodes(NUMPOINTS);
-	std::vector<knode> Nodes_copy(NUMPOINTS);
+	struct knode dummy_knode;
+	MPI_Datatype MPI_KNODE;
+	int blocklens_knode[4] = {1,1,1,1};
+	MPI_Aint indices_knode[4];
+	MPI_Aint base_address;
+	MPI_Get_address(&dummy_knode, &base_address);
+	MPI_Get_address(&dummy_knode.axis, &indices_knode[0]);
+	MPI_Get_address(&dummy_knode.split, &indices_knode[1]);
+	MPI_Get_address(&dummy_knode.left, &indices_knode[2]);
+	MPI_Get_address(&dummy_knode.right, &indices_knode[3]);
+	indices_knode[0] = MPI_Aint_diff(indices_knode[0], base_address);
+	indices_knode[1] = MPI_Aint_diff(indices_knode[1], base_address);
+	indices_knode[2] = MPI_Aint_diff(indices_knode[2], base_address);
+	indices_knode[3] = MPI_Aint_diff(indices_knode[3], base_address);
+	MPI_Datatype old_type_knode[4] = {MPI_INT, MPI_KPOINT, MPI_AINT, MPI_AINT};
+	MPI_Type_create_struct(4, blocklens_knode, indices_knode, old_type_knode, &MPI_KNODE);
+	MPI_Type_commit(&MPI_KNODE);
+	
+	//_____________________________________________
 
-
-	// Random assignment
-	std::uniform_real_distribution<float_t> unif(-LIMIT,LIMIT);
-	std::default_random_engine re{static_cast<long unsigned int>(SEED)};
-
-	for ( auto& x : Grid ){
-		for ( auto& y : x){
-			y = unif(re);
-			for (auto warm{0}; warm < 10; ++warm)
-				unif(re);
+	// to be more precise: the child cores need less space than the parent ones (exactly (parent's kpoint - 1)/2)
+	// and it is decided from the start, so here must be already set
+	// BUT due to the fact that actually there could be some problem when NUMPOINTS is not a power of two, 
+	// I decided to keep the size one ore two kpoints larger
+	int n_step{3};
+	int sub_tree_size;
+	for ( auto step{0}; step < n_step; ++step){
+		if (rank < pow(2,step+1) && rank >= pow(2,step)){
+			sub_tree_size = std::ceil(NUMPOINTS/(pow(2,step)));
 		}
 	}
-	// grid copy
-	for ( auto i{0}; i < NUMPOINTS; ++i){
-		Grid_copy[i] = Grid[i];
-	}
-
-	//_____________________________________________
+	std::vector<kpoint> Grid(sub_tree_size);
+	std::vector<knode> Nodes(sub_tree_size);
+	
+	std::vector<kpoint> Grid_copy(NUMPOINTS);
+	std::vector<knode> Nodes_copy(NUMPOINTS);
 
 	auto t1 = std::chrono::high_resolution_clock::now();
 	auto t2 = std::chrono::high_resolution_clock::now();
 
-	t1 = std::chrono::high_resolution_clock::now();
-	knode* root{build_kdtree_recursive<core_algorithm>(&Grid[0],(&Grid[NUMPOINTS])-1, &Nodes[0], 0)};
-	t2 = std::chrono::high_resolution_clock::now();
-	std::cout << "TIME RECURSIVE ALGORITHM-core_algorithm\t"
-			  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
-			  << "\t milliseconds" << std::endl;
+	// Random assignment and tree of control
+	std::uniform_real_distribution<float_t> unif(-LIMIT,LIMIT);
+	std::default_random_engine re{static_cast<long unsigned int>(SEED)};
+
+	MPI_Status status;
+
+	if ( rank == root ){
+		for ( auto& x : Grid ){
+			for ( auto& y : x){
+				y = unif(re);
+				for (auto warm{0}; warm < 10; ++warm)
+					unif(re);
+			}
+		}
+		// grid copy
+		for ( auto i{0}; i < NUMPOINTS; ++i){
+			Grid_copy[i] = Grid[i];
+		}
+		t1 = std::chrono::high_resolution_clock::now();
+		build_kdtree_recursive<core_algorithm>(&Grid_copy[0],(&Grid_copy[NUMPOINTS])-1, &Nodes_copy[0], 1);
+		t2 = std::chrono::high_resolution_clock::now();
+		std::cout << "TEST KDtree\n"
+				  << "TIME RECURSIVE ALGORITHM-core_algorithm\t"
+				  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
+				  << "\t milliseconds" << std::endl;
+
+		std::cout << "i am sending\t" << Nodes_copy[0] << std::endl;
+		MPI_Send(&Nodes_copy[0], 4, MPI_KNODE, 1, 0, MPI_COMM_WORLD);
+	}
+
+	//_____________________________________________
+
+	if (rank == 1){
+		std::cout << "before recv\t" << Nodes[0] << std::endl;
+		MPI_Recv(&Nodes[0], 4, MPI_KNODE, 0, 0, MPI_COMM_WORLD, &status);
+		std::cout << "after recv\t" << Nodes[0] << std::endl;
+	}
+
+	kpoint* first_kpoint{&Grid[0]};
+	kpoint* mide;
+	kpoint* last_kpoint{&Grid[NUMPOINTS-1]}; 
+	knode* working_node{&Nodes[0]};
+	knode* relink_node; knode* relink_node_received; knode* tmp_knode_ptr_1; 
+	int axis{0}, process_message, size_message;
+
+	// step is the number of sending messages and 2^(step+1) is total number of process
+	for (auto step{0}; step < n_step; ++step){
+		if (rank < pow(2,step) ){
+			// construct one node with saved information
+			axis = (axis + 1)%NDIM; 
+			std::cout << "I'm processor\t" << rank << "\t and my working axis is\t" << axis << std::endl;
+			std::cout << "I'm processor\t" << rank << "\t and step is\t" << step << "\t" 
+					  << ""
+					  << std::endl;
+
+			mide = build_one_knode<core_algorithm>(first_kpoint, last_kpoint, working_node, axis);
+			// send instruction for build next node to the (rank + 2^step) core
+			process_message = rank + pow(2,step);
+			MPI_Send(mide+1, (last_kpoint - mide) + 1, MPI_KPOINT, process_message,0, MPI_COMM_WORLD );
+			// axis is needed only if there is no WIDDE_AXIS activate (note WIDE_AXIS must be set yet)
+			MPI_Send(&axis, 1, MPI_INT, process_message, 0, MPI_COMM_WORLD); 
+			// pointer to the node that will be construct by the other process 
+			// (that will be usefull to "re-link" togheter the substrees)
+			MPI_Send(&working_node, 1, MPI_AINT, process_message, 0, MPI_COMM_WORLD); 
+			// save information to reconstruct the kdtree
+			working_node = working_node -> left;
+			last_kpoint = mide - 1;
+		}
+		else if (rank < pow(2,step+1) && rank >= pow(2,step)){
+			process_message = rank - pow(2,step);
+			// receive information from (rank - 2^step) core
+			MPI_Probe(process_message, 0, MPI_COMM_WORLD, &status);
+		    MPI_Get_count(&status, MPI_INT, &size_message);
+			MPI_Recv(&Grid[0], size_message , MPI_KPOINT, process_message, 0 , MPI_COMM_WORLD, &status);
+			MPI_Recv(&axis, 1, MPI_INT, process_message, 0, MPI_COMM_WORLD, &status); // axis
+			MPI_Recv(&relink_node, 1, MPI_AINT, process_message, 0, MPI_COMM_WORLD, &status); // SAVE THE POINTER SOMEWHERE TO RELINK THE SUBTREES
+			// save information for the job( arguments of core algorithm function)
+			first_kpoint = &Grid[0];
+			last_kpoint = &Grid[0] + size_message - 1;
+		}
+	}
+
+	build_kdtree_recursive<core_algorithm>(first_kpoint, last_kpoint, working_node, axis+1);
+	std::cout<< "I'm processor\t" << rank << "\tand i complete my sub-tree\n";
+
+	// step is the number of sending messages and 2^(step+1) is total number of process
+	for (auto step{n_step-1}; step >= 0; --step){
+		if (rank < pow(2,step+1) && rank >= pow(2,step)){
+			process_message = rank - pow(2,step);
+			// send subtree and the link address to (rank - 2^step) core
+			MPI_Send(&Nodes[0], working_node - &Nodes[0] + 1 , MPI_KNODE, process_message, 0 , MPI_COMM_WORLD);
+			MPI_Send(&relink_node, 1, MPI_AINT, process_message, 0, MPI_COMM_WORLD); 
+			tmp_knode_ptr_1 = &Nodes[0];
+			MPI_Send(&tmp_knode_ptr_1, 1, MPI_AINT, process_message, 0, MPI_COMM_WORLD); 
+		}
+		if (rank < pow(2,step) ){
+			process_message = rank + pow(2,step);
+			// send instruction for build next node to the (rank + 2^step) core
+			MPI_Probe(process_message, 0, MPI_COMM_WORLD, &status);
+		    MPI_Get_count(&status, MPI_INT, &size_message);
+			MPI_Recv(1 + working_node, size_message, MPI_KNODE, process_message,0, MPI_COMM_WORLD , &status);
+			MPI_Recv(&relink_node_received, 1, MPI_AINT, process_message, 0, MPI_COMM_WORLD, &status); 
+
+			// link process
+			relink_node_received -> right = 1 + working_node;
+			// re-arrange addresses of the committed/received subtree
+			
+			MPI_Recv(&relink_node_received, 1, MPI_AINT, process_message, 0, MPI_COMM_WORLD, &status); 
+			knode* tmp_knode_ptr{1+working_node};
+			while ( tmp_knode_ptr < 1+working_node + size_message ){
+				tmp_knode_ptr -> left = tmp_knode_ptr->left - relink_node_received + working_node + 1;
+				tmp_knode_ptr -> right = tmp_knode_ptr->right - relink_node_received + working_node +1;
+				++tmp_knode_ptr;
+			}
+			working_node = tmp_knode_ptr;
+		}
+	}
+
+
+
+
+
+
 
 	// t1 = std::chrono::high_resolution_clock::now();
-	// knode* root_s{build_kdtree_recursive<core_algorithm_sorting>(&Grid_copy[0],(&Grid_copy[NUMPOINTS])-1, &Nodes_copy[0], 0)};
+	// build_kdtree_recursive<core_algorithm_sorting>(&Grid_copy[0],(&Grid_copy[NUMPOINTS])-1, &Nodes_copy[0], 0);
 	// t2 = std::chrono::high_resolution_clock::now();
 	// std::cout << "TIME RECURSIVE ALGORITHM-core_algorithm_sorting\t"
 	// 		  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
@@ -310,16 +411,17 @@ int main(int argc, char const *argv[])
 	// OUTSIDE FUNCTION: first node must be set before the function call 
 	// the idea is that it can be set and construct by different processes
 
-	t1 = std::chrono::high_resolution_clock::now();
-	Nodes_copy[0].axis = NDIM ;
-	Nodes_copy[0].split.coord[0] = 0;
-	Nodes_copy[0].split.coord[1] = NUMPOINTS - 1 ;
-	build_kdtree_iterative<core_algorithm>(&Grid_copy[0], &Nodes_copy[0]);
-	t2 = std::chrono::high_resolution_clock::now();
-	std::cout << "\n\n############\n\n";
-	std::cout << "TIME ITERATIVE ALGORITHM\t"
-			  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
-			  << "\t milliseconds" << std::endl;
+	// t1 = std::chrono::high_resolution_clock::now();
+	// Nodes_copy[0].axis = NDIM ;
+	// Nodes_copy[0].split.coord[0] = 0;
+	// Nodes_copy[0].split.coord[1] = NUMPOINTS - 1 ;
+	// build_kdtree_iterative<core_algorithm>(&Grid_copy[0], &Nodes_copy[0]);
+	// t2 = std::chrono::high_resolution_clock::now();
+	// std::cout << "\n\n############\n\n";
+	// std::cout << "TIME ITERATIVE ALGORITHM\t"
+	// 		  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
+	// 		  << "\t milliseconds" << std::endl;
+
 
 
 	#if defined(CHECK_CORRECTNESS)
@@ -349,6 +451,7 @@ int main(int argc, char const *argv[])
 			}
 			
 			std::cout << "\n\n############\n\n";
+			std::cout << "sizeof(float_t):\t" << sizeof(float_t) << std::endl;
 			std::cout << "NUMBER OF POINTS WHICH WILL BE CHECKED\t" << num_point*2 << "\n" <<std::endl;
 			if (count_not_found){
 				std::cout << "EXISTENCE TEST\t FAILED\n"
@@ -397,9 +500,42 @@ int main(int argc, char const *argv[])
 				std::cout << "NUMBER KPOINT TEST\t PASSED\n";
 
 			std::cout << "\n\n###########\n\n";
+
 	#endif
 
+
+
+
+
+	MPI_Finalize();
 	return 0;
+}
+template<COMP choosen_algorithm>
+kpoint* build_one_knode(kpoint* first_kpoint, kpoint* last_kpoint, knode* node, int axis){
+	knode* last_node{node};
+	kpoint* mide; 
+	if ( first_kpoint == last_kpoint){
+		node -> split = *first_kpoint;			
+		node -> axis = 0;
+	}
+	else{
+		mide = choosen_algorithm(first_kpoint,last_kpoint,node,axis);
+		if ( first_kpoint != mide ){
+			++last_node;
+			last_node -> axis = NDIM ;			
+			node -> left = last_node;
+		}
+		if ( last_kpoint != mide ){
+			// if we do not allocate memory for the right node the "re-link" will be simplier
+			// just send the address of the node that do not have the right child yet
+			// then re-send that address to the parent core so it can set on that address the correct right-child-subtree
+
+			// ++last_node;
+			// last_node -> axis = NDIM ;			
+			// node -> right = last_node;
+		}
+	}
+	return mide;
 }
 template<COMP choosen_algorithm>
 void build_kdtree_iterative(kpoint* first_kpoint, knode* node){
@@ -416,27 +552,11 @@ void build_kdtree_iterative(kpoint* first_kpoint, knode* node){
 			}
 			else{
 				axis = working_node->axis - NDIM ;
-				#if defined(DEBUG)
-					std::cout << "before core\t" << end - start  << "\n"
-							  << "start\t" << start << "\t" << start - first_kpoint << "\n"
-							  << "end\t" << end << "\t" << end - first_kpoint << "\n"
-							  << std::endl;
-				#endif
 				mide = choosen_algorithm(start,end,working_node,axis);
-				#if defined(DEBUG)
-					std::cout << "after core\t" << end - start  << "\n"
-							  << "start\t" << start << "\t" << start - first_kpoint << "\n"
-							  << "mide\t" << mide << "\t" << mide - first_kpoint << "\n"
-							  << "end\t" << end << "\t" << end - first_kpoint << "\n"
-							  << "mide - start - 1\t" << mide - first_kpoint - 1 << "\n"
-							  << "mide - start + 1\t" << mide - first_kpoint + 1 << "\n"
-							  << std::endl;
-				#endif
 				axis = (axis + 1)%NDIM + NDIM; 
 
 				if ( start != mide ){
 					++last_node;
-					// std::cout << "segmantation fault here\n";
 					last_node -> axis = axis ;
 					last_node -> split[0] = (start - first_kpoint);
 					last_node -> split[1] = mide - first_kpoint - 1 ;
@@ -445,7 +565,6 @@ void build_kdtree_iterative(kpoint* first_kpoint, knode* node){
 				}
 				if ( end != mide ){
 					++last_node;
-					// std::cout << "segmantation fault NOT here\n";
 					last_node -> axis = axis ;
 					last_node -> split[0] = mide - first_kpoint + 1;
 					last_node -> split[1] = (end - first_kpoint);
@@ -476,7 +595,6 @@ knode* build_kdtree_recursive(kpoint* low, kpoint* high, knode* node, int depth)
 		// the following code allow the algorithm to search for the axis with the most
 		// wide extension, instead of a symple 
 		std::vector<float_t> tmp(NDIM*2);
-		ksplit result;
 		int axis{0};
 		kpoint* low_func{low};
 		while ( low_func <= high ){
@@ -631,52 +749,83 @@ kpoint* partition( const float_t median, const int axis, kpoint* low, kpoint* hi
 	return tmplow;
 }
 
+/*
+	#if defined(CHECK_CORRECTNESS)
+			knode* research;
+			int count_not_found{0};
+			int num_point{(std::min(NUMPOINTS, int(pow(2,10) -1) ))};
+			for ( auto kpoint_target {0}; kpoint_target < num_point; ++kpoint_target ){
+				research = find_kpoint_fast(&Nodes[0], Grid[kpoint_target]);
+				if ( research == nullptr ){
+					++count_not_found;
+				}
+				research = find_kpoint_fast(&Nodes[0], Grid[NUMPOINTS - 1 - kpoint_target]);
+				if ( research == nullptr ){
+					++count_not_found;
+				}
+			}
+			count_not_found = 0;
+			for ( auto kpoint_target {0}; kpoint_target < num_point; ++kpoint_target ){
+				research = find_kpoint_fast(&Nodes_copy[0], Grid_copy[kpoint_target]);
+				if ( research == nullptr ){
+					++count_not_found;
+				}
+				research = find_kpoint_fast(&Nodes_copy[0], Grid_copy[NUMPOINTS - 1 - kpoint_target]);
+				if ( research == nullptr ){
+					++count_not_found;
+				}
+			}
+			
+			std::cout << "\n\n############\n\n";
+			std::cout << "sizeof(float_t):\t" << sizeof(float_t) << std::endl;
+			std::cout << "NUMBER OF POINTS WHICH WILL BE CHECKED\t" << num_point*2 << "\n" <<std::endl;
+			if (count_not_found){
+				std::cout << "EXISTENCE TEST\t FAILED\n"
+						  << "number of points not found\t" << count_not_found << std::endl;
+			}
+			else
+				std::cout << "EXISTENCE TEST\t PASSED\n";
 
+			std::cout << "\n\n###########\n\n";
 
+			int h{height(&Nodes[0])};
+			int h_sort{height(&Nodes_copy[0])};
+			int teoretic_height{static_cast<int>(std::ceil(log2(NUMPOINTS+1)-1))};
+			if ( (h - teoretic_height) | (h_sort - teoretic_height)){
+				std::cout << "HEIGHT TEST\t FAILED\n"
+						  << "teoretic height:\t" << teoretic_height << "\theight:\t" << h << "\theight_copy:\t" << h_sort << std::endl;
+			}
+			else
+				std::cout << "HEIGHT TEST\t PASSED\n";
 
+			std::cout << "\n\n###########\n\n";
+			
+			bool mammamia(Nodes[0]  == Nodes_copy[0]);
+			std::cout << "COMPARISON\t" << mammamia << std::endl;
 
+			std::cout << "\n\n###########\n\n";
+			
+			bool equili(check_kdtree(&Nodes[0]));
+			bool equili_sort(check_kdtree(&Nodes_copy[0]));
+			if ( !equili | !equili_sort){
+				std::cout << "BALANCE TEST\t FAILED\n"
+						  << "EQUILIBRIUM Nodes\t" << equili << "\tEQUILIBRIUM_copy\t" << equili_sort << std::endl;
+			}
+			else
+				std::cout << "BALANCE TEST\t PASSED\n";
 
+			std::cout << "\n\n###########\n\n";
+			int tot_nod{ count_subtree(&Nodes[0], h)};
+			int tot_nod_co{count_subtree(&Nodes_copy[0], h_sort)};
+			
+			if ( (NUMPOINTS - tot_nod) | (NUMPOINTS - tot_nod_co)){
+				std::cout << "NUMBER KPOINT TEST\t FAILED\n"
+						  << "TOTAL KPOINTS Nodes\t" << tot_nod << "\tTOTAL KPOINTS_copy\t" << tot_nod_co << "\tTOTAL original KPOINTS \t" << NUMPOINTS << std::endl;
+			}
+			else
+				std::cout << "NUMBER KPOINT TEST\t PASSED\n";
 
+			std::cout << "\n\n###########\n\n";
+	#endif
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/

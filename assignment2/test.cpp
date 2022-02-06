@@ -294,7 +294,7 @@ int main(int argc, char const *argv[])
 	auto t2 = std::chrono::high_resolution_clock::now();
 
 	t1 = std::chrono::high_resolution_clock::now();
-	knode* root{build_kdtree_recursive<core_algorithm>(&Grid[0],(&Grid[NUMPOINTS])-1, &Nodes[0], 0)};
+	knode* root{build_kdtree_recursive<core_algorithm_sorting>(&Grid[0],(&Grid[NUMPOINTS])-1, &Nodes[0], 0)};
 	t2 = std::chrono::high_resolution_clock::now();
 	std::cout << "TIME RECURSIVE ALGORITHM-core_algorithm\t"
 			  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
@@ -314,7 +314,7 @@ int main(int argc, char const *argv[])
 	Nodes_copy[0].axis = NDIM ;
 	Nodes_copy[0].split.coord[0] = 0;
 	Nodes_copy[0].split.coord[1] = NUMPOINTS - 1 ;
-	build_kdtree_iterative<core_algorithm>(&Grid_copy[0], &Nodes_copy[0]);
+	build_kdtree_iterative<core_algorithm_sorting>(&Grid_copy[0], &Nodes_copy[0]);
 	t2 = std::chrono::high_resolution_clock::now();
 	std::cout << "\n\n############\n\n";
 	std::cout << "TIME ITERATIVE ALGORITHM\t"
@@ -325,31 +325,31 @@ int main(int argc, char const *argv[])
 	#if defined(CHECK_CORRECTNESS)
 			knode* research;
 			int count_not_found{0};
-			int num_point{(std::min(NUMPOINTS, int(pow(2,10) -1) ))};
+			int num_point{2*(std::min(NUMPOINTS, int(pow(2,15) -1) ))};
 			for ( auto kpoint_target {0}; kpoint_target < num_point; ++kpoint_target ){
 				research = find_kpoint_fast(&Nodes[0], Grid[kpoint_target]);
 				if ( research == nullptr ){
 					++count_not_found;
 				}
-				research = find_kpoint_fast(&Nodes[0], Grid[NUMPOINTS - 1 - kpoint_target]);
-				if ( research == nullptr ){
-					++count_not_found;
-				}
+				// research = find_kpoint_fast(&Nodes[0], Grid[NUMPOINTS - 1 - kpoint_target]);
+				// if ( research == nullptr ){
+				// 	++count_not_found;
+				// }
 			}
-			count_not_found = 0;
-			for ( auto kpoint_target {0}; kpoint_target < num_point; ++kpoint_target ){
-				research = find_kpoint_fast(&Nodes_copy[0], Grid_copy[kpoint_target]);
-				if ( research == nullptr ){
-					++count_not_found;
-				}
-				research = find_kpoint_fast(&Nodes_copy[0], Grid_copy[NUMPOINTS - 1 - kpoint_target]);
-				if ( research == nullptr ){
-					++count_not_found;
-				}
-			}
+			// count_not_found = 0;
+			// for ( auto kpoint_target {0}; kpoint_target < num_point; ++kpoint_target ){
+			// 	research = find_kpoint_fast(&Nodes_copy[0], Grid_copy[kpoint_target]);
+			// 	if ( research == nullptr ){
+			// 		++count_not_found;
+			// 	}
+			// 	research = find_kpoint_fast(&Nodes_copy[0], Grid_copy[NUMPOINTS - 1 - kpoint_target]);
+			// 	if ( research == nullptr ){
+			// 		++count_not_found;
+			// 	}
+			// }
 			
 			std::cout << "\n\n############\n\n";
-			std::cout << "NUMBER OF POINTS WHICH WILL BE CHECKED\t" << num_point*2 << "\n" <<std::endl;
+			std::cout << "NUMBER OF POINTS WHICH WILL BE CHECKED\t" << num_point << "\n" <<std::endl;
 			if (count_not_found){
 				std::cout << "EXISTENCE TEST\t FAILED\n"
 						  << "number of points not found\t" << count_not_found << std::endl;
@@ -379,11 +379,11 @@ int main(int argc, char const *argv[])
 			bool equili(check_kdtree(&Nodes[0]));
 			bool equili_sort(check_kdtree(&Nodes_copy[0]));
 			if ( !equili | !equili_sort){
-				std::cout << "BALANCE TEST\t FAILED\n"
+				std::cout << "COMPARISON TEST\t FAILED\n"
 						  << "EQUILIBRIUM Nodes\t" << equili << "\tEQUILIBRIUM_copy\t" << equili_sort << std::endl;
 			}
 			else
-				std::cout << "BALANCE TEST\t PASSED\n";
+				std::cout << "COMPARISON TEST\t PASSED\n";
 
 			std::cout << "\n\n###########\n\n";
 			int tot_nod{ count_subtree(&Nodes[0], h)};
