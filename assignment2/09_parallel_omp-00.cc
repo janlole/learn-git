@@ -153,8 +153,6 @@ typedef kpoint* (COMP)(kpoint*,kpoint*, knode*, int);
 template<COMP choosen_algorithm>
 knode* build_kdtree_recursive(kpoint* low, kpoint* high, knode* node, int depth);
 
-template<COMP choosen_algorithm>
-void build_kdtree_iterative(kpoint* first_kpoint, knode* node);
 
 template<COMP choosen_algorithm>
 kpoint* build_one_knode(kpoint* first_kpoint, kpoint* last_kpoint, knode* node, int depth);
@@ -298,16 +296,16 @@ int main(int argc, char const *argv[])
 	auto t2 = std::chrono::high_resolution_clock::now();
 	omp_set_dynamic(true);
 	t1 = std::chrono::high_resolution_clock::now();
-	#pragma omp parallel num_threads(2) shared(Grid, Nodes)
+	#pragma omp parallel  num_threads(4) 
 	{
 		#pragma omp single
 		{
 			int threads {omp_get_num_threads()};
 			std::cout << "THREADS\t" << threads << std::endl;
-			// #pragma omp task
-			// {
+			#pragma omp task 
+			{
 				build_one_knode<core_algorithm>(&Grid[0], &Grid[NUMPOINTS-1], &Nodes[0], 0);
-			// }
+			}
 		}
 	}
 	t2 = std::chrono::high_resolution_clock::now();
@@ -315,49 +313,23 @@ int main(int argc, char const *argv[])
 			  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
 			  << "\t milliseconds" << std::endl;
 
-	int zerosR{0};
-	int zerosL{0};
-	for ( auto& x : Nodes ){
-		if ( (&Nodes[NUMPOINTS-1] - x.left < 0) ){
-			++zerosL;
-			std::cout << "L" << std::endl;
-			std::cout << x << std::endl;
-			std::cout << &x - &Nodes[0] << std::endl;
-			std::cout << x.left - &Nodes[NUMPOINTS-1] << std::endl;
-		}
-		else if ( (&Nodes[NUMPOINTS-1] - x.right < 0)){
-			++zerosR;
-			std::cout << "R" << std::endl;
-			std::cout << x << std::endl;
-			std::cout << &x - &Nodes[0] << std::endl;
-			std::cout << x.right - &Nodes[NUMPOINTS-1] << std::endl;
-		}
-	}
-	if ( zerosL | zerosR ){
-		std::cout << "found L\t" << zerosL << "\t"
-				  << "found R\t" << zerosR << std::endl;
-	}
-
-
-	// OUTSIDE FUNCTION: first node must be set before the function call 
-	// the idea is that it can be set and construct by different processes
-
-	t1 = std::chrono::high_resolution_clock::now();
-	Nodes_copy[0].axis = NDIM ;
-	Nodes_copy[0].split.coord[0] = 0;
-	Nodes_copy[0].split.coord[1] = NUMPOINTS - 1 ;
-	build_kdtree_recursive<core_algorithm>(&Grid_copy[0], &Grid_copy[NUMPOINTS-1] ,&Nodes_copy[0], 0);
-	t2 = std::chrono::high_resolution_clock::now();
-	std::cout << "\n\n############\n\n";
-	std::cout << "TIME RECURSIVE ALGORITHM\t"
-			  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
-			  << "\t milliseconds" << std::endl;
 
 
 	#if defined(CHECK_CORRECTNESS)
+			t1 = std::chrono::high_resolution_clock::now();
+			Nodes_copy[0].axis = NDIM ;
+			Nodes_copy[0].split.coord[0] = 0;
+			Nodes_copy[0].split.coord[1] = NUMPOINTS - 1 ;
+			build_kdtree_recursive<core_algorithm>(&Grid_copy[0], &Grid_copy[NUMPOINTS-1] ,&Nodes_copy[0], 0);
+			t2 = std::chrono::high_resolution_clock::now();
+			std::cout << "\n\n############\n\n";
+			std::cout << "TIME RECURSIVE ALGORITHM\t"
+					  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
+					  << "\t milliseconds" << std::endl;
+			
 			knode* research;
 			int count_not_found{0};
-			int num_point{(std::min(NUMPOINTS, int(pow(2,10) -1) ))};
+			int num_point{(std::min(NUMPOINTS/2, int(pow(2,13) -1) ))};
 			for ( auto kpoint_target {0}; kpoint_target < num_point; ++kpoint_target ){
 				research = find_kpoint_fast(&Nodes[0], Grid[kpoint_target]);
 				if ( research == nullptr ){
@@ -435,104 +407,58 @@ int main(int argc, char const *argv[])
 
 template<COMP choosen_algorithm>
 kpoint* build_one_knode(kpoint* first_kpoint, kpoint* last_kpoint, knode* node, int depth){
-	knode* last_node{node}; int axis;
+	knode* last_node{node}; 
+	int axis;
 	kpoint* mide; kpoint* tmp;
 	if ( first_kpoint == last_kpoint){
 		node -> split = *first_kpoint;			
-		node -> axis = 0;
 	}
 	else{
 		axis = (depth%NDIM);
-		mide = choosen_algorithm(first_kpoint,last_kpoint,node,axis);
+		mide = choosen_algorithm(first_kpoint,last_kpoint,node,axis);		
 		++depth;		
-		node -> axis = 44;
+
 		if ( first_kpoint != mide ){
 			last_node = node + 1;
 			node -> left = last_node;
 			tmp = mide - 1;
-			if ( depth < 4){
-				#pragma omp task
+
+			if ( depth < 3){
+				#pragma omp task firstprivate(first_kpoint, tmp, last_node, depth)
 				{
-				 build_one_knode<choosen_algorithm>(first_kpoint, tmp, last_node, depth);
+					build_one_knode<choosen_algorithm>(first_kpoint, tmp, last_node, depth);
 				}
 			}
 			else{
-				 #pragma omp task
+				 #pragma omp task firstprivate(first_kpoint, tmp, last_node, depth)
 				 {
-				  build_kdtree_recursive<choosen_algorithm>(first_kpoint, tmp, last_node, depth);
-				 }
-			}
-		}
-		if ( last_kpoint != mide ){
-			last_node = node + ( mide - first_kpoint ) + 1;
-
-			node -> right = last_node;
-			tmp = mide + 1;
-			if ( depth < 4){
-				 #pragma omp task
-				 {
-				  build_one_knode<choosen_algorithm>(tmp, last_kpoint, last_node, depth);
-				 }
-			}
-			else{
-				 #pragma omp task
-				 {
-				  build_kdtree_recursive<choosen_algorithm>(tmp, last_kpoint, last_node, depth);
+				 	 build_kdtree_recursive<choosen_algorithm>(first_kpoint, tmp, last_node, depth);
 				 }
 			}
 		}
 		
-	}
+		if ( last_kpoint != mide ){
+			last_node = node + ( mide - first_kpoint ) + 1;
+			node -> right = last_node;
+			tmp = mide + 1;
 
+			if ( depth < 3){
+				#pragma omp task firstprivate(last_kpoint, tmp, last_node, depth)
+				{
+					build_one_knode<choosen_algorithm>(tmp, last_kpoint, last_node, depth);
+				}
+			}
+			else{
+				#pragma omp task firstprivate(last_kpoint, tmp, last_node, depth)
+				{
+					build_kdtree_recursive<choosen_algorithm>(tmp, last_kpoint, last_node, depth);
+				}
+			}
+		}
+	}
 	return mide;
 }
 
-template<COMP choosen_algorithm>
-void build_kdtree_iterative(kpoint* first_kpoint, knode* node){
-	knode* working_node{node};	knode* last_node{node};
-	int axis{0}; kpoint* mide; 
-	while ( (working_node - node) >= 0 ){
-		if ( working_node->axis >= NDIM  ){
-			kpoint* start{first_kpoint + static_cast<int>(working_node->split[0]) };
-			kpoint* end{first_kpoint + static_cast<int>(working_node->split[1]) };
-
-			if ( start == end){
-				working_node -> split = *start;			
-				working_node -> axis = 0;
-			}
-			else{
-				axis = working_node->axis - NDIM ;
-				mide = choosen_algorithm(start,end,working_node,axis);
-				axis = (axis + 1)%NDIM + NDIM; 
-				if ( start != mide ){
-					++last_node;
-					// std::cout << "segmantation fault here\n";
-					last_node -> axis = axis ;
-					last_node -> split[0] = (start - first_kpoint);
-					last_node -> split[1] = mide - first_kpoint - 1 ;
-					
-					working_node -> left = last_node;
-				}
-				if ( end != mide ){
-					++last_node;
-					// std::cout << "segmantation fault NOT here\n";
-					last_node -> axis = axis ;
-					last_node -> split[0] = mide - first_kpoint + 1;
-					last_node -> split[1] = (end - first_kpoint);
-					
-					working_node -> right = last_node;
-				}
-				working_node = last_node;
-			}
-			
-		}
-		else{
-			--working_node;
-		}
-		// std::cout << working_node << std::endl;
-
-	}
-}
 
 template<COMP choosen_algorithm>
 knode* build_kdtree_recursive(kpoint* low, kpoint* high, knode* node, int depth){
@@ -541,33 +467,9 @@ knode* build_kdtree_recursive(kpoint* low, kpoint* high, knode* node, int depth)
 		node -> split = *low;
 		return node;		
 	}
-
-	#if defined(WIDE_AXIS)
-		// the following code allow the algorithm to search for the axis with the most
-		// wide extension, instead of a symple 
-		std::vector<float_t> tmp(NDIM*2);
-		ksplit result;
-		int axis{0};
-		kpoint* low_func{low};
-		while ( low_func <= high ){
-			for ( int ax{0}; ax < NDIM; ++ax){
-				if ( low_func -> coord[ax] < tmp[ax*NDIM] )
-					tmp[ax*NDIM] = low_func ->coord[ax];
-				if ( low_func ->coord[ax] > tmp[ax*NDIM+1] )
-					tmp[ax*NDIM+1] = low_func ->coord[ax];
-			}
-			++low_func;
-		}
-		for ( int ax{0}; ax < NDIM; ++ax){
-				if ( (tmp[ax*NDIM + 1] - tmp[ax*NDIM]) > (tmp[axis*NDIM + 1] - tmp[axis*NDIM]))
-					axis = ax;
-		}
-	#else
-		int axis{depth%NDIM};
-	#endif
+	int axis{depth%NDIM};
 	
-	static knode* node_working;
-	node_working = node;
+	knode* node_working{node};
 	kpoint* mide{choosen_algorithm(low,high,node,axis)};
 	++depth;
 	kpoint* tmp;
@@ -577,7 +479,7 @@ knode* build_kdtree_recursive(kpoint* low, kpoint* high, knode* node, int depth)
 		node -> left = build_kdtree_recursive<choosen_algorithm>(low, tmp, node_working, depth);
 	}
 	if ( high != mide ){
-		++node_working;
+		node_working = node + (mide - low) + 1;
 		tmp = mide+1;
 		node -> right = build_kdtree_recursive<choosen_algorithm>(tmp, high, node_working, depth);
 	}
@@ -732,6 +634,107 @@ kpoint* partition( const float_t median, const int axis, kpoint* low, kpoint* hi
 
 
 
+/*	int zerosR{0};
+	int zerosL{0};
+	std::vector<int> bugged_knode_L(NUMPOINTS/2);
+	std::vector<int> bugged_knode_R(NUMPOINTS/2);
+	for ( auto& x : Nodes ){
+		if ( (&Nodes[NUMPOINTS-1] - x.left < 0) ){
+			bugged_knode_L[zerosL] = &x - &Nodes[0];
+			++zerosL;
+			std::cout << "L" << std::endl;
+			std::cout << x ;
+			std::cout << &x - &Nodes[0] << std::endl;
+			std::cout << x.left - &Nodes[NUMPOINTS-1] << "\n" << std::endl;
+		}
+		if ( (&Nodes[NUMPOINTS-1] - x.right < 0)){
+			bugged_knode_R[zerosR] = &x - &Nodes[0];
+			++zerosR;
+			std::cout << "R" << std::endl;
+			std::cout << x ;
+			std::cout << &x - &Nodes[0] << std::endl;
+			std::cout << x.right - &Nodes[NUMPOINTS-1] << "\n" << std::endl;
+		}
+	}
+	if ( zerosL | zerosR ){
+		std::cout << "found L\t" << zerosL << "\t"
+				  << "found R\t" << zerosR << std::endl;
+	}
+
+	int existence{0}; int check_existence{0};
+	for ( auto y : Grid){
+		for ( auto x : Nodes ){
+			if (x.split == y ){
+				++check_existence;
+				break;
+			}
+		}
+	}
+
+	std::cout << "FOUNDED KPOINTS\t" << check_existence << std::endl;
+
+	for (auto& x : Nodes){
+		x.left = nullptr;
+		x.right = nullptr;
+	}
+	for ( auto i{0}; i < NUMPOINTS; ++i){
+		Grid[i] = Grid_copy[i];
+	}
+
+	t1 = std::chrono::high_resolution_clock::now();
+	#pragma omp parallel num_threads(1) 
+	{
+		#pragma omp single
+		{
+			int threads {omp_get_num_threads()};
+			std::cout << "THREADS\t" << threads << std::endl;
+			#pragma omp task // shared(Grid, Nodes)
+			{
+				build_one_knode<core_algorithm>(&Grid[0], &Grid[NUMPOINTS-1], &Nodes[0], 0);
+			}
+		}
+	}
+	t2 = std::chrono::high_resolution_clock::now();
+	std::cout << "TIME OMP ALGORITHM-core_algorithm_sorting\t"
+			  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
+			  << "\t milliseconds" << std::endl;
+	std::cout << "\n\n LEFT \n\n";
+	for ( auto i: bugged_knode_L ){
+		if (i != 0)
+			std::cout << Nodes[i] << std::endl;
+	}
+	std::cout << "\n\n RIGHT \n\n";
+	for ( auto i: bugged_knode_R ){
+		if (i != 0)
+			std::cout << Nodes[i] << std::endl;
+	}
+
+	// OUTSIDE FUNCTION: first node must be set before the function call 
+	// the idea is that it can be set and construct by different processes
+	zerosL = 0; zerosR = 0;
+	for ( auto& x : Nodes ){
+		if ( (&Nodes[NUMPOINTS-1] - x.left < 0) ){
+			bugged_knode_L[zerosL] = &x - &Nodes[0];
+			++zerosL;
+			std::cout << "L" << std::endl;
+			std::cout << x ;
+			std::cout << &x - &Nodes[0] << std::endl;
+			std::cout << x.left - &Nodes[NUMPOINTS-1] << "\n" << std::endl;
+		}
+		if ( (&Nodes[NUMPOINTS-1] - x.right < 0)){
+			bugged_knode_R[zerosR] = &x - &Nodes[0];
+			++zerosR;
+			std::cout << "R" << std::endl;
+			std::cout << x ;
+			std::cout << &x - &Nodes[0] << std::endl;
+			std::cout << x.right - &Nodes[NUMPOINTS-1] << "\n" << std::endl;
+		}
+	}
+	if ( zerosL | zerosR ){
+		std::cout << "found L\t" << zerosL << "\t"
+				  << "found R\t" << zerosR << std::endl;
+	}
+*/
 
 
 
