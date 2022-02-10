@@ -140,14 +140,22 @@ std::ostream& operator<<(std::ostream& os, const knode& n) {
 	}
 	return os;
 }
-
+// make partition: all the kpoints with the (axis) coordinate equal to median are kept in the middle
 kpoint* partition( const float_t median, const int axis, kpoint* low, kpoint* high);
 
-kpoint* core_algorithm(kpoint* low, kpoint* high, knode* node, int axis);
+// sort algorithm: naive implementation of quick sort
+void sorting(const int axis, kpoint* low, kpoint* high);
 
+// median of medians: find the median without making a sort
+kpoint* select(kpoint* start, kpoint* end, const int position, const int axis);
+
+// algorithms that makes a single node after finding the median
+kpoint* core_algorithm(kpoint* low, kpoint* high, knode* node, int axis);
 kpoint* core_algorithm_sorting(kpoint* low, kpoint* high, knode* node, int axis);
 
+
 typedef kpoint* (COMP)(kpoint*,kpoint*, knode*, int);
+
 
 template<COMP choosen_algorithm>
 knode* build_kdtree_recursive(kpoint* low, kpoint* high, knode* node, int depth);
@@ -158,12 +166,6 @@ kpoint* build_one_knode_mpi(kpoint* first_kpoint, kpoint* last_kpoint, knode* no
 template<COMP choosen_algorithm>
 kpoint* build_one_knode_omp(kpoint* first_kpoint, kpoint* last_kpoint, knode* node, int depth, const int max_depth);
 
-
-void sorting(const int axis, kpoint* low, kpoint* high);
-
-bool check_sorting( const int axis, kpoint* low, kpoint* high);
-
-kpoint* select(kpoint* start, kpoint* end, const int position, const int axis);
 
 // function usefull to control the quality of the kdtrees
 
@@ -251,7 +253,7 @@ int main(int argc, char *argv[])
 
 	double start_time, end_time, start_building, end_building;
 	start_time = MPI_Wtime();
-
+	
 	kpoint* first_kpoint{&Grid[0]};
 	kpoint* mide;
 	kpoint* last_kpoint{&Grid[NUMPOINTS-1]}; 
@@ -293,7 +295,7 @@ int main(int argc, char *argv[])
 	}
 
 	start_building = MPI_Wtime();
-	#pragma omp parallel  num_threads(6) 
+	#pragma omp parallel  num_threads(4) 
 		{
 			#pragma omp single
 			{
