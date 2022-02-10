@@ -155,7 +155,7 @@ template<COMP choosen_algorithm>
 knode* build_kdtree_recursive(kpoint* low, kpoint* high, knode* node, int depth);
 
 template<COMP choosen_algorithm>
-kpoint* build_one_knode(kpoint* first_kpoint, kpoint* last_kpoint, knode* node, int depth);
+kpoint* build_one_knode(kpoint* first_kpoint, kpoint* last_kpoint, knode* node, int depth, const int max_depth);
 
 // some algorithms useful to check the quality of the kdtree
 
@@ -184,25 +184,30 @@ int main(int argc, char const *argv[])
 	//_____________________________________________
 
 	omp_set_dynamic(true);
-	auto t1 = std::chrono::high_resolution_clock::now();
-	#pragma omp parallel  num_threads(4) 
-	{
-		#pragma omp single
+	for (auto try_depth{0}; try_depth < 25; ++try_depth){
+		auto t1 = std::chrono::high_resolution_clock::now();
+		#pragma omp parallel  num_threads(6) 
 		{
-			int threads {omp_get_num_threads()};
-			std::cout << "THREADS\t" << threads << std::endl;
-			#pragma omp task 
+			#pragma omp single
 			{
-				build_one_knode<CORE_ALGORITHM>(&Grid[0], &Grid[NUMPOINTS-1], &Nodes[0], 0);
+				// int threads {omp_get_num_threads()};
+				// std::cout << "THREADS\t" << threads << std::endl;
+				#pragma omp task 
+				{
+					build_one_knode<CORE_ALGORITHM>(&Grid[0], &Grid[NUMPOINTS-1], &Nodes[0], 0, try_depth);
+				}
 			}
 		}
+		auto t2 = std::chrono::high_resolution_clock::now();
+		auto time{std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()};
+		std::cout << "TIME OMP ALGORITHM core_algorithm\t"
+				  << time
+				  << "\t milliseconds" 
+				  << "\tdepth\t" << try_depth
+				  << "\tnumber of serial sub-section\t" << pow(2,try_depth)
+				  << std::endl;
+	
 	}
-	auto t2 = std::chrono::high_resolution_clock::now();
-	std::cout << "TIME OMP ALGORITHM core_algorithm\t"
-			  << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
-			  << "\t milliseconds" << std::endl;
-
-
 
 	#if defined(CHECK_CORRECTNESS)
 			std::uniform_real_distribution<float_t> unif_copy(-LIMIT,LIMIT);
@@ -281,7 +286,7 @@ int main(int argc, char const *argv[])
 }
 
 template<COMP choosen_algorithm>
-kpoint* build_one_knode(kpoint* first_kpoint, kpoint* last_kpoint, knode* node, int depth){
+kpoint* build_one_knode(kpoint* first_kpoint, kpoint* last_kpoint, knode* node, int depth, const int max_depth){
 	knode* last_node{node}; 
 	int axis;
 	kpoint* mide; kpoint* tmp;
@@ -298,10 +303,10 @@ kpoint* build_one_knode(kpoint* first_kpoint, kpoint* last_kpoint, knode* node, 
 			node -> left = last_node;
 			tmp = mide - 1;
 
-			if ( depth < 3){
+			if ( depth < max_depth){
 				#pragma omp task firstprivate(first_kpoint, tmp, last_node, depth)
 				{
-					build_one_knode<choosen_algorithm>(first_kpoint, tmp, last_node, depth);
+					build_one_knode<choosen_algorithm>(first_kpoint, tmp, last_node, depth, max_depth);
 				}
 			}
 			else{
@@ -317,10 +322,10 @@ kpoint* build_one_knode(kpoint* first_kpoint, kpoint* last_kpoint, knode* node, 
 			node -> right = last_node;
 			tmp = mide + 1;
 
-			if ( depth < 3){
+			if ( depth < max_depth){
 				#pragma omp task firstprivate(last_kpoint, tmp, last_node, depth)
 				{
-					build_one_knode<choosen_algorithm>(tmp, last_kpoint, last_node, depth);
+					build_one_knode<choosen_algorithm>(tmp, last_kpoint, last_node, depth, max_depth);
 				}
 			}
 			else{
