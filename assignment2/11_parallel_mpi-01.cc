@@ -82,11 +82,18 @@ struct kpoint {
 	}
 	// swap method
 	void swap(kpoint& p){
-		auto tmp = p;
+		auto tmp {p};
 		p = *this;
 		*this = tmp;
 	}
 	//_____________________________________________
+	// // swap method
+	// void swap(kpoint& p){
+	// 	auto tmp {std::move(p)};
+	// 	p = std::move(*this);
+	// 	*this = std::move(tmp);
+	// }
+	// //_____________________________________________
 
 };
 
@@ -224,7 +231,7 @@ int main(int argc, char *argv[])
 	for ( auto step{0}; step < n_step; ++step){
 		if (rank < pow(2,step+1) && rank >= pow(2,step)){
 			sub_tree_size = static_cast<int>(std::ceil(NUMPOINTS/(pow(2,step+1))));
-			std::cout << "I'm processor\t" << rank << "\tand my space is\t" << sub_tree_size << std::endl;
+			// std::cout << "I'm processor\t" << rank << "\tand my space is\t" << sub_tree_size << std::endl;
 		}
 	}
 	if ( rank == root )
@@ -232,6 +239,9 @@ int main(int argc, char *argv[])
 
 	std::vector<kpoint> Grid(sub_tree_size);
 	std::vector<knode> Nodes(sub_tree_size);
+
+	// Grid.reserve(sub_tree_size);
+	// Nodes.reserve(sub_tree_size);
 	
 	// Random assignment and tree of control
 	MPI_Status status;

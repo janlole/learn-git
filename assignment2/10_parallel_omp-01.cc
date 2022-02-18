@@ -79,9 +79,9 @@ struct kpoint {
 	}
 	// swap method
 	void swap(kpoint& p){
-		auto tmp = p;
-		p = *this;
-		*this = tmp;
+		auto tmp {std::move(p)};
+		p = std::move(*this);
+		*this = std::move(tmp);
 	}
 	//_____________________________________________
 
@@ -401,6 +401,7 @@ kpoint* select(kpoint* start, kpoint* end, const int position, const int axis){
 	kpoint* start_tmp{start};
 	kpoint* end_tmp{end};
 	int start_index{0};
+	
 	while ( start_index < (int(end-start)/5) ){
 		sorting(axis, start_tmp, start_tmp + 4);
 		tmp[start_index] = *(start_tmp+2);

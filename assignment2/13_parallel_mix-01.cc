@@ -84,9 +84,9 @@ struct kpoint {
 	}
 	// swap method
 	void swap(kpoint& p){
-		auto tmp = p;
-		p = *this;
-		*this = tmp;
+		auto tmp {std::move(p)};
+		p = std::move(*this);
+		*this = std::move(tmp);
 	}
 	//_____________________________________________
 
