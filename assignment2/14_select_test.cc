@@ -121,20 +121,6 @@ kpoint* select(kpoint* start, kpoint* end, const int position, const int axis);
 // function usefull to control the quality of the kdtrees
 int main(int argc, char *argv[])
 {
-
-	// each processor need less memory than the one which sent the work
-	kpoint onepoint;
-	knode onenode;
-	float sum_one{0};
-	for (auto i{0}; i < 1'000'000; ++i){
-		auto t_0 = std::chrono::high_resolution_clock::now();
-		build_kdtree_recursive<core_algorithm>(&onepoint, &onepoint, &onenode, 0);
-		auto t_1 = std::chrono::high_resolution_clock::now();
-		auto elapsed_o = std::chrono::duration_cast<std::chrono::microseconds>(t_1 - t_0);
-		sum_one += static_cast<float>(elapsed_o.count());
-		auto n{0};
-	}
-	sum_one = sum_one / 1'000'000;
 	
 	std::cout << "NDIM,tree_dimension,power,axis,time_select,time_kdtree,theoretic_time_kdtree,ratio_real_theoretic"  << std::endl;
 	int sub_tree_size{0};
@@ -166,7 +152,6 @@ int main(int argc, char *argv[])
 			
 			times[power] += (sum_per_cycle/how_many_times)/NDIM;
 
-			// float theoretic_time{static_cast<float>(0.000133*sub_tree_size)};
 			float theoretic_time{0};
 			for (auto k{0}; k <= power ; ++k){
 				theoretic_time += ((pow(2,power-k)) * times[k] );
@@ -184,9 +169,9 @@ int main(int argc, char *argv[])
 					  << sub_tree_size << ","								// tree_dimension
 					  << power + start_pow << ","							// power
 					  << axis << ","										// axis
-					  << (sum_per_cycle/how_many_times) / 1'000'000 << ","	// time_select
-					  << time / 1'000'000 << ","							// time_kdtree
-					  << theoretic_time / 1'000'000 << ","					// theoretic_time_kdtree
+					  << (sum_per_cycle/how_many_times) / 1e6 << ","		// time_select
+					  << time / 1e6 << ","									// time_kdtree
+					  << theoretic_time / 1e6 << ","						// theoretic_time_kdtree
 					  << time / theoretic_time //<< ","						// ratio_real_theoretic
 					  << std::endl;
 		

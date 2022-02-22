@@ -13,18 +13,6 @@
 
 #define LIMIT 1
 
-#if defined (SORTING)
-#define CORE_ALGORITHM core_algorithm_sorting
-#else
-#define CORE_ALGORITHM core_algorithm
-#endif
-
-#if !defined(RANDOM)
-#define SEED 1234
-#else
-#define SEED time(0)
-#endif
-
 #if !defined(NUMPOINTS)
 #define NUMPOINTS 4095
 #endif
@@ -80,20 +68,14 @@ struct kpoint {
 	bool operator!=( kpoint& l){
 		return !( *this == l);
 	}
+	//_____________________________________________
 	// swap method
 	void swap(kpoint& p){
-		auto tmp {p};
-		p = *this;
-		*this = tmp;
+		auto tmp {std::move(p)};
+		p = std::move(*this);
+		*this = std::move(tmp);
 	}
 	//_____________________________________________
-	// // swap method
-	// void swap(kpoint& p){
-	// 	auto tmp {std::move(p)};
-	// 	p = std::move(*this);
-	// 	*this = std::move(tmp);
-	// }
-	// //_____________________________________________
 
 };
 
@@ -126,39 +108,14 @@ struct knode
 };
 
 
-std::ostream& operator<<(std::ostream& os, const kpoint& p) {
-	for (const auto& x : p)
-		os << x << ",";
-	return os;
-}
-std::ostream& operator<<(std::ostream& os, const knode& n) {
-	os << "address: " << &n << "\n"
-	   << "axis:" << n.axis << "\n"
-	   << "kpoint:" << n.split << "\n";
-	if ( n.left != nullptr ){
-		os << "-L-" << &n << "-> " << n.left << "\n";
-		// os << *n.left << "\n";
-	}
-	if ( n.right != nullptr ){
-		os << "-R-" << &n << "-> " << n.right << "\n";
-		// os << *n.right << "\n";
-	}
-	return os;
-}
-
 kpoint* partition( const float_t median, const int axis, kpoint* low, kpoint* high);
 
 kpoint* core_algorithm(kpoint* low, kpoint* high, knode* node, int axis);
-
-kpoint* core_algorithm_sorting(kpoint* low, kpoint* high, knode* node, int axis);
 
 typedef kpoint* (COMP)(kpoint*,kpoint*, knode*, int);
 
 template<COMP choosen_algorithm>
 knode* build_kdtree_recursive(kpoint* low, kpoint* high, knode* node, int depth);
-
-template<COMP choosen_algorithm>
-void build_kdtree_iterative(kpoint* first_kpoint, knode* node);
 
 template<COMP choosen_algorithm>
 kpoint* build_one_knode_mpi(kpoint* first_kpoint, kpoint* last_kpoint, knode* node, int axis);
@@ -248,7 +205,7 @@ int main(int argc, char *argv[])
 
 	if ( rank == root ){
 		std::uniform_real_distribution<float_t> unif(-LIMIT,LIMIT);
-		std::default_random_engine re{static_cast<long unsigned int>(SEED)};
+		std::default_random_engine re{static_cast<long unsigned int>(time(0))};
 		for ( auto& x : Grid ){
 			for ( auto& y : x){
 				y = unif(re);
@@ -348,11 +305,14 @@ int main(int argc, char *argv[])
 	end_time = MPI_Wtime();
 
 	if (rank == root){
-		std::cout << "MPI TIME\tsending_time\tbuilding_time\treceiving_time\n" 
-				  << end_time - start_time << "\t\t"
-				  << start_building - start_time << "\t\t"
-				  << end_building - start_building << "\t\t"
-				  << end_time - end_building << "\t"
+		std::cout << "NDIM,NUMPOINTS,numproc,MPI TIME,sending_time,building_time,receiving_time\n" 
+				  << NDIM << ","									// ndim
+				  << NUMPOINTS << ","								// numpoints
+				  << numproc << ","									// numproc
+				  << end_time - start_time << ","					// total-time= MPI_TIME
+				  << start_building - start_time << ","				// sending_time
+				  << end_building - start_building << ","			// building_time
+				  << end_time - end_building 						// receiving_time
 				  << std::endl;
 	}
 
@@ -486,18 +446,6 @@ kpoint* core_algorithm(kpoint* low, kpoint* high, knode* node, int axis){
 	node -> split = *(mide);
 	node -> axis = axis;
 	return mide;
-}
-
-kpoint* core_algorithm_sorting(kpoint* low, kpoint* high, knode* node, int axis){
-	kpoint* clow{low};
-	kpoint* chigh{high};
-	sorting(axis, low, high);
-	kpoint* mide{(int(chigh - clow))/2 + clow };
-
-	node -> split = *mide;
-	node -> axis = axis;
-	return mide;
-
 }
 
 
