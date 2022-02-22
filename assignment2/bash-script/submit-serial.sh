@@ -6,10 +6,10 @@
 
 dimension=( 2 3 4 5 )
 
-for ((i = 1; i <= 4; i++));
+for ((i = 0; i < 4; i++));
 do
 	ndim=${dimension[$i]}
-
+	
 	qsub -l nodes=1:ppn=2 -l walltime=0:30:00 -v DIMENSION=${ndim} -q dssc_gpu ./serial-test.sh
 
 done
