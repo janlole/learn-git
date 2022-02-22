@@ -4,6 +4,7 @@
 
 
 cd $PBS_O_WORKDIR
+cd ..
 
 saving_folder=data/serial
 
