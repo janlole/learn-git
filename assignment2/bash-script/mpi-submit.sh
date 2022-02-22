@@ -1,5 +1,6 @@
 #!/bin/bash
 # This script submit a job calling the mpi-test.sh script 
+# the if-else block is needed to NOT submit jobs that requires more than 30 minutes to complete
 
 dimension=( 2 3 4 5 )
 
@@ -21,29 +22,11 @@ do
 
 			if [[ ${num_proc} -ge 8 ]] || [[ ${num_proc} -eq 2 && ${num_points} -lt 2147483647 ]] || [[ ${num_proc} -eq 4 && ${num_points} -le 2147483647 ]] 
 			then
-				echo ${num_proc} - ${num_points}
-				# for (( prec = 0; prec < 2; prec++ ))
-				# do
-				# 	# qsub -l nodes=1:ppn=${num_proc} -l walltime=0:30:00 -v PREC=${prec},DIMENSION=${n_dim},NUMP=${num_points},NUMPROC=${num_proc} -q dssc_gpu ./mpi-test.sh
-				# done
-			# elif [[ ${num_proc} -eq 2 && ${num_points} -lt 2147483647 ]];
-			# then
-			# 	echo ${num_proc} - ${num_points}
-			# 	# for (( prec = 0; prec < 2; prec++ ))
-			# 	# do
-			# 	# 	# qsub -l nodes=1:ppn=${num_proc} -l walltime=0:30:00 -v PREC=${prec},DIMENSION=${n_dim},NUMP=${num_points},NUMPROC=${num_proc} -q dssc_gpu ./mpi-test.sh
-			# 	# done
-
-			# elif [[ ${num_proc} -eq 4 && ${num_points} -le 2147483647 ]];
-			# then
-			# 	echo ${num_proc} - ${num_points}
-				# for (( prec = 0; prec < 2; prec++ ))
-				# do
-				# 	# qsub -l nodes=1:ppn=${num_proc} -l walltime=0:30:00 -v PREC=${prec},DIMENSION=${n_dim},NUMP=${num_points},NUMPROC=${num_proc} -q dssc_gpu ./mpi-test.sh
-				# done
-
+				for (( prec = 0; prec < 2; prec++ ))
+				do
+					qsub -l nodes=1:ppn=${num_proc} -l walltime=0:30:00 -v PREC=${prec},DIMENSION=${n_dim},NUMP=${num_points},NUMPROC=${num_proc} -q dssc_gpu ./mpi-test.sh
+				done
 			fi
-
 		done
 	done
 done
