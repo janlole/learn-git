@@ -17,7 +17,7 @@
 #define NUMPOINTS 8388607
 #endif
 
-#if !defined(DOUBLE_PRECISION)
+#if !defined(DOUBLE_PRECISION_KPOINT)
 #define float_t float
 #else
 #define float_t double
@@ -155,7 +155,7 @@ int main(int argc, char const *argv[])
 {
 	int best_depth{0};
 	{
-		constexpr int test_points{static_cast<int>(pow(2,20) - 1) };
+		constexpr int test_points{static_cast<int>(pow(2,23) - 1) };
 		std::vector<kpoint> Grid(test_points);
 		std::vector<knode> Nodes(test_points);
 		std::uniform_real_distribution<float_t> unif(-LIMIT,LIMIT);
@@ -200,14 +200,13 @@ int main(int argc, char const *argv[])
 		}
 	}
 	//_____________________________________________
-
+	int threads;
 	auto t1 = std::chrono::high_resolution_clock::now();
 	#pragma omp parallel 
 	{
 		#pragma omp single
 		{
-			int threads {omp_get_num_threads()};
-			std::cout << "THREADS\t" << threads << std::endl;
+			threads = omp_get_num_threads();
 			#pragma omp task 
 			{
 				build_one_knode<core_algorithm>(&Grid[0], &Grid[NUMPOINTS-1], &Nodes[0], 0, best_depth);
@@ -215,15 +214,17 @@ int main(int argc, char const *argv[])
 		}
 	}
 	auto t2 = std::chrono::high_resolution_clock::now();
-	auto time{std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()};
-	std::cout << "TIME OMP ALGORITHM core_algorithm\t"
-			  << time
-			  << "\t milliseconds" 
-			  << "\tdepth\t" << best_depth
-			  << "\tnumber of serial sub-section\t" << pow(2,best_depth)
+	float time{static_cast<float>(std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count())};
+	std::cout << "NDIM,NUMPOINTS,threads,OMP.TIME,depth,leaf_task\n"
+			  << NDIM << ","
+			  << NUMPOINTS << ","
+			  << threads << ","
+			  << time/1000000 << ","
+			  << best_depth << ","
+			  << pow(2,best_depth)
 			  << std::endl;
 
-	
+	// NDIM,NUMPOINTS,numproc,MPI TIME,sending_time,building_time,receiving_time
 
 	#if defined(CHECK_CORRECTNESS)
 			std::uniform_real_distribution<float_t> unif_copy(-LIMIT,LIMIT);
