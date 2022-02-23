@@ -1,0 +1,40 @@
+---
+title: "Foundations of High Performance Computing"
+subtitle: "Assignment II"
+author: "Lorenzo Trubian [mat. SM3500519]"
+date: "27/02/2022"
+output: pdf_document
+---
+```{r }
+setwd("~/Pubblici/learn-git/assignment2/data")
+library(ggplot2)
+tab.2 <- read.csv("parallel-mpi/time_mpi-2-0.csv")
+tab.2.prec <- read.csv("parallel-mpi/time_mpi-2-1.csv")
+tab.serial <- read.csv("serial/time-serial_2.csv")
+# tab.serial.prec
+tab.serial$axis <- as.factor(tab.serial$axis)
+tab.2$numproc <- as.factor(tab.2$numproc)
+
+
+ggplot( data = tab.serial[,] )+
+  geom_point( mapping = aes(x = tree_dimension, y = time_select, color = axis)) #+
+  # scale_x_continuous(trans='log2')
+
+ggplot( data = tab.serial[,] )+
+  geom_point( mapping = aes(x = tree_dimension, y = time_kdtree), color = "red")+
+  scale_y_continuous(name = "kdtree",
+                     sec.axis = sec_axis( trans=~./20, name="select"))+
+  geom_line( mapping = aes(x = tree_dimension, y = time_select*20))#+
+  # scale_x_continuous(trans='log2')
+
+ggplot( data = tab.2[,] ,  mapping = aes(x = NUMPOINTS, y = MPI.TIME, color = numproc, group = numproc))+
+  geom_line() +
+  geom_point() #+
+  # scale_x_continuous(trans='log2')
+# 134217727 268435455 536870911 1073741823 2147483647 4294967295
+
+tab.2$NUMPOINTS <- as.factor(tab.2$NUMPOINTS)
+ggplot( data = tab.2[,] ,  mapping = aes(x = numproc, y = MPI.TIME, color = NUMPOINTS, group = NUMPOINTS))+
+  geom_line() +
+  geom_point() 
+```
