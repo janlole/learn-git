@@ -13,8 +13,8 @@ mkdir data/serial
 
 module load gnu/9.3.0
 
-g++ 14_select_test.cc -o 14_select_test.o -std=c++11 -O3 -DNDIM=${DIMENSION}
+g++ 14_select_test.cc -o 14_select_test.o -std=c++11 -O3 -DNDIM=${DIMENSION} -DDOUBLE_PRECISION_KPOINT
 
-./14_select_test.o > ${saving_folder}/time-serial_${DIMENSION}.csv
+./14_select_test.o > ${saving_folder}/time-serial-double_${DIMENSION}.csv
 
 
