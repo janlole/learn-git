@@ -9,9 +9,34 @@ urlcolor: blue
 ```{r }
 setwd("~/Pubblici/learn-git/assignment2/data")
 library(ggplot2)
+library(gridExtra)
+library(ggpubr)
+
 tab.2 <- read.csv("parallel-mpi/time_mpi-2-0.csv")
 tab.2.prec <- read.csv("parallel-mpi/time_mpi-2-1.csv")
-tab.serial <- read.csv("serial/time-serial_2.csv")
+tab.3 <- read.csv("parallel-mpi/time_mpi-3-0.csv")
+tab.3.prec <- read.csv("parallel-mpi/time_mpi-3-1.csv")
+tab.4 <- read.csv("parallel-mpi/time_mpi-4-0.csv")
+tab.4.prec <- read.csv("parallel-mpi/time_mpi-4-1.csv")
+tab.5 <- read.csv("parallel-mpi/time_mpi-5-0.csv")
+tab.5.prec <- read.csv("parallel-mpi/time_mpi-5-1.csv")
+
+tab.2$prec <- "single"
+tab.3$prec <- "single"
+tab.4$prec <- "single"
+tab.5$prec <- "single"
+
+tab.2.prec$prec <- "double"
+tab.3.prec$prec <- "double"
+tab.4.prec$prec <- "double"
+tab.5.prec$prec <- "double"
+
+total <- rbind(tab.2, tab.2.prec, tab.3, tab.3.prec, tab.4, tab.4.prec, tab.5, tab.5.prec)
+total <- total[total$NUMPOINTS <= 1073741823, ]
+
+tab.serial.prec <- read.csv("serial/time-serial_2.csv")
+tab.serial <- read.csv("serial/time-serial_2-0.csv")
+
 # tab.serial.prec
 tab.serial$axis <- as.factor(tab.serial$axis)
 tab.2$numproc <- as.factor(tab.2$numproc)
@@ -43,8 +68,42 @@ ggplot( data = tab.2[,] ,  mapping = aes(x = NUMPOINTS, y = MPI.TIME, color = nu
 tab.2$NUMPOINTS <- as.factor(tab.2$NUMPOINTS)
 ggplot( data = tab.2[,] ,  mapping = aes(x = numproc, y = MPI.TIME, color = NUMPOINTS, group = NUMPOINTS))+
   geom_line() +
-  geom_point() 
+  geom_point()
 ```
+
+
+```{r }
+total.time <- ggplot( data = total, 
+        mapping = aes(x = as.factor(numproc), y = MPI.TIME, color = prec ) )+
+  geom_boxplot()+
+  labs( x = "Num. processors", color = "Precision", y = "Total time" )
+
+sending.time <-ggplot( data = total, 
+        mapping = aes(x = as.factor(numproc), y = sending_time, color = prec ) )+
+  geom_boxplot()+
+  labs( x = "Num. processors", color = "Precision", y = "Sending time" )
+
+building.time <-ggplot( data = total, 
+        mapping = aes(x = as.factor(numproc), y = building_time, color = prec ) )+
+  geom_boxplot()+
+  labs( x = "Num. processors", color = "Precision", y = "Building time" )
+
+receiving.time <- ggplot( data = total, 
+        mapping = aes(x = as.factor(numproc), y = receiving_time, color = prec ) )+
+  geom_boxplot() +
+  labs( x = "Num. processors", color = "Precision", y = "Receiving time" )
+
+ggarrange( total.time,
+              sending.time,
+              building.time,
+              receiving.time,
+              nrow = 2, ncol = 2 ,
+              common.legend = TRUE, legend="bottom")
+  
+```
+
+
+
 # Introduction
 
 The aim of this work was to analyze the performance improvement of building-kdtree algorithm through a parallelization.  In particular, we try to investigate the difference using the distributed or shared memory approach, using MPI library in the first case and OpenMP API in the second. Before continuing, we recall briefly the type of structure that we want to obtain.
@@ -52,8 +111,19 @@ Given a d-dimensional set of points, a kdtree is a binary and balanced tree wher
 
 # Algorithm
 
-Even though there are three main algorithm to describe, one for each different approach (serial, shared and distributed memory), the 
-[here](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-design-and-analysis-of-algorithms-spring-2012/lecture-notes/MIT6_046JS12_lec01.pdf)
+In order to construct the kdtree, it is necessary an algorithm to find the median of a list of value. In this work it is used the *median of medians* algorithm as it is described [here](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-design-and-analysis-of-algorithms-spring-2012/lecture-notes/MIT6_046JS12_lec01.pdf) or in the *Introduction to Algorithms* ^[Section 9.3 of *Introduction to Algorithms* Third Edition, Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein.] to find the median of a given set of kpoint along a fixed axis. The worst-case running time of this algorithm, which will be called **select**, is linear. 
+
+We can describe the building-kdtree algorithm with the following recursive procedure:
+
+1. given a list of kpoint and the split axis, find the median;
+2. make a partition of the list around the median;
+3. save the median and update the split axis;
+4. call recursively the procedure on the two sub-list.
+
+Then
+
+
+
 
 
 # Implementation
