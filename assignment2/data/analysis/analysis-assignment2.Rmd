@@ -4,6 +4,7 @@ subtitle: "Assignment II"
 author: "Lorenzo Trubian [mat. SM3500519]"
 date: "27/02/2022"
 output: pdf_document
+urlcolor: blue
 ---
 ```{r }
 setwd("~/Pubblici/learn-git/assignment2/data")
@@ -17,7 +18,7 @@ tab.2$numproc <- as.factor(tab.2$numproc)
 
 
 ggplot( data = tab.serial[,] )+
-  geom_point( mapping = aes(x = tree_dimension, y = time_select, color = axis)) #+
+  geom_point( mapping = aes(x = tree_dimension, y = time_select)) #+
   # scale_x_continuous(trans='log2')
 
 ggplot( data = tab.serial[,] )+
@@ -26,6 +27,12 @@ ggplot( data = tab.serial[,] )+
                      sec.axis = sec_axis( trans=~./20, name="select"))+
   geom_line( mapping = aes(x = tree_dimension, y = time_select*20))#+
   # scale_x_continuous(trans='log2')
+
+ggplot( data = tab.serial[tab.serial$power>5,] )+
+  geom_point( mapping = aes(x = power, y = ratio_real_theoretic, color = axis)) +
+  geom_hline(yintercept = 1, color = "darkblue") +
+  geom_hline(yintercept = 1.25 , color = "darkblue")
+
 
 ggplot( data = tab.2[,] ,  mapping = aes(x = NUMPOINTS, y = MPI.TIME, color = numproc, group = numproc))+
   geom_line() +
@@ -38,3 +45,15 @@ ggplot( data = tab.2[,] ,  mapping = aes(x = numproc, y = MPI.TIME, color = NUMP
   geom_line() +
   geom_point() 
 ```
+# Introduction
+
+The aim of this work was to analyze the performance improvement of building-kdtree algorithm through a parallelization.  In particular, we try to investigate the difference using the distributed or shared memory approach, using MPI library in the first case and OpenMP API in the second. Before continuing, we recall briefly the type of structure that we want to obtain.
+Given a d-dimensional set of points, a kdtree is a binary and balanced tree where each node contains a point which is the median (according one chosen dimension) of all the points in the sub-tree having the node as the root. 
+
+# Algorithm
+
+Even though there are three main algorithm to describe, one for each different approach (serial, shared and distributed memory), the 
+[here](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-design-and-analysis-of-algorithms-spring-2012/lecture-notes/MIT6_046JS12_lec01.pdf)
+
+
+# Implementation
