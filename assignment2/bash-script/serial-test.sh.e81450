@@ -1,3 +1,0 @@
-mkdir: cannot create directory ‘data’: File exists
-mkdir: cannot create directory ‘data/serial’: File exists
-=>> PBS: job killed: walltime 1826 exceeded limit 1800

@@ -4,6 +4,7 @@
 #include <cmath>
 #include <chrono>
 #include <omp.h>
+#include <algorithm>
 
 
 #if !defined(NDIM)
@@ -154,7 +155,7 @@ int main(int argc, char const *argv[])
 {
 	int best_depth{0};
 	{
-		constexpr int test_points{static_cast<int>(pow(2,25) - 1) };
+		constexpr int test_points{static_cast<int>(pow(2,20) - 1) };
 		std::vector<kpoint> Grid(test_points);
 		std::vector<knode> Nodes(test_points);
 		std::uniform_real_distribution<float_t> unif(-LIMIT,LIMIT);
@@ -166,6 +167,7 @@ int main(int argc, char const *argv[])
 		}
 		float best_time{1e18};
 		for (auto try_depth{0}; try_depth < 7; ++try_depth){
+			std::random_shuffle ( Grid.begin(), Grid.end() );
 			auto t1 = std::chrono::high_resolution_clock::now();
 			#pragma omp parallel 
 			{
