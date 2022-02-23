@@ -1,0 +1,102 @@
+mkdir: cannot create directory ‘data’: File exists
+mkdir: cannot create directory ‘data/serial’: File exists
+14_select_test.cc:27:10: error: flexible array member ‘kpoint::coord’ in an otherwise empty ‘struct kpoint’
+   27 |  float_t coord[NDIM];
+      |          ^~~~~
+14_select_test.cc: In member function ‘const float* kpoint::end() const’:
+14_select_test.cc:35:49: error: expected primary-expression before ‘]’ token
+   35 |  const float_t* end() const { return &coord[NDIM]; }
+      |                                                 ^
+14_select_test.cc: In member function ‘float* kpoint::end()’:
+14_select_test.cc:36:37: error: expected primary-expression before ‘]’ token
+   36 |  float_t* end() { return &coord[NDIM]; }
+      |                                     ^
+14_select_test.cc: In member function ‘bool kpoint::operator==(kpoint&)’:
+14_select_test.cc:59:30: error: expected primary-expression before ‘;’ token
+   59 |   for ( auto i{0} ; i < NDIM ; ++i )
+      |                              ^
+14_select_test.cc: At global scope:
+14_select_test.cc:27:10: error: flexible array member ‘kpoint::coord’ not at end of ‘struct knode’
+   27 |  float_t coord[NDIM];
+      |          ^~~~~
+14_select_test.cc:83:16: note: next member ‘knode* knode::left’ declared here
+   83 |  struct knode *left, *right;  // left and right subtrees
+      |                ^~~~
+14_select_test.cc:79:8: note: in the definition of ‘struct knode’
+   79 | struct knode
+      |        ^~~~~
+14_select_test.cc: In function ‘int main(int, char**)’:
+14_select_test.cc:140:34: error: expected primary-expression before ‘;’ token
+  140 |   for ( auto axis{0}; axis < NDIM; ++axis){
+      |                                  ^
+14_select_test.cc:152:55: error: expected primary-expression before ‘;’ token
+  152 |    times[power] += (sum_per_cycle/how_many_times)/NDIM;
+      |                                                       ^
+14_select_test.cc:168:22: error: expected primary-expression before ‘<<’ token
+  168 |    std::cout << NDIM << ","          // NDIM
+      |                      ^~
+14_select_test.cc: In function ‘knode* build_kdtree_recursive(kpoint*, kpoint*, knode*, int)’:
+14_select_test.cc:189:21: error: expected primary-expression before ‘}’ token
+  189 |  int axis{depth%NDIM};
+      |                     ^
+14_select_test.cc:202:31: error: arithmetic on pointer to an empty aggregate
+  202 |   node_working = node + (mide - low) + 1;
+      |                          ~~~~~^~~~~
+14_select_test.cc: In function ‘kpoint* core_algorithm(kpoint*, kpoint*, knode*, int)’:
+14_select_test.cc:211:42: error: arithmetic on pointer to an empty aggregate
+  211 |  kpoint* mide{select(low, high, int((high-low)/2), axis ) };
+      |                                      ~~~~^~~~
+14_select_test.cc: In function ‘kpoint* select(kpoint*, kpoint*, int, int)’:
+14_select_test.cc:220:11: error: arithmetic on pointer to an empty aggregate
+  220 |  if ( end - start < 5){
+      |       ~~~~^~~~~~~
+14_select_test.cc:225:19: error: arithmetic on pointer to an empty aggregate
+  225 |  int size{(int(end-start)/5) + (int(end-start)%5>0)};
+      |                ~~~^~~~~~
+14_select_test.cc:225:40: error: arithmetic on pointer to an empty aggregate
+  225 |  int size{(int(end-start)/5) + (int(end-start)%5>0)};
+      |                                     ~~~^~~~~~
+14_select_test.cc:230:32: error: arithmetic on pointer to an empty aggregate
+  230 |  while ( start_index < (int(end-start)/5) ){
+      |                             ~~~^~~~~~
+14_select_test.cc:236:29: error: arithmetic on pointer to an empty aggregate
+  236 |  if ( start_index < (int(end-start)/5) +  (int(end-start)%5>0)){
+      |                          ~~~^~~~~~
+14_select_test.cc:236:51: error: arithmetic on pointer to an empty aggregate
+  236 |  if ( start_index < (int(end-start)/5) +  (int(end-start)%5>0)){
+      |                                                ~~~^~~~~~
+14_select_test.cc:238:33: error: arithmetic on pointer to an empty aggregate
+  238 |   tmp[start_index] = *((int(end - start_tmp))/2 + start_tmp);
+      |                             ~~~~^~~~~~~~~~~
+14_select_test.cc:244:19: error: arithmetic on pointer to an empty aggregate
+  244 |  int rank{int(mide-start)+1};
+      |               ~~~~^~~~~~
+14_select_test.cc: In function ‘void sorting(int, kpoint*, kpoint*)’:
+14_select_test.cc:285:27: error: arithmetic on pointer to an empty aggregate
+  285 |  kpoint* median{(int(high - low))/2 + low};
+      |                      ~~~~~^~~~~
+14_select_test.cc: In instantiation of ‘knode* build_kdtree_recursive(kpoint*, kpoint*, knode*, int) [with kpoint* (* choosen_algorithm)(kpoint*, kpoint*, knode*, int) = core_algorithm]’:
+14_select_test.cc:162:105:   required from here
+14_select_test.cc:202:31: error: arithmetic on pointer to an empty aggregate
+  202 |   node_working = node + (mide - low) + 1;
+      |                         ~~~~~~^~~~~~
+In file included from /opt/area/shared/programs/x86_64/gnu/gcc/9.3.0/include/c++/9.3.0/vector:67,
+                 from 14_select_test.cc:2:
+/opt/area/shared/programs/x86_64/gnu/gcc/9.3.0/include/c++/9.3.0/bits/stl_vector.h: In instantiation of ‘std::_Vector_base<_Tp, _Alloc>::~_Vector_base() [with _Tp = kpoint; _Alloc = std::allocator<kpoint>]’:
+/opt/area/shared/programs/x86_64/gnu/gcc/9.3.0/include/c++/9.3.0/bits/stl_vector.h:508:47:   required from ‘std::vector<_Tp, _Alloc>::vector(std::vector<_Tp, _Alloc>::size_type, const allocator_type&) [with _Tp = kpoint; _Alloc = std::allocator<kpoint>; std::vector<_Tp, _Alloc>::size_type = long unsigned int; std::vector<_Tp, _Alloc>::allocator_type = std::allocator<kpoint>]’
+14_select_test.cc:133:41:   required from here
+/opt/area/shared/programs/x86_64/gnu/gcc/9.3.0/include/c++/9.3.0/bits/stl_vector.h:333:35: error: arithmetic on pointer to an empty aggregate
+  333 |         _M_impl._M_end_of_storage - _M_impl._M_start);
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+In file included from /opt/area/shared/programs/x86_64/gnu/gcc/9.3.0/include/c++/9.3.0/bits/stl_algobase.h:67,
+                 from /opt/area/shared/programs/x86_64/gnu/gcc/9.3.0/include/c++/9.3.0/bits/char_traits.h:39,
+                 from /opt/area/shared/programs/x86_64/gnu/gcc/9.3.0/include/c++/9.3.0/ios:40,
+                 from /opt/area/shared/programs/x86_64/gnu/gcc/9.3.0/include/c++/9.3.0/ostream:38,
+                 from /opt/area/shared/programs/x86_64/gnu/gcc/9.3.0/include/c++/9.3.0/iostream:39,
+                 from 14_select_test.cc:1:
+/opt/area/shared/programs/x86_64/gnu/gcc/9.3.0/include/c++/9.3.0/bits/stl_iterator.h: In instantiation of ‘typename __gnu_cxx::__normal_iterator<_Iterator, _Container>::difference_type __gnu_cxx::operator-(const __gnu_cxx::__normal_iterator<_Iterator, _Container>&, const __gnu_cxx::__normal_iterator<_Iterator, _Container>&) [with _Iterator = kpoint*; _Container = std::vector<kpoint>; typename __gnu_cxx::__normal_iterator<_Iterator, _Container>::difference_type = long int]’:
+/opt/area/shared/programs/x86_64/gnu/gcc/9.3.0/include/c++/9.3.0/bits/stl_algo.h:4611:28:   required from ‘void std::random_shuffle(_RAIter, _RAIter) [with _RAIter = __gnu_cxx::__normal_iterator<kpoint*, std::vector<kpoint> >]’
+14_select_test.cc:144:52:   required from here
+/opt/area/shared/programs/x86_64/gnu/gcc/9.3.0/include/c++/9.3.0/bits/stl_iterator.h:992:27: error: arithmetic on pointer to an empty aggregate
+  992 |     { return __lhs.base() - __rhs.base(); }
+=>> PBS: job killed: walltime 1919 exceeded limit 1800

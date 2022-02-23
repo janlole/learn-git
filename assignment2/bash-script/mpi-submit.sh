@@ -12,7 +12,7 @@ for ((k = 0; k < 5; k++));
 do
 	num_proc=${numberprocesses[$k]}
 
-	for ((i = 0; i < 1; i++));
+	for ((i = 1; i < 4; i++));
 	do
 		n_dim=${dimension[$i]}
 
