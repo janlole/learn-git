@@ -1,0 +1,2 @@
+NDIM,NUMPOINTS,numproc,MPI TIME,sending_time,building_time,receiving_time
+2,1073741823,2,949.958,65.5385,866.815,17.6047
