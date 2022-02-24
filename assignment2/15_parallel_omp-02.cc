@@ -165,8 +165,9 @@ int main(int argc, char const *argv[])
 				y = unif(re);
 			}
 		}
-		float best_time{1e18};
-		for (auto try_depth{0}; try_depth < 15; ++try_depth){
+		float best_time{1e10};
+		for (auto try_depth{1}; try_depth < 15; ++try_depth){
+			std::cout << "here?\t" << try_depth << std::endl;
 			std::random_shuffle ( Grid.begin(), Grid.end() );
 			auto t1 = std::chrono::high_resolution_clock::now();
 			#pragma omp parallel 
@@ -179,16 +180,18 @@ int main(int argc, char const *argv[])
 					}
 				}
 			}
+			std::cout << "or here?\t" << try_depth << std::endl;
 			auto t2 = std::chrono::high_resolution_clock::now();
 			auto time{std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()};
 			if (static_cast<float>(time) < best_time ){
 				best_time = static_cast<float>(time);
 				best_depth = try_depth;
 			}
+			std::cout << "here?\t" << try_depth << std::endl;
+
 		}
 		Grid.clear();
 		Nodes.clear();
-
 	}
 	std::vector<kpoint> Grid(NUMPOINTS);
 	std::vector<knode> Nodes(NUMPOINTS);
