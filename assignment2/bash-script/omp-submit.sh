@@ -24,7 +24,7 @@ do
 			then
 				for (( prec = 0; prec < 2; prec++ ))
 				do
-					qsub -l nodes=1:ppn=${num_proc} -l walltime=0:40:00 -v PREC=${prec},DIMENSION=${n_dim},NUMP=${num_points},NUMPROC=${num_proc} -q dssc_gpu ./omp-test.sh
+					qsub -l nodes=1:ppn=${num_proc} -l walltime=1:00:00 -v PREC=${prec},DIMENSION=${n_dim},NUMP=${num_points},NUMPROC=${num_proc} -q dssc_gpu ./omp-test.sh
 				done
 			fi
 		done

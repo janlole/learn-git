@@ -390,7 +390,6 @@ int main(int argc, char *argv[])
 		}
 	#endif
 
-	MPI_Finalize();
 	return 0;
 }
 template<COMP choosen_algorithm>

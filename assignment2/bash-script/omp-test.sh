@@ -9,7 +9,7 @@ cd $PBS_O_WORKDIR
 cd ..
 
 # loading openmpi module
-module load openmpi-4.1.1+gnu-9.3.0
+module load gnu/9.3.0
 
 saving_folder=data/parallel-omp
 
@@ -23,4 +23,4 @@ else
 	g++ 15_parallel_omp-02.cc -o 15_parallel_omp-02.o -fopenmp -O3 -DNUMPOINTS=${NUMP}  -DNDIM=${DIMENSION}
 fi
 
-./11_parallel_mpi-01.o > ${saving_folder}/time_${NUMPROC}-${NUMP}-${DIMENSION}-${PREC}.csv
+./15_parallel_omp-02.o > ${saving_folder}/time_${NUMPROC}-${NUMP}-${DIMENSION}-${PREC}.csv
