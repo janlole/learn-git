@@ -106,24 +106,36 @@ ggarrange( total.time,
 
 # Introduction
 
-The aim of this work was to analyze the performance improvement of building-kdtree algorithm through a parallelization.  In particular, we try to investigate the difference using the distributed or shared memory approach, using MPI library in the first case and OpenMP API in the second. Before continuing, we recall briefly the type of structure that we want to obtain.
+The aim of this work was to analyze the performance improvement of building-kdtree algorithm through a parallelization.  In particular, we try to investigate the difference using the distributed or shared memory approach, using MPI library in the first case and OpenMP interface in the second. Before continuing, we recall briefly the type of structure that we want to obtain.
 Given a d-dimensional set of points, a kdtree is a binary and balanced tree where each node contains a point which is the median (according one chosen dimension) of all the points in the sub-tree having the node as the root. 
 
 # Algorithm
 
-In order to construct the kdtree, it is necessary an algorithm to find the median of a list of value. In this work it is used the *median of medians* algorithm as it is described [here](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-design-and-analysis-of-algorithms-spring-2012/lecture-notes/MIT6_046JS12_lec01.pdf) or in the *Introduction to Algorithms* ^[Section 9.3 of *Introduction to Algorithms* Third Edition, Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein.] to find the median of a given set of kpoint along a fixed axis. The worst-case running time of this algorithm, which will be called **select**, is linear. 
+In order to construct the kdtree, an algorithm is needed to find the median of a list of values. In this work it is used the *median of medians* algorithm as it is described [here](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-design-and-analysis-of-algorithms-spring-2012/lecture-notes/MIT6_046JS12_lec01.pdf) or in the *Introduction to Algorithms* ^[Section 9.3 of *Introduction to Algorithms* Third Edition, Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein.] to find the median of a given set of kpoint along a fixed axis. The worst-case running time of this algorithm, which will be called **select**, is linear. 
 
 We can describe the building-kdtree algorithm with the following recursive procedure:
 
 1. given a list of kpoint and the split axis, find the median;
 2. make a partition of the list around the median;
 3. save the median and update the split axis;
-4. call recursively the procedure on the two sub-list.
+4. call recursively the procedure on the two sub-lists.
 
-Then
-
-
-
-
+The **select** algorithm actually solves both the first and the second point. The described sequence of steps allow a clear parallelization: whenever a compute unit reaches the 4th step, the recursive call could easily be assigned to another compute unit. This is what is implemented, with some slight differences, both in the shared and distributed memory approach.
 
 # Implementation
+
+Both with MPI library and OpenMP interface, the algorithm passes through two main phases: 
+
+* during the first phase the code continues to assign the two sub-list created with the 4th step to different compute unit; 
+* during the second phase, however, the code become completely serial and the jobs on the two sub-lists are completed by the same compute unit that creates them. 
+
+The change from the first to the second phase happens when a certain *depth* is reached. The main difference between the two implementations is the choice of the *depth*.
+
+## MPI, distributed memory
+
+Assuming to have a power of two compute units, in order to reduce the messages sent and received by the processors, the depth is chosen to be the $\log_2(\text{num_proc})$. 
+
+
+## OpenMP, shared memory
+
+Due to the fact that the assignment of the work is much easier than the previous, there is no a priori fixed depth for the first phase. Hence, the code tests different depths, from $0$ up to $7$, using a fixed number of kpoint ($2^{23}-1$) and chooses the best depth with that number of threads. 
