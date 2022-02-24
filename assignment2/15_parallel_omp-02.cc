@@ -188,7 +188,6 @@ int main(int argc, char const *argv[])
 		}
 		Grid.clear();
 		Nodes.clear();
-
 	}
 	std::vector<kpoint> Grid(NUMPOINTS);
 	std::vector<knode> Nodes(NUMPOINTS);
