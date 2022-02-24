@@ -186,6 +186,8 @@ int main(int argc, char const *argv[])
 				best_depth = try_depth;
 			}
 		}
+		Grid.clear();
+		Nodes.clear();
 
 	}
 	std::vector<kpoint> Grid(NUMPOINTS);
