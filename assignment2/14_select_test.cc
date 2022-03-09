@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
 	std::uniform_real_distribution<float_t> unif(-LIMIT,LIMIT);
 	std::default_random_engine re{static_cast<long unsigned int>(time(0))};
 
-	for (auto power{0}; power < 40; ++power ){
+	for (auto power{20}; power < 31; ++power ){
 		sub_tree_size = pow(2,power+start_pow)-1;
 		std::vector<kpoint> Grid(sub_tree_size);
 		std::vector<knode> Nodes(sub_tree_size);
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
 		}
 		for ( auto axis{0}; axis < NDIM; ++axis){
 			float sum_per_cycle{0};
-			int how_many_times{100};
+			int how_many_times{2};
 			for (auto i{0}; i < how_many_times; ++i){
 				std::random_shuffle ( Grid.begin(), Grid.end() );
 				auto t0 = std::chrono::high_resolution_clock::now();
@@ -159,7 +159,9 @@ int main(int argc, char *argv[])
 
 			std::random_shuffle ( Grid.begin(), Grid.end() );
 			auto t0 = std::chrono::high_resolution_clock::now();
-			knode* tmp = build_kdtree_recursive<core_algorithm>(&Grid[0], &Grid[sub_tree_size-1], &Nodes[0], axis);
+			if ( axis == NDIM - 1 ){
+				knode* tmp = build_kdtree_recursive<core_algorithm>(&Grid[0], &Grid[sub_tree_size-1], &Nodes[0], axis);
+			}
 			auto t1 = std::chrono::high_resolution_clock::now();
 			auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0);
 

@@ -6,7 +6,8 @@ date: "27/02/2022"
 output: pdf_document
 urlcolor: blue
 ---
-```{r }
+
+```{r echo=FALSE}
 setwd("~/Pubblici/learn-git/assignment2/data")
 library(ggplot2)
 library(gridExtra)
@@ -21,18 +22,32 @@ tab.4.prec <- read.csv("parallel-mpi/time_mpi-4-1.csv")
 tab.5 <- read.csv("parallel-mpi/time_mpi-5-0.csv")
 tab.5.prec <- read.csv("parallel-mpi/time_mpi-5-1.csv")
 
+tab.omp <- read.csv("parallel-omp/time-0prec-best.csv")
+tab.omp.prec <- read.csv("parallel-omp/time-1prec-best.csv")
+
 tab.2$prec <- "single"
 tab.3$prec <- "single"
 tab.4$prec <- "single"
 tab.5$prec <- "single"
+tab.omp$prec <- "single"
 
 tab.2.prec$prec <- "double"
 tab.3.prec$prec <- "double"
 tab.4.prec$prec <- "double"
 tab.5.prec$prec <- "double"
+tab.omp.prec$prec <- "double"
 
 total <- rbind(tab.2, tab.2.prec, tab.3, tab.3.prec, tab.4, tab.4.prec, tab.5, tab.5.prec)
 total <- total[total$NUMPOINTS <= 1073741823, ]
+
+total.omp <- rbind(tab.omp, tab.omp.prec)
+
+total.omp$NUMPOINTS <- as.factor(total.omp$NUMPOINTS)
+total.omp$threads <- as.factor(total.omp$threads)
+
+total$NUMPOINTS <- as.factor(total$NUMPOINTS)
+total$numproc <- as.factor(total$numproc)
+
 
 tab.serial.prec <- read.csv("serial/time-serial_2.csv")
 tab.serial <- read.csv("serial/time-serial_2-0.csv")
@@ -58,21 +73,40 @@ ggplot( data = tab.serial[tab.serial$power>5,] )+
   geom_hline(yintercept = 1, color = "darkblue") +
   geom_hline(yintercept = 1.25 , color = "darkblue")
 
+```
 
-ggplot( data = tab.2[,] ,  mapping = aes(x = NUMPOINTS, y = MPI.TIME, color = numproc, group = numproc))+
+```{r}
+ggplot( data = total.omp[total.omp$NDIM == 2 & total.omp$prec == "single",] ,  
+        mapping = aes(x = NUMPOINTS, y = OMP.TIME, color = threads, group =  threads))+
   geom_line() +
   geom_point() #+
   # scale_x_continuous(trans='log2')
 # 134217727 268435455 536870911 1073741823 2147483647 4294967295
 
 tab.2$NUMPOINTS <- as.factor(tab.2$NUMPOINTS)
-ggplot( data = tab.2[,] ,  mapping = aes(x = numproc, y = MPI.TIME, color = NUMPOINTS, group = NUMPOINTS))+
+ggplot( data = total.omp[total.omp$NDIM == 2 & total.omp$prec == "single",] ,  
+        mapping = aes(x = threads, y = OMP.TIME, 
+                      color = NUMPOINTS, group = NUMPOINTS))+
   geom_line() +
   geom_point()
 ```
 
+```{r, echo = F }
+ggplot( data = total[total$NDIM == 2 & total$prec == "single",] ,  
+        mapping = aes(x = NUMPOINTS, y = MPI.TIME, color = numproc, group = numproc))+
+  geom_line() +
+  geom_point() #+
+  # scale_x_continuous(trans='log2')
+# 134217727 268435455 536870911 1073741823 2147483647 4294967295
 
-```{r }
+total$NUMPOINTS <- as.factor(total$NUMPOINTS)
+ggplot( data = total[total$NDIM == 2 & total$prec == "single",] ,  
+        mapping = aes(x = numproc, y = MPI.TIME, color = NUMPOINTS, group = NUMPOINTS))+
+  geom_line() +
+  geom_point()
+```
+
+```{r echo=FALSE}
 total.time <- ggplot( data = total, 
         mapping = aes(x = as.factor(numproc), y = MPI.TIME, color = prec ) )+
   geom_boxplot()+
@@ -99,43 +133,42 @@ ggarrange( total.time,
               receiving.time,
               nrow = 2, ncol = 2 ,
               common.legend = TRUE, legend="bottom")
-  
+
+
 ```
-
-
 
 # Introduction
 
-The aim of this work was to analyze the performance improvement of building-kdtree algorithm through a parallelization.  In particular, we try to investigate the difference using the distributed or shared memory approach, using MPI library in the first case and OpenMP interface in the second. Before continuing, we recall briefly the type of structure that we want to obtain.
-Given a d-dimensional set of points, a kdtree is a binary and balanced tree where each node contains a point which is the median (according one chosen dimension) of all the points in the sub-tree having the node as the root. 
+The aim of this work was to analyze the performance improvement of building-kdtree algorithm through a parallelization. In particular, we try to investigate the difference using the distributed or shared memory approach, using MPI library in the first case and OpenMP interface in the second. Before continuing, we recall briefly the type of structure that we want to obtain. Given a d-dimensional set of points, a kdtree is a binary and balanced tree where each node contains a point which is the median (according one chosen dimension) of all the points in the sub-tree having the node as the root.
 
 # Algorithm
 
-In order to construct the kdtree, an algorithm is needed to find the median of a list of values. In this work it is used the *median of medians* algorithm as it is described [here](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-design-and-analysis-of-algorithms-spring-2012/lecture-notes/MIT6_046JS12_lec01.pdf) or in the *Introduction to Algorithms* ^[Section 9.3 of *Introduction to Algorithms* Third Edition, Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein.] to find the median of a given set of kpoint along a fixed axis. The worst-case running time of this algorithm, which will be called **select**, is linear. 
+In order to construct the kdtree, an algorithm is needed to find the median of a list of values. In this work it is used the *median of medians* algorithm as it is described [here](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-design-and-analysis-of-algorithms-spring-2012/lecture-notes/MIT6_046JS12_lec01.pdf) or in the *Introduction to Algorithms* [^1] to find the median of a given set of kpoint along a fixed axis. The worst-case running time of this algorithm, which will be called **select**, is linear.
+
+[^1]: Section 9.3 of *Introduction to Algorithms* Third Edition, Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein.
 
 We can describe the building-kdtree algorithm with the following recursive procedure:
 
-1. given a list of kpoint and the split axis, find the median;
-2. make a partition of the list around the median;
-3. save the median and update the split axis;
-4. call recursively the procedure on the two sub-lists.
+1.  given a list of kpoint and the split axis, find the median;
+2.  make a partition of the list around the median;
+3.  save the median and update the split axis;
+4.  call recursively the procedure on the two sub-lists.
 
 The **select** algorithm actually solves both the first and the second point. The described sequence of steps allow a clear parallelization: whenever a compute unit reaches the 4th step, the recursive call could easily be assigned to another compute unit. This is what is implemented, with some slight differences, both in the shared and distributed memory approach.
 
 # Implementation
 
-Both with MPI library and OpenMP interface, the algorithm passes through two main phases: 
+Both with MPI library and OpenMP interface, the algorithm passes through two main phases:
 
-* during the first phase the code continues to assign the two sub-list created with the 4th step to different compute unit; 
-* during the second phase, however, the code become completely serial and the jobs on the two sub-lists are completed by the same compute unit that creates them. 
+-   during the first phase the code continues to assign the two sub-list created with the 4th step to different compute unit;
+-   during the second phase, however, the code become completely serial and the jobs on the two sub-lists are completed by the same compute unit that creates them.
 
 The change from the first to the second phase happens when a certain *depth* is reached. The main difference between the two implementations is the choice of the *depth*.
 
 ## MPI, distributed memory
 
-Assuming to have a power of two compute units, in order to reduce the messages sent and received by the processors, the depth is chosen to be the $\log_2(\text{num_proc})$. 
-
+Assuming to have a power of two compute units, in order to reduce the messages sent and received by the processors, the depth is chosen to be $\log_2(\text{num-proc})$. For each iteration of the first phase of the algorithm, each processor send to another one of the two resulting lists, keeping the other for itself. In this way, at each iteration the total amount of sent data is about the half of the original set of kpoint.
 
 ## OpenMP, shared memory
 
-Due to the fact that the assignment of the work is much easier than the previous, there is no a priori fixed depth for the first phase. Hence, the code tests different depths, from $0$ up to $7$, using a fixed number of kpoint ($2^{23}-1$) and chooses the best depth with that number of threads. 
+Due to the fact that the assignment of the work is much easier than the previous, there is no a priori fixed depth for the first phase. Hence, the code tests different depths, from $0$ up to $15$, using a fixed number of kpoint ($2^{24}-1$) and chooses the three best depths with that number of threads, using each of them for the compute with the real set of kpoints.
