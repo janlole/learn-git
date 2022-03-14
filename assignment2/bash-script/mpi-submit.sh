@@ -17,7 +17,7 @@ do
 	do
 		n_dim=${dimension[$i]}
 
-		for (( j = 5; j < 6; j++ )) # numpoints
+		for (( j = 4; j < 5; j++ )) # numpoints
 		do
 			num_points=${numpoints[$j]}
 			for (( prec = 0; prec < 2; prec++ )) # prec

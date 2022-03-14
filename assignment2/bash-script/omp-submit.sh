@@ -1,7 +1,7 @@
 #!/bin/bash
 # This script submit a job calling the mpi-test.sh script 
 
-# WARNINGS: present configuration to collect information for 2^32  kpoints but just for numberprocesses = 32
+# WARNINGS: present configuration to collect information for 2^31  kpoints but just for numberprocesses = 32
 
 dimension=( 2 3 4 5 )
 
@@ -17,7 +17,7 @@ do
 	do
 		n_dim=${dimension[$i]}
 
-		for (( j = 5; j < 6; j++ )) # numpoints
+		for (( j = 4; j < 5; j++ )) # numpoints
 		do
 			num_points=${numpoints[$j]}
 			for (( prec = 0; prec < 2; prec++ )) # prec

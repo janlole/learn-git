@@ -5,6 +5,7 @@
 #include <chrono>
 #include <omp.h>
 #include <algorithm>
+#include <memory>
 
 
 #if !defined(NDIM)
@@ -159,12 +160,16 @@ int main(int argc, char const *argv[])
 	std::vector<kpoint> depths_time(max_depth_tested);
 	{
 		// test section
+		// std::unique_ptr<kpoint[]> Grid{new kpoint[test_points]};
+		// std::unique_ptr<knode[]> Nodes{new knode[test_points]};
+
 		std::vector<kpoint> Grid(test_points);
 		std::vector<knode> Nodes(test_points);
+
 		std::uniform_real_distribution<float_t> unif(-LIMIT,LIMIT);
 		std::default_random_engine re{static_cast<long unsigned int>(time(0))};
-		for ( auto& x : Grid ){
-			for ( auto& y : x){
+		for ( auto x{0}; x < test_points; ++x ){
+			for ( auto& y : Grid[x]){
 				y = unif(re);
 			}
 		}
@@ -172,7 +177,7 @@ int main(int argc, char const *argv[])
 		auto t1_test = std::chrono::high_resolution_clock::now();
 		float best_time{1e18};
 		for (auto try_depth{0}; try_depth < max_depth_tested; ++try_depth){
-			std::random_shuffle ( Grid.begin(), Grid.end() );
+			std::random_shuffle ( &Grid[0] , &Grid[test_points] );
 			auto t1 = std::chrono::high_resolution_clock::now();
 			#pragma omp parallel 
 			{
@@ -200,19 +205,21 @@ int main(int argc, char const *argv[])
 				  << static_cast<float>(time_test)/1000 << ","
 				  << test_points
 				  << std::endl;
-		Grid.clear();
-		Nodes.clear();
 	}
 	sorting(1, &depths_time[0], &depths_time[max_depth_tested-1]);
+
+	// std::unique_ptr<kpoint[]> Grid{new kpoint[NUMPOINTS]};
+	// std::unique_ptr<knode[]> Nodes{new knode[NUMPOINTS]};
 
 	std::vector<kpoint> Grid(NUMPOINTS);
 	std::vector<knode> Nodes(NUMPOINTS);
 
+
 	// Random assignment
 	std::uniform_real_distribution<float_t> unif(-LIMIT,LIMIT);
 	std::default_random_engine re{static_cast<long unsigned int>(time(0))};
-	for ( auto& x : Grid ){
-		for ( auto& y : x){
+	for ( auto x{0}; x < NUMPOINTS; ++x ){
+		for ( auto& y : Grid[x]){
 			y = unif(re);
 		}
 	}
@@ -221,7 +228,7 @@ int main(int argc, char const *argv[])
 	
 	int threads;
 	for ( auto i{0}; i < 3; ++i){
-		std::random_shuffle ( Grid.begin(), Grid.end() );
+		std::random_shuffle ( &Grid[0] , &Grid[NUMPOINTS] );
 		best_depth = static_cast<int>(depths_time[i].coord[0]);
 		auto t1 = std::chrono::high_resolution_clock::now();
 		#pragma omp parallel 

@@ -129,12 +129,14 @@ int main(int argc, char *argv[])
 	std::uniform_real_distribution<float_t> unif(-LIMIT,LIMIT);
 	std::default_random_engine re{static_cast<long unsigned int>(time(0))};
 
-	for (auto power{20}; power < 31; ++power ){
+	for (auto power{29}; power < 31; ++power ){
 		sub_tree_size = pow(2,power+start_pow)-1;
+		// std::unique_ptr<kpoint[]> Grid{new kpoint[sub_tree_size]};
+		// std::unique_ptr<knode[]> Nodes{new knode[sub_tree_size]};
 		std::vector<kpoint> Grid(sub_tree_size);
 		std::vector<knode> Nodes(sub_tree_size);
-		for ( auto& x : Grid ){
-			for ( auto& y : x){
+		for ( auto x{0}; x < sub_tree_size; ++x ){
+			for ( auto& y : Grid[x]){
 				y = unif(re);
 			}
 		}
@@ -142,7 +144,7 @@ int main(int argc, char *argv[])
 			float sum_per_cycle{0};
 			int how_many_times{2};
 			for (auto i{0}; i < how_many_times; ++i){
-				std::random_shuffle ( Grid.begin(), Grid.end() );
+				std::random_shuffle ( &Grid[0] , &Grid[sub_tree_size] );
 				auto t0 = std::chrono::high_resolution_clock::now();
 				kpoint* tmp = select(&Grid[0], &Grid[sub_tree_size-1], sub_tree_size/2, axis);
 				auto t1 = std::chrono::high_resolution_clock::now();
@@ -157,7 +159,7 @@ int main(int argc, char *argv[])
 				theoretic_time += ((pow(2,power-k)) * times[k] );
 			}
 
-			std::random_shuffle ( Grid.begin(), Grid.end() );
+			std::random_shuffle ( &Grid[0] , &Grid[sub_tree_size] );
 			auto t0 = std::chrono::high_resolution_clock::now();
 			if ( axis == NDIM - 1 ){
 				knode* tmp = build_kdtree_recursive<core_algorithm>(&Grid[0], &Grid[sub_tree_size-1], &Nodes[0], axis);

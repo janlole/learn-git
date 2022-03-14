@@ -194,20 +194,21 @@ int main(int argc, char *argv[])
 	if ( rank == root )
 		sub_tree_size = NUMPOINTS;
 
+	// std::unique_ptr<kpoint[]> Grid{new kpoint[sub_tree_size]};
+	// std::unique_ptr<knode[]> Nodes{new knode[sub_tree_size]};
+
 	std::vector<kpoint> Grid(sub_tree_size);
 	std::vector<knode> Nodes(sub_tree_size);
 
-	// Grid.reserve(sub_tree_size);
-	// Nodes.reserve(sub_tree_size);
-	
+
 	// Random assignment and tree of control
 	MPI_Status status;
 
 	if ( rank == root ){
 		std::uniform_real_distribution<float_t> unif(-LIMIT,LIMIT);
 		std::default_random_engine re{static_cast<long unsigned int>(time(0))};
-		for ( auto& x : Grid ){
-			for ( auto& y : x){
+		for ( auto x{0}; x < sub_tree_size; ++x ){
+			for ( auto& y : Grid[x]){
 				y = unif(re);
 			}
 		}
