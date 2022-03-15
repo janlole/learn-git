@@ -1,2 +1,0 @@
-mkdir: cannot create directory ‘data’: File exists
-mkdir: cannot create directory ‘data/parallel-omp’: File exists

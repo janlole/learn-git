@@ -1,6 +1,0 @@
-mkdir: cannot create directory ‘data’: File exists
-mkdir: cannot create directory ‘data/serial’: File exists
-mkdir: cannot create directory ‘data/serial/lastValues’: File exists
-terminate called after throwing an instance of 'std::length_error'
-  what():  cannot create std::vector larger than max_size()
-/var/spool/pbs/mom_priv/jobs/90232.login.hpc.SC: line 26:  3928 Aborted                 (core dumped) ./14_select_test.o > ${saving_folder}/time-serial-double_${DIMENSION}-${PREC}.csv
