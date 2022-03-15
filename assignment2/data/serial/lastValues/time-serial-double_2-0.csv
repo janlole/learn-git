@@ -1,0 +1,3 @@
+NDIM,tree_dimension,power,axis,time_select,time_kdtree,theoretic_time_kdtree,ratio_real_theoretic
+2,2147483647,31,0,134.23,0,67.1148,0
+2,2147483647,31,1,134.502,3956.79,134.366,29.4479
